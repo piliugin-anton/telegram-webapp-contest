@@ -1,0 +1,4 @@
+node_modules
+.env
+app/.result
+app/web/build

@@ -1,0 +1,171 @@
+// Styling Cross-Browser Compatible Range Inputs with Sass
+// Github: https://github.com/darlanrod/input-range-sass
+// Author: Darlan Rod https://github.com/darlanrod
+// Version 1.5.3
+// MIT License
+
+$track-color: #eeeeee !default;
+$thumb-color: #000000 !default;
+
+$progress-color: #000000 !default; // can be a CSS custom prop: var(--progress-color, transparent)
+$progress-value: var(--progress-value, 0%) !default; // 0-100%. ideally, a dynamic CSS custom prop
+
+$thumb-radius: 50em !default;
+$thumb-height: 18px !default;
+$thumb-width: 18px !default;
+$thumb-shadow-size: 4px !default;
+$thumb-shadow-blur: 4px !default;
+$thumb-shadow-color: rgba(0, 0, 0, .2) !default;
+$thumb-border-width: 0px !default;
+$thumb-border-color: #eceff1 !default;
+
+$thumb-background: none !default;
+$thumb-background-size: contain !default;
+$thumb-background-position: center center !default;
+$thumb-background-repeat: no-repeat !default;
+$thumb-background-origin: border-box !default;
+
+$track-width: 100% !default;
+$track-height: 14px !default;
+$track-shadow-size: 1px !default;
+$track-shadow-blur: 1px !default;
+$track-shadow-color: rgba(0, 0, 0, .2) !default;
+$track-border-width: 0px !default;
+$track-border-color: #cfd8dc !default;
+
+$track-radius: 5px !default;
+$contrast: 5% !default;
+
+$ie-bottom-track-color: darken($track-color, $contrast) !default;
+
+@mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
+  box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color, 0 0 $shadow-size lighten($shadow-color, 5%);
+}
+
+@mixin progress-bar {
+  background-image: linear-gradient(to right,
+      $progress-color $progress-value,
+      transparent 0%,
+      transparent 100%);
+}
+
+@mixin track {
+  cursor: default;
+  height: $track-height;
+  transition: all .2s ease;
+  width: $track-width;
+}
+
+@mixin thumb {
+  /*@include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);*/
+
+  background: $thumb-background;
+  background-size: $thumb-background-size;
+  background-position: $thumb-background-position;
+  background-repeat: $thumb-background-repeat;
+  background-origin: $thumb-background-origin;
+  background-color: $thumb-color;
+
+  border: $thumb-border-width solid $thumb-border-color;
+  border-radius: $thumb-radius;
+  box-sizing: border-box;
+  cursor: grab;
+  height: $thumb-height;
+  width: $thumb-width;
+}
+
+[type='range'] {
+  -webkit-appearance: none;
+  background-color: transparent;
+  margin: calc(#{$thumb-height} / 2) 0;
+  width: $track-width;
+
+  &::-moz-focus-outer {
+    border: 0;
+  }
+
+  &:focus {
+    outline: 0;
+
+    &::-webkit-slider-runnable-track {
+      background-color: lighten($track-color, $contrast);
+    }
+
+    &::-ms-fill-lower {
+      background-color: $track-color;
+    }
+
+    &::-ms-fill-upper {
+      background-color: lighten($track-color, $contrast);
+    }
+  }
+
+  &::-webkit-slider-runnable-track {
+    @include track;
+    /*@include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);*/
+    background-color: $track-color;
+    @include progress-bar;
+    border: $track-border-width solid $track-border-color;
+    border-radius: $track-radius;
+  }
+
+  &::-webkit-slider-thumb {
+    @include thumb;
+    -webkit-appearance: none;
+    margin-top: calc(((-#{$track-border-width} * 2 + #{$track-height}) / 2) - (#{$thumb-height} / 2));
+  }
+
+  &::-moz-range-track {
+    /*@include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);*/
+    @include track;
+    background-color: $track-color;
+    @include progress-bar;
+    border: $track-border-width solid $track-border-color;
+    border-radius: $track-radius;
+    height: calc(#{$track-height} / 2);
+  }
+
+  &::-moz-range-thumb {
+    @include thumb;
+  }
+
+  &::-ms-track {
+    @include track;
+    background-color: transparent;
+    border-color: transparent;
+    border-width: calc(#{$thumb-height} / 2) 0;
+    color: transparent;
+  }
+
+  &::-ms-fill-lower {
+    /*@include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);*/
+    background-color: $ie-bottom-track-color;
+    border: $track-border-width solid $track-border-color;
+    border-radius: calc(#{$track-radius} * 2);
+  }
+
+  &::-ms-fill-upper {
+    /*@include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);*/
+    background-color: $track-color;
+    @include progress-bar;
+    border: $track-border-width solid $track-border-color;
+    border-radius: calc(#{$track-radius} * 2);
+  }
+
+  &::-ms-thumb {
+    @include thumb;
+    margin-top: calc(#{$track-height} / 4);
+  }
+
+  &:disabled {
+
+    &::-webkit-slider-thumb,
+    &::-moz-range-thumb,
+    &::-ms-thumb,
+    &::-webkit-slider-runnable-track,
+    &::-ms-fill-lower,
+    &::-ms-fill-upper {
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,0 +1,216 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  &__canvas {
+    flex: 1 1;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    border-right: 2px solid #000000;
+    border-bottom: none;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0 8px;
+    height: 48px;
+    background-color: #ffffff;
+    border-top: 2px solid #000000;
+    list-style: none;
+
+    &__item {
+      list-style: none;
+      margin: 0 8px 0 0;
+      padding: 0;
+
+      &:last-child {
+        margin: 0;
+      }
+
+      & > button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid #000000;
+        background-color: var(--pcr-color);
+        cursor: pointer;
+
+        &:disabled {
+          cursor: not-allowed;
+          background-color: #cccccc;
+        }
+
+        & > svg {
+          min-width: 24px;
+          height: auto;
+        }
+      }
+
+      &.--color-picker {
+        margin-left: auto;
+      }
+
+      &.--color-picker &__icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      &.--background-color-picker &__icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      &.--mode > button {
+        transition: all 0.333s ease-in-out;
+
+        & > svg {
+          display: none;
+        }
+
+        &.--eraser {
+          border-color: #882255;
+          background-color: #eed3e2;
+
+          & > svg.--eraser {
+            display: inline-block;
+          }
+        }
+
+        &.--pencil {
+          border-color: #88ccee;
+          background-color: #dbeffa;
+
+          & > svg.--pencil {
+            display: inline-block;
+          }
+        }
+      }
+
+      &.--download {
+        margin-left: auto;
+      }
+    }
+
+    &__line-settings, &__download-settings {
+      position: absolute;
+      width: 14.25em;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0s 0.3s;
+      background-color: #ffffff;
+      box-shadow: 0 0.15em 1.5em 0 rgba(0,0,0,0.1),0 0 1em 0 rgba(0,0,0,0.03);
+      padding: 8px 0 0 0;
+      border-radius: 0.1em;
+
+      &.--visible {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s;
+      }
+
+      & > svg {
+        display: block;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
+      }
+
+      &__controls {
+        padding: 0 10px;
+      }
+    }
+
+    &__download-settings {
+      padding: 0;
+
+      &__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+  
+        &__item {
+          list-style: none;
+          transition: background-color 0.333s ease-in-out;
+  
+          &:hover {
+            background-color: #cccccc;
+          }
+
+          &__label {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100%;
+            padding: 8px;
+            cursor: pointer;
+
+            &__radio {
+              appearance: none;
+              background-color: transparent;
+              margin: 0.075em 8px 0 0;
+              color: #000000;
+              width: 1.15em;
+              height: 1.15em;
+              border: 0.15em solid #000000;
+              border-radius: 50%;
+              transform: translateY(-0.075em);
+
+              &::before {
+                content: "";
+                display: block;
+                position: relative;
+                left: 0.075em;
+                top: 0.075em;
+                width: 0.65em;
+                height: 0.65em;
+                border-radius: 50%;
+                transform: scale(0);
+                transition: 120ms transform ease-in-out;
+                box-shadow: inset 1em 1em #000000;
+                /* Windows High Contrast Mode */
+                background-color: CanvasText;
+              }
+
+              &:checked::before {
+                transform: scale(1);
+              }
+            }
+            
+          
+            &__icon {
+              width: 24px;
+              height: 24px;
+              flex-shrink: 0;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
