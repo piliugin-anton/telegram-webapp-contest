@@ -81,7 +81,7 @@ draw().then(() => {
       frameRate: 15,
       outputFilePath
     }).then(() => {
-      rmDir(framesPath)
+      // rmDir(framesPath)
 
       parentPort.postMessage({ request, fileName, filePath: outputFilePath })
     })

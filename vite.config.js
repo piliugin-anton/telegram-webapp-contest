@@ -37,23 +37,25 @@ export default defineConfig({
     }
   },
   plugins: [
-    !isProduction && ViteForkPlugin([
-      // string or object
-      {
-        modulePath: appServicePath,
-        waitForReady: true,
-        watch: true,
-        stdout: (data) => console.log(`[${appServicePath} - stdout]`, data.toString()),
-        stderr: (data) => console.log(`[${appServicePath} - stderr]`, data.toString()),
-        messageTo: [botServicePath] // string or array
-      },
-      {
-        modulePath: botServicePath,
-        waitForReady: true,
-        watch: true,
-        stdout: (data) => console.log(`[${botServicePath} - stdout]`, data.toString()),
-        stderr: (data) => console.log(`[${botServicePath} - stderr]`, data.toString()),
-      }
-    ])
+    !isProduction && ViteForkPlugin({
+      forks: [
+        // string or object
+        {
+          modulePath: appServicePath,
+          waitForReady: true,
+          stdout: (data) => console.log(`[${appServicePath} - stdout]`, data.toString()),
+          stderr: (data) => console.log(`[${appServicePath} - stderr]`, data.toString()),
+          messageTo: [botServicePath] // string or array
+        },
+        {
+          modulePath: botServicePath,
+          waitForReady: true,
+          stdout: (data) => console.log(`[${botServicePath} - stdout]`, data.toString()),
+          stderr: (data) => console.log(`[${botServicePath} - stderr]`, data.toString()),
+        }
+      ],
+      watch: '**/*.js',
+      watchCWD: __dirname
+    })
   ]
 })

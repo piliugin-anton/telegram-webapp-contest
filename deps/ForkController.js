@@ -13,17 +13,50 @@ module.exports = class ForkController {
   forks = {}
   spawnState = ForkController.SPAWN_STATE.WAITING
   watcher = null
+  readyPromise = Promise.resolve()
+  restartHandler = null
 
-  constructor(options = []) {
-    this.addForks(options)
+  constructor({ forks = [], watch = true, watchCWD = '.' } = {}) {
+    this.addForks(forks)
+
+    if (watch) this.setWatcher(watch, watchCWD)
   }
 
-  addForks(options) {
+  removeDuplicates(inputArray) {
+    return inputArray.filter((item, pos, array) => array.indexOf(item) === pos)
+  }
+
+  setRestartHandler(fn) {
+    if (typeof fn === 'function') this.restartHandler = fn
+  }
+
+  setWatcher(watchGlobOrBoolean, cwd) {
+    if (this.watcher) return
+
+    let watchGlob = typeof watchGlobOrBoolean === 'boolean' && watchGlobOrBoolean === true ? Object.keys(this.forks) : []
+
+    if (typeof watchGlobOrBoolean === 'string') watchGlob.push(watchGlobOrBoolean)
+
+    watchGlob = this.removeDuplicates(watchGlob)
+    if (watchGlob.length) {
+      if (watchGlob.length === 1) watchGlob = watchGlob[0]
+
+      const ignored = new RegExp(`${__filename}|node_modules|(^|[\\/])\\..`)
+
+      this.watcher = chokidar.watch(watchGlob, {
+        ignored,
+        cwd,
+        persistent: false
+      }).on('change', this.handleFileChange.bind(this))
+    }
+  }
+
+  addForks(forks) {
     if (this.spawnState !== ForkController.SPAWN_STATE.WAITING) return
 
-    for (let i = 0; i < options.length; i++) {
+    for (let i = 0; i < forks.length; i++) {
       const {
-        modulePath = options[i],
+        modulePath = forks[i],
         execArgv = [],
         parameters = [],
         stdio = ['pipe', 'pipe', 'pipe', 'ipc'],
@@ -32,8 +65,7 @@ module.exports = class ForkController {
         stderr = false,
         messageTo = null,
         waitForReady = false,
-        watch = false
-      } = options[i]
+      } = forks[i]
 
       if (this.forks[modulePath]) continue
 
@@ -49,8 +81,7 @@ module.exports = class ForkController {
           detached,
         },
         parameters,
-        messageTo,
-        watch
+        messageTo
       }
     }
   }
@@ -199,19 +230,10 @@ module.exports = class ForkController {
     events.forEach((eventType) => process.once(eventType, this.gracefulShutdown.bind(this)))
   
     const promises = []
-    const watchPaths = []
     for (const modulePath in this.forks) {
-      if (watchPaths.indexOf(modulePath) === -1) {
-        watchPaths.push(modulePath)
-      }
-
       const promise = this.spawn(modulePath)
 
       promises.push(promise)
-    }
-
-    if (watchPaths.length) {
-      this.watcher = chokidar.watch(watchPaths).on('change', this.handleModuleChange.bind(this))
     }
   
     return Promise.all(promises).then((forks) => {
@@ -219,16 +241,39 @@ module.exports = class ForkController {
     })
   }
 
+  waitForExit() {
+    return new Promise((resolve) => {
+      const promises = []
+      for (const modulePath in this.forks) {
+        if (this.forks[modulePath].process) {
+          const promise = new Promise((resolve) => this.forks[modulePath].process.once('close', resolve))
+
+          promises.push(promise)
+        }
+      }
+
+      Promise.all(promises).then(resolve)
+    })
+  }
+
   gracefulShutdown() {
-    for (const modulePath in this.forks) {
-      this.kill(this.forks[modulePath])
-    }
+    this.spawnState = ForkController.SPAWN_STATE.KILLING
+    this.readyPromise = new Promise((resolve, reject) => {
+      const promises = [this.waitForExit()]
+      for (const modulePath in this.forks) {
+        this.kill(this.forks[modulePath])
+      }
+  
+      if (this.watcher) {
+        promises.push(this.watcher.close())
+      }
+      
+      Promise.all(promises).then(() => {
+        this.spawnState = ForkController.SPAWN_STATE.WAITING
 
-    if (this.watcher) {
-      this.watcher.close()
-    }
-
-    this.spawnState = ForkController.SPAWN_STATE.WAITING
+        resolve()
+      }).catch(reject)
+    })
   }
 
   kill(fork) {
@@ -239,9 +284,13 @@ module.exports = class ForkController {
     }
   }
 
-  handleModuleChange(modulePath) {
-    console.log(`${modulePath} changed, restarting...`)
 
-    this.kill(this.forks[modulePath])
+
+  handleFileChange(path) {
+    if (typeof this.restartHandler !== 'function') return
+
+    console.log(`${path} changed, restarting...`)
+
+    this.restartHandler()
   }
 }
