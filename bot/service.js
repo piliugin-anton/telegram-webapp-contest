@@ -50,12 +50,7 @@ async function start() {
   console.log('Telegram bot started')
   process.emit('ready')
 
-  bot.launch({
-    webhook: {
-      domain: process.env.VITE_WEBAPP_URL,
-      secretToken: crypto.randomBytes(64).toString('hex')
-    }
-  })
+  bot.launch()
 }
 
 start()

@@ -2,9 +2,12 @@ const { workerData, parentPort } = require('worker_threads')
 const fs = require('fs')
 const path = require('path')
 const { createCanvas } = require('@napi-rs/canvas')
-const { getRadians } = require('./helpers')
 
 const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir } = workerData
+
+function getRadians(degrees) {
+  return (Math.PI / 180) * degrees
+}
 
 function drawCircle(ctx, data) {
   ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'

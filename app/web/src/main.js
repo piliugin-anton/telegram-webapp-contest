@@ -78,7 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
     lineWidth: 4,
     width: window.innerWidth,
     height: window.innerHeight - menu.offsetHeight,
-    format: null
+    format: null,
+    get allowHeightResize() {
+      return !telegram.MainButton.isVisible
+    }
   }
 
   const canvas = new Canvas({

@@ -1,5 +1,4 @@
 import EventEmitter from '@foxify/events'
-import { getRadians } from '../../../helpers'
 
 export default class Canvas extends EventEmitter {
   constructor({ elementSelector, options }) {
@@ -62,6 +61,10 @@ export default class Canvas extends EventEmitter {
     return this.history.length >= 1 && this.historyIndex < this.history.length - 1
   }
 
+  get allowHeightResize() {
+    return this.options.allowHeightResize
+  }
+
   toggleMode() {
     if (this.isErasing) {
       this.disableEraser()
@@ -88,7 +91,7 @@ export default class Canvas extends EventEmitter {
 
   resizeCanvas() {
     this.canvas.width = this.width
-    this.canvas.height = this.height
+    if (this.allowHeightResize) this.canvas.height = this.height
 
     this.redraw()
   }
@@ -210,11 +213,15 @@ export default class Canvas extends EventEmitter {
     this.context.stroke()
   }
 
+  getRadians(degrees) {
+    return (Math.PI / 180) * degrees
+  }
+
   _drawCircle(data) {
     this.context.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
 
     this.context.beginPath()
-    this.context.arc(data.x, data.y, data.radius, 0, getRadians(360))
+    this.context.arc(data.x, data.y, data.radius, 0, this.getRadians(360))
     this.context.fillStyle = data.fillStyle
     this.context.fill()
   }
