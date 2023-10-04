@@ -26,12 +26,17 @@ export default defineConfig({
       '/result': `http://localhost:${API_PORT}`
     }
   },
+  resolve: {
+    alias: {
+      '~': path.join(ROOT_DIRECTORY, 'src'),
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: { 
         additionalData: `
-        @import "./app/web/src/scss/_variables.scss";
-        @import "./app/web/src/scss/_mixins.scss";
+        @import "@app-web/scss/_variables.scss";
+        @import "@app-web/scss/_mixins.scss";
         ` 
       },
     }

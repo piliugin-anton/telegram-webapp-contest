@@ -1,6 +1,6 @@
 import EventEmitter from '@foxify/events'
-import Line from '../assets/line.svg?raw'
-import Range from '../range'
+import Line from '~/assets/svg/line.svg?raw'
+import Range from '~/range'
 
 export default class LineSettings extends EventEmitter {
   constructor({ elementSelector, options, icon }) {

@@ -1,7 +1,8 @@
 import EventEmitter from '@foxify/events'
 
-import PictureIcon from '../assets/picture-icon.svg?raw'
-import VideoIcon from '../assets/video-icon.svg?raw'
+import PictureIcon from '~/assets/icons/picture-icon.svg?raw'
+import VideoIcon from '~/assets/icons/video-icon.svg?raw'
+import GIFIcon from '~/assets/icons/gif-icon.svg?raw'
 
 export default class DownloadSettings extends EventEmitter {
   constructor({ elementSelector, options, icon }) {
@@ -41,6 +42,11 @@ export default class DownloadSettings extends EventEmitter {
           icon: PictureIcon,
           text: 'Picture',
           value: 'picture'
+        },
+        {
+          icon: GIFIcon,
+          text: 'GIF',
+          value: 'GIF'
         },
         {
           icon: VideoIcon,

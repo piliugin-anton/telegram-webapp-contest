@@ -37,5 +37,9 @@
   },
   "browserslist": [
     "> 0.1% and not dead"
-  ]
+  ],
+  "imports": {
+    "#app/*": "./app/*",
+    "#bot/*": "./bot/*"
+  }
 }
