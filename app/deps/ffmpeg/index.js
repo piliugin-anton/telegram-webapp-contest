@@ -4,7 +4,7 @@ const ffmpeg = require('fluent-ffmpeg')
 
 ffmpeg.setFfmpegPath(ffmpegStatic)
 
-const encode = ({ input, inputOptions, videoCodec, audioCodec, noAudio = false, outputOptions, outputFilePath, reportProgress = true } = {}) => {
+const encode = ({ input, inputOptions, videoCodec, complexFilter, audioCodec, noAudio = false, outputOptions, outputFilePath, reportProgress = true } = {}) => {
   return new Promise((resolve, reject) => {
     const ff = ffmpeg()
     
@@ -21,6 +21,8 @@ const encode = ({ input, inputOptions, videoCodec, audioCodec, noAudio = false, 
     }
 
     if (videoCodec) ff.videoCodec(videoCodec)
+
+    if (complexFilter) ff.complexFilter(complexFilter)
 
     if (noAudio) {
       ff.noAudio()
@@ -49,18 +51,30 @@ const encode = ({ input, inputOptions, videoCodec, audioCodec, noAudio = false, 
   })
 }
 
-const encodeFromImages = ({ framesPath = '', framePattern = 'frame-%d.png', frameRate = 60, videoCodec = 'libx264', outputOptions = { '-pix_fmt': 'yuv420p' }, outputFilePath = 'output.mp4' } = {}) => encode({
+const encodeFromImages = ({ framesPath = '', framePattern = 'frame-%d.png', frameRate = 60, videoCodec = 'libx264', complexFilter = null, outputOptions = { '-pix_fmt': 'yuv420p' }, outputFilePath = 'output.mp4' } = {}) => encode({
   input: path.join(framesPath, framePattern),
   inputOptions: {
     '-framerate': frameRate
   },
   noAudio: true,
   videoCodec,
+  complexFilter,
   outputOptions,
+  outputFilePath
+})
+
+const imagesToGIF = ({ framesPath, framesPattern, frameRate = 60, complexFilter = '[0:v] split [a][b];[a] palettegen [p];[b][p] paletteuse', outputFilePath } = {}) => encodeFromImages({
+  framesPath,
+  framesPattern,
+  frameRate,
+  videoCodec: null,
+  complexFilter,
+  outputOptions: null,
   outputFilePath
 })
 
 module.exports = {
   encode,
-  encodeFromImages
+  encodeFromImages,
+  imagesToGIF
 }
