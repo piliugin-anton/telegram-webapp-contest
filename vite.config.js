@@ -54,15 +54,7 @@ export default defineConfig({
   },
   plugins,
   css: {
-    devSourcemap: true,
-    preprocessorOptions: {
-      scss: {
-        additionalData: `
-        @import "~/scss/_variables.scss";
-        @import "~/scss/_mixins.scss";
-        `
-      }
-    }
+    devSourcemap: true
   },
   build: {
     target: 'es2015',

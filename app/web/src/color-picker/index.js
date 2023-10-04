@@ -1,6 +1,6 @@
 import '@simonwep/pickr/dist/themes/nano.min.css'
 import Pickr from '@simonwep/pickr'
-import { getContrastYIQ } from '../helpers'
+import { getContrastYIQ } from '~/helpers'
 
 export default class ColorPicker extends Pickr {
   constructor({ elementSelector, color = '#000000', palette = null, icon = null }) {
