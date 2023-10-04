@@ -12,12 +12,33 @@ const API_PORT = PORT + (isProduction ? 0 : 1)
 const botServicePath = path.join(__dirname, 'bot', 'service.js')
 const appServicePath = path.join(__dirname, 'app', 'service.js')
 
+const plugins = []
+
+if (!isProduction) {
+  plugins.push(ViteForkPlugin({
+    forks: [
+      // string or object
+      {
+        modulePath: appServicePath,
+        waitForReady: true,
+        stdout: (data) => console.log(`[${appServicePath} - stdout]`, data.toString()),
+        stderr: (data) => console.log(`[${appServicePath} - stderr]`, data.toString()),
+        messageTo: [botServicePath] // string or array
+      },
+      {
+        modulePath: botServicePath,
+        waitForReady: true,
+        stdout: (data) => console.log(`[${botServicePath} - stdout]`, data.toString()),
+        stderr: (data) => console.log(`[${botServicePath} - stderr]`, data.toString()),
+      }
+    ],
+    watch: '**/*.js',
+    watchCWD: __dirname
+  }))
+}
+
 export default defineConfig({
   root: ROOT_DIRECTORY,
-  build: {
-    target: 'es2015',
-    outDir: 'build'
-  },
   server: {
     port: PORT,
     strictPort: true,
@@ -31,36 +52,20 @@ export default defineConfig({
       '~': path.join(ROOT_DIRECTORY, 'src'),
     },
   },
+  plugins,
   css: {
+    devSourcemap: true,
     preprocessorOptions: {
-      scss: { 
+      scss: {
         additionalData: `
         @import "~/scss/_variables.scss";
         @import "~/scss/_mixins.scss";
-        ` 
-      },
+        `
+      }
     }
   },
-  plugins: [
-    !isProduction && ViteForkPlugin({
-      forks: [
-        // string or object
-        {
-          modulePath: appServicePath,
-          waitForReady: true,
-          stdout: (data) => console.log(`[${appServicePath} - stdout]`, data.toString()),
-          stderr: (data) => console.log(`[${appServicePath} - stderr]`, data.toString()),
-          messageTo: [botServicePath] // string or array
-        },
-        {
-          modulePath: botServicePath,
-          waitForReady: true,
-          stdout: (data) => console.log(`[${botServicePath} - stdout]`, data.toString()),
-          stderr: (data) => console.log(`[${botServicePath} - stderr]`, data.toString()),
-        }
-      ],
-      watch: '**/*.js',
-      watchCWD: __dirname
-    })
-  ]
+  build: {
+    target: 'es2015',
+    outDir: 'build'
+  }
 })
