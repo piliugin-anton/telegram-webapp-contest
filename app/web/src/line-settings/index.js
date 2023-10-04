@@ -129,20 +129,20 @@ export default class LineSettings extends EventEmitter {
     if (this.settingsElement.contains(ev.target)) return
 
     if (!this.element.contains(ev.target)) {
-      if (this.isOpen) this.handleCloseSettings()
+      if (this.isOpen) this.hide()
     } else if (!this.isOpen) {
-        this.handleOpenSettings()
+        this.show()
     } else {
-      this.handleCloseSettings()
+      this.hide()
     }
   }
 
-  handleOpenSettings() {
+  show() {
     this.settingsElement.classList.add('--visible')
     this.isOpen = true
   }
 
-  handleCloseSettings() {
+  hide() {
     this.settingsElement.classList.remove('--visible')
     this.isOpen = false
   }

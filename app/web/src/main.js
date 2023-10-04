@@ -11,7 +11,7 @@ import BackgroundIcon from './assets/background-icon.svg?raw'
 import LineIcon from './assets/line-icon.svg?raw'
 import DownloadIcon from './assets/download-icon.svg?raw'
 
-const WEBAPP_URL = import.meta.env.VITE_WEBAPP_URL
+// const WEBAPP_URL = import.meta.env.VITE_WEBAPP_URL
 const telegram = window.Telegram.WebApp
 
 // Back button
@@ -25,7 +25,6 @@ telegram.BackButton.onClick(() => {
 // Main button
 telegram.MainButton.isVisible = false
 telegram.MainButton.isActive = false
-telegram.MainButton.text = 'Download'
 
 telegram.expand()
 telegram.enableClosingConfirmation()
@@ -140,6 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
   downloadSettings.on('format', async (format) => {
     options.format = format
 
+    telegram.MainButton.text = `Get ${format}`
+
     if (canvas.history.length) {
       if (!telegram.MainButton.isActive) telegram.MainButton.enable()
       if (!telegram.MainButton.isVisible) telegram.MainButton.show()
@@ -162,7 +163,11 @@ document.addEventListener('DOMContentLoaded', () => {
   telegram.MainButton.onClick(async () => {
     telegram.MainButton.showProgress(false)
 
-    console.log('Request render')
+    strokeColorPicker.hide()
+    backgroundColorPicker.hide()
+    lineSettings.hide()
+    downloadSettings.hide()
+
     const payload = {
       initData: telegram.initData,
       format: options.format,
