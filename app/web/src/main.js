@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.updateBackground()
   })
 
-  downloadSettings.on('format', async (format) => {
+  downloadSettings.on('format', (format) => {
     options.format = format
 
     telegram.MainButton.text = `Get ${format}`

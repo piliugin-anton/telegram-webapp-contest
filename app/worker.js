@@ -7,9 +7,10 @@ const { mkDir, rmDir } = require('./helpers')
 
 const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir } = workerData
 
+const canvas = createCanvas(canvasWidth, canvasHeight)
+
 const framesPath = path.join(dir, `${request.id}-ffmpeg`)
 const framesPattern = 'frame-%d.png'
-const delayBetweenStrokes = 250
 
 if (format === 'video') mkDir(framesPath)
 
@@ -47,8 +48,7 @@ function saveFrame(canvas, frameIndex) {
   return ++frameIndex
 }
 
-async function draw() {
-  const canvas = createCanvas(canvasWidth, canvasHeight)
+function draw() {
   const ctx = canvas.getContext('2d')
 
   ctx.fillStyle = backgroundColor
@@ -78,28 +78,28 @@ async function draw() {
   }
 }
 
-draw().then(() => {
-  if (format === 'picture') {
-    canvas.encode('jpeg').then(async (imageData) => {
-      const fileName = `${request.id}.jpg`
-      const filePath = path.join(dir, fileName)
-      await fs.promises.writeFile(filePath, imageData)
-    
-      parentPort.postMessage({ request, fileName, filePath })
-    })
-  } else {
-    const fileName = `${request.id}.mp4`
-    const outputFilePath = path.join(dir, fileName)
-    
-    encodeFromImages({
-      framesPath,
-      framesPattern,
-      frameRate: 60,
-      outputFilePath
-    }).then(() => {
-      rmDir(framesPath)
+draw()
 
-      parentPort.postMessage({ request, fileName, filePath: outputFilePath })
-    })
-  }
-})
+if (format === 'picture') {
+  canvas.encode('jpeg').then((imageData) => {
+    const fileName = `${request.id}.jpg`
+    const filePath = path.join(dir, fileName)
+    fs.writeFileSync(filePath, imageData)
+  
+    parentPort.postMessage({ request, fileName, filePath })
+  })
+} else {
+  const fileName = `${request.id}.mp4`
+  const outputFilePath = path.join(dir, fileName)
+  
+  encodeFromImages({
+    framesPath,
+    framesPattern,
+    frameRate: 60,
+    outputFilePath
+  }).then(() => {
+    rmDir(framesPath)
+
+    parentPort.postMessage({ request, fileName, filePath: outputFilePath })
+  })
+}
