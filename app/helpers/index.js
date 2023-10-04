@@ -13,35 +13,12 @@ function runService(workerData) {
   })
 }
 
-function drawCircle(ctx, data) {
-  ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
-
-  ctx.beginPath()
-  ctx.arc(data.x, data.y, data.radius, 0, getRadians(360))
-  ctx.fillStyle = data.fillStyle
-  ctx.fill()
-}
-
-function drawLine(ctx, data) {
-  ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
-
-  ctx.beginPath()
-  ctx.moveTo(data.from.x, data.from.y)
-  ctx.lineTo(data.to.x, data.to.y)
-  ctx.lineWidth = data.lineWidth
-  ctx.strokeStyle = data.strokeStyle
-  ctx.lineJoin = 'round'
-  ctx.closePath()
-  ctx.stroke()
-}
-
 function getRadians(degrees) {
   return (Math.PI / 180) * degrees
 }
 
 module.exports = {
   runService,
-  drawCircle,
-  drawLine,
+  getRadians,
   error
 }

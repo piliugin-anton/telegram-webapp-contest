@@ -2,9 +2,31 @@ const { workerData, parentPort } = require('worker_threads')
 const fs = require('fs')
 const path = require('path')
 const { createCanvas } = require('@napi-rs/canvas')
-const { drawCircle, drawLine } = require('./helpers')
+const { getRadians } = require('./helpers')
 
 const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir } = workerData
+
+function drawCircle(ctx, data) {
+  ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
+
+  ctx.beginPath()
+  ctx.arc(data.x, data.y, data.radius, 0, getRadians(360))
+  ctx.fillStyle = data.fillStyle
+  ctx.fill()
+}
+
+function drawLine(ctx, data) {
+  ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
+
+  ctx.beginPath()
+  ctx.moveTo(data.from.x, data.from.y)
+  ctx.lineTo(data.to.x, data.to.y)
+  ctx.lineWidth = data.lineWidth
+  ctx.strokeStyle = data.strokeStyle
+  ctx.lineJoin = 'round'
+  ctx.closePath()
+  ctx.stroke()
+}
 
 const canvas = createCanvas(canvasWidth, canvasHeight)
 const ctx = canvas.getContext('2d')
