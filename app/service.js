@@ -2,20 +2,12 @@ require('dotenv').config()
 
 const HyperExpress = require('hyper-express')
 const setRoutes = require('./routes')
-const { CustomError, INTERNAL_ERROR } = require('./helpers').error
 
 const isProduction = process.env.NODE_ENV === 'production'
 const PORT = parseInt(process.env.SERVER_PORT, 10) + (isProduction ? 0 : 1)
 
 const server = new HyperExpress.Server()
-
 setRoutes(server, isProduction)
-
-server.set_error_handler((request, response, error) => {
-  const isCustom = error instanceof CustomError
-
-  response.status(isCustom ? error.code : INTERNAL_ERROR.code).json({ error: isCustom ? error.message: INTERNAL_ERROR.message })
-})
 
 server.listen(PORT).then((socket) => {
   process.emit('ready')
