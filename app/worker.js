@@ -2,8 +2,8 @@ const { workerData, parentPort } = require('worker_threads')
 const fs = require('fs')
 const path = require('path')
 const { createCanvas } = require('@napi-rs/canvas')
-const { encodeFromImages } = require('./deps/ffmpeg')
-const { mkDir, rmDir } = require('./helpers')
+const { encodeFromImages } = require('@app/deps/ffmpeg')
+const { mkDir, rmDir } = require('@app/helpers')
 
 const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir } = workerData
 

@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 const path = require('path')
-const { error: { INVALID_REQUEST }, runService, mkDir } = require('../helpers')
+const { error: { INVALID_REQUEST }, runService, mkDir } = require('@app/helpers')
 
 const RESULTS_DIR = path.join(__dirname, '..', '.result')
 mkDir(RESULTS_DIR)

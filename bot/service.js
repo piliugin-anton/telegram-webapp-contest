@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('module-alias/register')
 
 const path = require('path')
 const crypto = require('crypto')

@@ -24,6 +24,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "hyper-express": "^6.8.6",
     "live-directory": "^3.0.3",
+    "module-alias": "^2.2.3",
     "rangetouch": "^2.0.1",
     "telegraf": "^4.14.0"
   },
@@ -38,8 +39,8 @@
   "browserslist": [
     "> 0.1% and not dead"
   ],
-  "imports": {
-    "#app/*": "./app/*",
-    "#bot/*": "./bot/*"
+  "_moduleAliases": {
+    "@app": "./app/",
+    "@bot": "./bot/"
   }
 }

@@ -1,14 +1,14 @@
-import '~scss/main.scss'
+import '~/scss/main.scss'
 
 import axios from 'axios'
-import Canvas from '~canvas'
-import ColorPicker from '~color-picker'
-import LineSettings from '~line-settings'
-import DownloadSettings from '~download-settings'
-import ColorsIcon from '~assets/icons/colors-icon.svg?raw'
-import BackgroundIcon from '~assets/icons/background-icon.svg?raw'
-import LineIcon from '~assets/icons/line-icon.svg?raw'
-import DownloadIcon from '~assets/icons/download-icon.svg?raw'
+import Canvas from '~/canvas'
+import ColorPicker from '~/color-picker'
+import LineSettings from '~/line-settings'
+import DownloadSettings from '~/download-settings'
+import ColorsIcon from '~/assets/icons/colors-icon.svg?raw'
+import BackgroundIcon from '~/assets/icons/background-icon.svg?raw'
+import LineIcon from '~/assets/icons/line-icon.svg?raw'
+import DownloadIcon from '~/assets/icons/download-icon.svg?raw'
 
 // const WEBAPP_URL = import.meta.env.VITE_WEBAPP_URL
 const telegram = window.Telegram.WebApp

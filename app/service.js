@@ -1,7 +1,8 @@
 require('dotenv').config()
+require('module-alias/register')
 
 const HyperExpress = require('hyper-express')
-const setRoutes = require('#app/routes')
+const setRoutes = require('@app/routes')
 
 const isProduction = process.env.NODE_ENV === 'production'
 const PORT = parseInt(process.env.SERVER_PORT, 10) + (isProduction ? 0 : 1)

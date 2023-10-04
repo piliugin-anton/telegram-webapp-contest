@@ -7,7 +7,7 @@ const mimeTypes = require('./helpers/mime-types')
 const accepts = require('./helpers/accepts')
 const compressible = require('./helpers/compressible')
 
-const { CustomError } = require('../../helpers/custom-error')
+const { CustomError } = require('@app/helpers/custom-error')
 
 const resolveFile = (file, indexFile = '') => {
   return fs.promises.stat(file, {
