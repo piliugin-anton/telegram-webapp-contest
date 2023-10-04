@@ -61,10 +61,6 @@ export default class Canvas extends EventEmitter {
     return this.history.length >= 1 && this.historyIndex < this.history.length - 1
   }
 
-  get allowHeightResize() {
-    return this.options.allowHeightResize
-  }
-
   toggleMode() {
     if (this.isErasing) {
       this.disableEraser()
@@ -91,7 +87,7 @@ export default class Canvas extends EventEmitter {
 
   resizeCanvas() {
     this.canvas.width = this.width
-    if (this.allowHeightResize) this.canvas.height = this.height
+    this.canvas.height = this.height
 
     this.redraw()
   }

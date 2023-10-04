@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('resize', () => {
     options.width = window.innerWidth
-    options.height = window.innerHeight - menu.offsetHeight
+    if (options.allowHeightResize) options.height = window.innerHeight - menu.offsetHeight
 
     canvas.resizeCanvas()
     lineSettings.setSettingsElementPosition()
