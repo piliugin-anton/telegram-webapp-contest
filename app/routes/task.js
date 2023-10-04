@@ -8,8 +8,6 @@ mkDir(RESULTS_DIR)
 const AddTask = async (request, response) => {
   const { format, data, canvasWidth, canvasHeight, backgroundColor } = await request.json()
 
-  console.log(data)
-
   if (
     (format !== 'picture' && format !== 'video') ||
     !isFinite(canvasWidth) || !isFinite(canvasHeight) ||

@@ -49,7 +49,7 @@ const encode = ({ input, inputOptions, videoCodec, audioCodec, noAudio = false, 
   })
 }
 
-const encodeFromImages = ({ framesPath = '', framePattern = 'frame-%d.png', frameRate = 20, videoCodec = 'libx264', outputOptions = { '-pix_fmt': 'yuv420p' }, outputFilePath = 'output.mp4' } = {}) => encode({
+const encodeFromImages = ({ framesPath = '', framePattern = 'frame-%d.png', frameRate = 60, videoCodec = 'libx264', outputOptions = { '-pix_fmt': 'yuv420p' }, outputFilePath = 'output.mp4' } = {}) => encode({
   input: path.join(framesPath, framePattern),
   inputOptions: {
     '-framerate': frameRate

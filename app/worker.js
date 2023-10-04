@@ -9,6 +9,7 @@ const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir }
 
 const framesPath = path.join(dir, `${request.id}-ffmpeg`)
 const framesPattern = 'frame-%d.png'
+const delayBetweenStrokes = 250
 
 if (format === 'video') mkDir(framesPath)
 
@@ -38,6 +39,14 @@ function drawLine(ctx, data) {
   ctx.stroke()
 }
 
+function saveFrame(canvas, frameIndex) {
+  const frameFileName = `frame-${frameIndex}.png`
+  const pngData = canvas.toBuffer('image/png')
+  fs.writeFileSync(path.join(framesPath, frameFileName), pngData)
+
+  return ++frameIndex
+}
+
 async function draw() {
   const canvas = createCanvas(canvasWidth, canvasHeight)
   const ctx = canvas.getContext('2d')
@@ -45,8 +54,13 @@ async function draw() {
   ctx.fillStyle = backgroundColor
   ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
+  let frameIndex = 0
   for (let i = 0; i < data.length; i++) {
     for (let j = 0; j < data[i].length; j++) {
+      if (format === 'video' && frameIndex === 0) {
+        frameIndex = saveFrame(canvas, frameIndex)
+      }
+
       if (data[i][j].isCircle) {
         drawCircle(ctx, data[i][j])
       } else {
@@ -54,10 +68,12 @@ async function draw() {
       }
 
       if (format === 'video') {
-        const frameFileName = `frame-${i + j}.png`
-        const pngData = await canvas.encode('png')
-        await fs.promises.writeFile(path.join(framesPath, frameFileName), pngData)
+        frameIndex = saveFrame(canvas, frameIndex)
       }
+    }
+
+    if (format === 'video') {
+      frameIndex = saveFrame(canvas, frameIndex)
     }
   }
 }
@@ -78,7 +94,7 @@ draw().then(() => {
     encodeFromImages({
       framesPath,
       framesPattern,
-      frameRate: 15,
+      frameRate: 60,
       outputFilePath
     }).then(() => {
       rmDir(framesPath)
