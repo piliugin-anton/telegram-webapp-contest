@@ -5,8 +5,8 @@ import path from 'path'
 import ViteForkPlugin from './deps/vite-fork-plugin'
 
 const ROOT_DIRECTORY = path.join(__dirname, 'app', 'web')
-const PORT = parseInt(process.env.SERVER_PORT, 10)
 const isProduction = process.env.NODE_ENV === 'production'
+const PORT = parseInt(process.env.SERVER_PORT, 10) + (isProduction ? 0 : 1)
 
 const botServicePath = path.join(__dirname, 'bot', 'service.js')
 const appServicePath = path.join(__dirname, 'app', 'service.js')
@@ -21,8 +21,8 @@ export default defineConfig({
     port: PORT,
     strictPort: true,
     proxy: {
-      '/api': `http://localhost:${PORT + 1}`,
-      '/result': `http://localhost:${PORT + 1}`
+      '/api': `http://localhost:${PORT}`,
+      '/result': `http://localhost:${PORT}`
     }
   },
   css: {
