@@ -44,5 +44,6 @@ const AddTask = async (request, response) => {
 }
 
 module.exports = {
-  AddTask
+  AddTask,
+  RESULTS_DIR
 }

@@ -3,7 +3,7 @@ const HyperExpress = require('hyper-express')
 const Router = new HyperExpress.Router()
 
 const STATIC_MEMORY_CACHE = require('./static')
-const { AddTask } = require('./task')
+const { AddTask, RESULTS_DIR } = require('./task')
 const { StaticFiles, TelegramAuthMiddleware }  = require('../middleware')
 const { CustomError, INTERNAL_ERROR } = require('../helpers').error
 
