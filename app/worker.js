@@ -1,3 +1,5 @@
+require('module-alias/register')
+
 const { workerData, parentPort } = require('worker_threads')
 const fs = require('fs')
 const path = require('path')
@@ -12,7 +14,16 @@ const canvas = createCanvas(canvasWidth, canvasHeight)
 const framesPath = path.join(dir, `${request.id}-ffmpeg`)
 const framesPattern = 'frame-%d.png'
 
-if (format === 'video') mkDir(framesPath)
+const isAnimation = format === 'video' || format === 'GIF'
+const extensions = {
+  picture: 'jpg',
+  video: 'mp4',
+  GIF: 'gif'
+}
+
+const extension = extensions[format]
+
+if (isAnimation) mkDir(framesPath)
 
 function getRadians(degrees) {
   return (Math.PI / 180) * degrees
@@ -57,7 +68,7 @@ function draw() {
   let frameIndex = 0
   for (let i = 0; i < data.length; i++) {
     for (let j = 0; j < data[i].length; j++) {
-      if (format === 'video' && frameIndex === 0) {
+      if (isAnimation && frameIndex === 0) {
         frameIndex = saveFrame(canvas, frameIndex)
       }
 
@@ -67,12 +78,12 @@ function draw() {
         drawLine(ctx, data[i][j])
       }
 
-      if (format === 'video') {
+      if (isAnimation) {
         frameIndex = saveFrame(canvas, frameIndex)
       }
     }
 
-    if (format === 'video') {
+    if (isAnimation) {
       frameIndex = saveFrame(canvas, frameIndex)
     }
   }
@@ -82,14 +93,14 @@ draw()
 
 if (format === 'picture') {
   canvas.encode('jpeg').then((imageData) => {
-    const fileName = `${request.id}.jpg`
+    const fileName = `${request.id}.${extension}`
     const filePath = path.join(dir, fileName)
     fs.writeFileSync(filePath, imageData)
   
     parentPort.postMessage({ request, fileName, filePath })
   })
 } else {
-  const fileName = `${request.id}.mp4`
+  const fileName = `${request.id}.${extension}`
   const outputFilePath = path.join(dir, fileName)
   
   encodeFromImages({

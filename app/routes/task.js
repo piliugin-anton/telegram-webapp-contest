@@ -9,7 +9,7 @@ const AddTask = async (request, response) => {
   const { format, data, canvasWidth, canvasHeight, backgroundColor } = await request.json()
 
   if (
-    (format !== 'picture' && format !== 'video') ||
+    (format !== 'picture' && format !== 'video' && format !== 'GIF') ||
     !isFinite(canvasWidth) || !isFinite(canvasHeight) ||
     canvasWidth < 1 || canvasWidth > 4096 || canvasHeight < 1 || canvasHeight > 2305 ||
     typeof backgroundColor !== 'string' ||

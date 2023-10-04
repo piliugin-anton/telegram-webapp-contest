@@ -148,6 +148,10 @@ export default class DownloadSettings extends EventEmitter {
         this.emit('format', 'picture')
         break
       
+      case 'GIF':
+        this.emit('format', 'GIF')
+        break
+      
       case 'video':
         this.emit('format', 'video')
         break
