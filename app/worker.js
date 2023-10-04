@@ -102,15 +102,16 @@ if (format === 'picture') {
 } else {
   const fileName = `${request.id}.${extension}`
   const outputFilePath = path.join(dir, fileName)
+  const isGIF = format === 'GIF'
   
   encodeFromImages({
     framesPath,
     framesPattern,
     frameRate: 60,
+    videoCodec: isGIF ? null: undefined,
+    outputOptions: isGIF ? null: undefined,
     outputFilePath
   }).then(() => {
-    rmDir(framesPath)
-
     parentPort.postMessage({ request, fileName, filePath: outputFilePath })
-  })
+  }).finally(() => rmDir(framesPath))
 }
