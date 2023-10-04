@@ -41,7 +41,7 @@ module.exports = class ForkController {
     if (watchGlob.length) {
       if (watchGlob.length === 1) watchGlob = watchGlob[0]
 
-      const ignored = new RegExp(`${__filename}|node_modules|(^|[\\/])\\..`)
+      const ignored = new RegExp('node_modules|(^|[\\/])\\..')
 
       this.watcher = chokidar.watch(watchGlob, {
         ignored,
