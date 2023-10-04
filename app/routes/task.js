@@ -1,10 +1,9 @@
 const crypto = require('crypto')
 const path = require('path')
-const fs = require('fs')
-const { error: { INVALID_REQUEST }, runService } = require('../helpers')
+const { error: { INVALID_REQUEST }, runService, mkDir } = require('../helpers')
 
 const RESULTS_DIR = path.join(__dirname, '..', '.result')
-fs.mkdirSync(RESULTS_DIR, { recursive: true })
+mkDir(RESULTS_DIR)
 
 const AddTask = async (request, response) => {
   const { format, data, canvasWidth, canvasHeight, backgroundColor } = await request.json()
