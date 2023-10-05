@@ -16,7 +16,7 @@ module.exports = class ForkController {
   readyPromise = Promise.resolve()
   restartHandler = null
 
-  constructor({ forks = [], watch = true, watchCWD = '.' } = {}) {
+  constructor({ forks = [], watch = false, watchCWD = '.' } = {}) {
     this.addForks(forks)
 
     if (watch) this.setWatcher(watch, watchCWD)

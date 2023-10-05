@@ -17,7 +17,6 @@ const plugins = []
 if (!isProduction) {
   plugins.push(ViteForkPlugin({
     forks: [
-      // string or object
       {
         modulePath: appServicePath,
         waitForReady: true,
@@ -32,7 +31,7 @@ if (!isProduction) {
         stderr: (data) => console.log(`[${botServicePath} - stderr]`, data.toString()),
       }
     ],
-    watch: '**/*.js',
+    watch: '**/*.js', // glob string or boolean
     watchCWD: __dirname
   }))
 }

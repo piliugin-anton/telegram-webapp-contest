@@ -42,6 +42,7 @@
     "> 0.1% and not dead"
   ],
   "_moduleAliases": {
+		"@root": "./",
     "@app": "./app/",
     "@bot": "./bot/"
   }

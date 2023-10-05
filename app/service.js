@@ -1,7 +1,9 @@
 require('dotenv').config()
 require('module-alias/register')
 
+const path = require('path')
 const HyperExpress = require('hyper-express')
+const ForkController = require('@root/deps/ForkController')
 const setRoutes = require('@app/routes')
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -15,30 +17,30 @@ server.listen(PORT).then((socket) => {
 
   console.log(`Server started on port ${PORT}`)
 
-  /*if (isProduction) {
-    const botServicePath = path.join(__dirname, '..', 'bot', 'service.js')
+  if (isProduction) {
+		const botServicePath = path.join(__dirname, '..', 'bot', 'service.js')
+		const forksController = new ForkController({
+			forks: [
+				{
+					modulePath: botServicePath,
+					waitForReady: true,
+					stdout: (data) => console.log('[Bot - stdout]', data.toString()),
+					stderr: (data) => console.log('[Bot - stderr]', data.toString()),
+				}
+			]
+		})
 
-    const abortController = new AbortController()
-    const options = {
-      stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
-      detached: false,
-      signal: abortController.signal
-    }
-
-    const process = fork(botServicePath, [], options)
-
-    server._botService = {
-      process,
-      abortController
-    }
-  }*/
+    server._forksController = forksController
+		
+		forksController.spawnAll()
+  }
 })
-.catch((error) => console.log(`Failed to start server on port ${PORT}`))
+.catch((error) => console.log(`Failed to start server on port ${PORT}`, error))
 
 const stopServer = () => {
-  /*if (server._botService) {
-    server._botService.abortController.abort()
-  }*/
+  if (server._forksController) {
+    server._forksController.gracefulShutdown()
+  }
 
   server.close()
   process.exit(0)
