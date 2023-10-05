@@ -1,11 +1,19 @@
 const { INVALID_REQUEST } = require('@app/helpers').error
 
+const CONSTANTS = {
+	MAX_WIDTH: 4096,
+	MAX_HEIGHT: 2034,
+	MAX_RADIUS: 40,
+	MAX_LINE_WIDTH: 40,
+	PADDING: 20
+}
+
 const ValidateTask = async (request, response, next) => {
 	const { format, data, backgroundColor } = await request.json()
 
   if (
     (format !== 'picture' && format !== 'video' && format !== 'GIF') ||
-    typeof backgroundColor !== 'string' || !/^#[0-9A-F]{6}$/i.test(backgroundColor) ||
+    typeof backgroundColor !== 'string' || !isValidHexColor(backgroundColor) ||
     (!Array.isArray(data) || Array.isArray(data) && data.length < 1)
   ) return INVALID_REQUEST
 
@@ -25,9 +33,9 @@ const ValidateTask = async (request, response, next) => {
 const validateData = (data) => {
 	const result = { isValid: false }
 
-	let XMIN = 0
+	let XMIN = CONSTANTS.MAX_WIDTH
 	let XMAX = 0
-	let YMIN = 0
+	let YMIN = CONSTANTS.MAX_HEIGHT
 	let YMAX = 0
 
 	const flatData = data.flat()
@@ -36,8 +44,8 @@ const validateData = (data) => {
 		const { from, to, isCircle, x, y, radius } = flatData[i]
 
 		if (
-			(isCircle && !isFinite(x) || !isFinite(y) || !isFinite(radius) || radius < 1 || radius > 40) ||
-			(!isCircle && !from || !to || !isFinite(from.x) || !isFinite(from.y) || !isFinite(to.x) || !isFinite(to.y))
+			(isCircle && (!isFinite(x) || !isFinite(y) || !isFinite(radius) || radius < 1 || radius > CONSTANTS.MAX_RADIUS)) ||
+			(!isCircle && (!isFinite(from.x) || !isFinite(from.y) || !isFinite(to.x) || !isFinite(to.y)))
 		) return result
 
 		if (!isCircle) {
@@ -64,18 +72,20 @@ const validateData = (data) => {
 	const width = Math.abs(XMIN - XMAX)
 	const height = Math.abs(YMIN - YMAX)
 
-	if (width < 1 || width > 4096) return result
-	if (height < 1 || height > 2034) return result
+	if (width < 1 || width > CONSTANTS.MAX_WIDTH) return result
+	if (height < 1 || height > CONSTANTS.MAX_HEIGHT) return result
+
+	const isPaddingWidthAvailable = isPaddingAvailable(width, CONSTANTS.PADDING * 2, CONSTANTS.MAX_WIDTH)
+	const isPaddingHeightAvailable = isPaddingAvailable(height, CONSTANTS.PADDING * 2, CONSTANTS.MAX_HEIGHT)
 
 	result.isValid = true
-	result.canvasWidth = width
-	result.canvasHeight = height
+	result.canvasWidth = isPaddingWidthAvailable ? width + (CONSTANTS.PADDING * 2) : width
+	result.canvasHeight = isPaddingHeightAvailable ? height + (CONSTANTS.PADDING * 2) : height
 	result.normalizedData = data
 
-	// NORMALIZE DATA!
-	const XOFFSET = XMIN <= 0 ? XMIN : -XMIN
-	const YOFFSET = YMIN <= 0 ? YMIN : -YMIN
-
+	// NORMALIZE DATA AND PAD
+	const XOFFSET = (XMIN <= 0 ? XMIN : -XMIN) + (isPaddingWidthAvailable ? CONSTANTS.PADDING : 0)
+	const YOFFSET = (YMIN <= 0 ? YMIN : -YMIN) + (isPaddingHeightAvailable ? CONSTANTS.PADDING : 0)
 	for (let i = 0; i < data.length; i++) {
 		for (let j = 0; j < data[i].length; j++) {
 			const { isCircle } = data[i][j]
@@ -95,6 +105,10 @@ const validateData = (data) => {
 
 	return result
 }
+
+const isValidHexColor = (hex) => /^#[0-9A-F]{6}$/i.test(hex)
+
+const isPaddingAvailable = (number, padding, maxNumber) => number + padding <= maxNumber
 
 module.exports = {
 	ValidateTask

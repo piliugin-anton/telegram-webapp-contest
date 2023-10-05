@@ -169,6 +169,7 @@ export default class App {
 
 	handleDownloadFormatChange(format) {
 		this.options.format = format
+		
 		this.tg.MainButton.text = `Get ${this.format}`
 
 		if (this.canvas.history.length) {
