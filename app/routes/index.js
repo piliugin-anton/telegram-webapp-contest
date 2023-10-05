@@ -4,7 +4,7 @@ const Router = new HyperExpress.Router()
 
 const STATIC_MEMORY_CACHE = require('@app/routes/static')
 const { AddTask, RESULTS_DIR } = require('@app/routes/task')
-const { StaticFiles, TelegramAuthMiddleware }  = require('@app/middleware')
+const { StaticFiles, TelegramAuthMiddleware, ValidateTask }  = require('@app/middleware')
 const { CustomError, INTERNAL_ERROR } = require('@app/helpers').error
 
 const setRoutes = (server, isProduction) => {
@@ -15,7 +15,7 @@ const setRoutes = (server, isProduction) => {
   })
 
   Router.post('/task', AddTask)
-  Router.use('/task', TelegramAuthMiddleware)
+  Router.use('/task', TelegramAuthMiddleware, ValidateTask)
 
   server.use('/api', Router)
 

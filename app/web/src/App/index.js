@@ -53,7 +53,7 @@ export default class App {
 		// Main button
 		this.tg.MainButton.isVisible = false
 		this.tg.MainButton.isActive = false
-		this.tg.MainButton.onClick(this.handleMainButtonClick)
+		this.tg.MainButton.onClick(this.handleMainButtonClick.bind(this))
 
 		// Back button
 		this.tg.BackButton.isVisible = true
@@ -169,7 +169,7 @@ export default class App {
 
 	handleDownloadFormatChange(format) {
 		this.options.format = format
-		this.tg.MainButton.text = `Get ${this.options.format}`
+		this.tg.MainButton.text = `Get ${this.format}`
 
 		if (this.canvas.history.length) {
 			if (!this.tg.MainButton.isActive) this.tg.MainButton.enable()
@@ -194,8 +194,6 @@ export default class App {
 			initData: this.tg.initData,
 			format: this.format,
 			data: this.canvas.history,
-			canvasWidth: this.canvas.width,
-			canvasHeight: this.canvas.height,
 			backgroundColor: this.backgroundColor
 		}
 	
@@ -212,7 +210,7 @@ export default class App {
 		this.hideControls()
 
 		this.lineSettings.setSettingsElementPosition()
-		this.downloadSettings.setSettingsElementPosition()
+		if (!this.tg.MainButton.isVisible) this.downloadSettings.setSettingsElementPosition()
 		this.canvas.resizeCanvas()
 	}
 
@@ -220,7 +218,7 @@ export default class App {
     this.undo.disabled = !undoEnabled
     this.redo.disabled = !redoEnabled
 
-    if (this.canvas.history.length && this.options.format) {
+    if (this.canvas.history.length && this.format) {
       if (!this.tg.MainButton.isActive) this.tg.MainButton.enable()
       if (!this.tg.MainButton.isVisible) this.tg.MainButton.show()
     }

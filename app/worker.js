@@ -9,6 +9,8 @@ const { mkDir, rmDir } = require('@app/helpers')
 
 const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir } = workerData
 
+console.log('canvas', canvasWidth, canvasHeight)
+
 const canvas = createCanvas(canvasWidth, canvasHeight)
 
 const framesPath = path.join(dir, `${request.id}-ffmpeg`)
