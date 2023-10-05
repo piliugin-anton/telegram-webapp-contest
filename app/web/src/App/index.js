@@ -169,6 +169,8 @@ export default class App {
 	handleViewPortChange({ isStateStable }) {
 		if (!this.tg.isExpanded) {
 			this.tg.expand()
+		} else {
+			this.handleResize()
 		}
 	}
 
