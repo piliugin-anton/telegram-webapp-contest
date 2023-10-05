@@ -12,6 +12,7 @@ import DownloadIcon from '~/assets/icons/download-icon.svg?raw'
 
 export default class App {
 	constructor(options = {}) {
+		this.loader = document.getElementById('loader')
 		this.menu = document.getElementById('menu')
 
 		const defaultOptions = {
@@ -92,6 +93,14 @@ export default class App {
 		return this.options.format
 	}
 
+	showLoading() {
+		this.loader.classList.remove('hidden')
+	}
+
+	hideLoading() {
+		this.loader.classList.add('hidden')
+	}
+
 	init() {
 		this.canvas = new Canvas({
 			elementSelector: '#canvas',
@@ -142,6 +151,8 @@ export default class App {
 		this.downloadSettings.on('format', this.handleDownloadFormatChange.bind(this))
 
 		this.tg.ready()
+
+		this.hideLoading()
 	}
 
 	handleColorChange(color) {
