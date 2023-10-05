@@ -29,7 +29,9 @@ export default class Canvas extends EventEmitter {
     document.addEventListener('mousemove', this.handleMouseMove.bind(this))
     document.addEventListener('mouseup', this.handleMouseUp.bind(this))
 
-    this.resizeCanvas()
+    this.canvas.width = window.innerWidth
+		this.canvas.height = window.innerHeight
+
     this.unsetCanvasBackground()
   }
 
@@ -43,14 +45,6 @@ export default class Canvas extends EventEmitter {
 
   get fillStyle() {
     return this.options.backgroundColor
-  }
-
-  get width() {
-    return this.options.width
-  }
-
-  get height() {
-    return this.options.height
   }
 
   get undoEnabled() {
@@ -86,10 +80,12 @@ export default class Canvas extends EventEmitter {
   }
 
   resizeCanvas() {
-    this.canvas.width = this.width
-    this.canvas.height = this.height
+		if (this.canvas.width === window.innerWidth && this.canvas.height === window.innerHeight) return
 
-    this.redraw()
+		this.canvas.width = window.innerWidth
+    this.canvas.height = window.innerHeight
+
+		this.redraw()
   }
 
   undo() {
@@ -124,7 +120,7 @@ export default class Canvas extends EventEmitter {
     this.clearArea()
 
     this.context.fillStyle = this.fillStyle
-		this.context.fillRect(0, 0, this.width, this.height)
+		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
     this.redraw()
   }
@@ -133,7 +129,7 @@ export default class Canvas extends EventEmitter {
     this.clearArea()
 
     this.context.fillStyle = 'rgba(0, 0, 0, 0)'
-    this.context.fillRect(0, 0, this.width, this.height)
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
     this.redraw()
   }
@@ -395,7 +391,7 @@ export default class Canvas extends EventEmitter {
 
   clearArea() {
     this.context.setTransform(1, 0, 0, 1, 0, 0)
-    this.context.clearRect(0, 0, this.width, this.height)
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
   updateHistoryAndEmit() {

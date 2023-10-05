@@ -1,6 +1,6 @@
 import '@simonwep/pickr/dist/themes/nano.min.css'
 import Pickr from '@simonwep/pickr'
-import { getContrastYIQ } from '~/helpers'
+import { getContrastYIQ } from '~/src/helpers'
 
 export default class ColorPicker extends Pickr {
   constructor({ elementSelector, color = '#000000', palette = null, icon = null }) {
@@ -9,7 +9,8 @@ export default class ColorPicker extends Pickr {
     if (!element) throw new Error(`Cannot find an element with selector ${elementSelector}`)
 
     super({
-      el: elementSelector,
+      el: element,
+			autoReposition: true,
       theme: 'nano', // or 'classic', or 'nano'
     
       lockOpacity: true,

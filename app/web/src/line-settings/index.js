@@ -1,6 +1,8 @@
 import EventEmitter from '@foxify/events'
+import { reposition } from 'nanopop'
+
 import Line from '~/assets/svg/line.svg?raw'
-import Range from '~/range'
+import Range from '~/src/range'
 
 export default class LineSettings extends EventEmitter {
   constructor({ elementSelector, options, icon }) {
@@ -105,16 +107,11 @@ export default class LineSettings extends EventEmitter {
   }
 
   setSettingsElementPosition() {
-    this.settingsElement.style.top = `${this.element.offsetTop - this.settingsElement.offsetHeight - 8}px`
-
-    const left = this.element.offsetLeft
-    const showLeft = left + this.settingsElement.offsetWidth > window.innerWidth ? false : true
-
-    if (showLeft) {
-      this.settingsElement.style.left = `${left}px`
-    } else {
-      this.settingsElement.style.left = `${window.innerWidth - this.settingsElement.offsetWidth - 2}px`
-    }
+    reposition(
+			/* reference: */ this.element,
+			/* popper: */ this.settingsElement,
+			/* We're using the default options */
+		)
   }
 
   handleLineWidthChange(value) {

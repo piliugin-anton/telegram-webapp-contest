@@ -11,3 +11,12 @@ export function getContrastYIQ(hexcolor) {
 
 	return (YIQ >= 128) ? '#000000' : '#FFFFFF'
 }
+
+export function debounce(func, timeout = 300) {
+  let timer
+
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => func.apply(this, args), timeout)
+  }
+}

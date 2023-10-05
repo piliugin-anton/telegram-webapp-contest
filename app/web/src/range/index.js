@@ -1,4 +1,4 @@
-import '../scss/range/range.scss'
+import '~/assets/scss/range/range.scss'
 
 import EventEmitter from '@foxify/events'
 import RangeTouch from 'rangetouch'

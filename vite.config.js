@@ -48,7 +48,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '~': path.join(ROOT_DIRECTORY, 'src'),
+      '~': ROOT_DIRECTORY,
     },
   },
   plugins,
