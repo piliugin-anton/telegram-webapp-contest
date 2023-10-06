@@ -94,6 +94,12 @@ export default class App {
 		return this.options.format
 	}
 
+	get isRenderable() {
+		const flat = this.canvas.history.flat()
+
+		return this.format && flat.length > 1
+	}
+
 	showLoading() {
 		this.loader.classList.remove('hidden')
 	}
@@ -182,7 +188,7 @@ export default class App {
 		
 		this.tg.MainButton.text = `Get ${this.format}`
 
-		if (this.canvas.history.length) {
+		if (this.isRenderable) {
 			if (!this.tg.MainButton.isActive) this.tg.MainButton.enable()
 			if (!this.tg.MainButton.isVisible) this.tg.MainButton.show()
 		}
@@ -230,7 +236,7 @@ export default class App {
     this.undo.disabled = !undoEnabled
     this.redo.disabled = !redoEnabled
 
-    if (this.canvas.history.length && this.format) {
+    if (this.isRenderable) {
       if (!this.tg.MainButton.isActive) this.tg.MainButton.enable()
       if (!this.tg.MainButton.isVisible) this.tg.MainButton.show()
     }

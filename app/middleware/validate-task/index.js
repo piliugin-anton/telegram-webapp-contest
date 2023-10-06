@@ -3,9 +3,11 @@ const { INVALID_REQUEST } = require('@app/helpers').error
 const CONSTANTS = {
 	MAX_WIDTH: 4096,
 	MAX_HEIGHT: 2304,
-	MAX_RADIUS: 40,
 	MAX_LINE_WIDTH: 40,
-	PADDING: 20,
+	get MAX_RADIUS() {
+		return this.MAX_LINE_WIDTH / 2
+	},
+ 	PADDING: 20,
 	VIDEO_RESOLUTIONS: [
 		{
 			width: 128,
