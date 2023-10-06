@@ -43,7 +43,7 @@ If you want to use it in a Docker container, use scripts from `package.json` pre
 
 > How do I run it locally (without domain name and SSL certificate)?
 
-You can use a tunneling software like [localtunnel](https://github.com/localtunnel/localtunnel), [Telebit](https://telebit.cloud), [ngrok](https://ngrok.com) or [any of this](https://github.com/anderspitman/awesome-tunneling)
+You can use a tunneling software like [localtunnel](https://github.com/localtunnel/localtunnel), [Telebit](https://telebit.cloud), [ngrok](https://ngrok.com) or [any of this](https://github.com/anderspitman/awesome-tunneling#open-source-at-least-with-a-reasonably-permissive-license)
 
 ## License
 [MIT](./LICENSE)
