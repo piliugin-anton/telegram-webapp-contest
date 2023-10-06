@@ -118,9 +118,8 @@ export default class DownloadSettings extends EventEmitter {
 
   setSettingsElementPosition() {
 		reposition(
-			/* reference: */ this.element,
-			/* popper: */ this.settingsElement,
-			/* We're using the default options */
+			this.element,
+			this.settingsElement
 		)
   }
 
@@ -137,6 +136,8 @@ export default class DownloadSettings extends EventEmitter {
   }
 
   show() {
+		this.setSettingsElementPosition()
+
     this.settingsElement.classList.add('--visible')
     this.isOpen = true
   }

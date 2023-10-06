@@ -119,11 +119,11 @@ const validateData = (data, format) => {
 	let YMAX = 0
 
 	for (let i = 0; i < flatData.length; i++) {
-		const { from, to, isCircle, x, y, radius } = flatData[i]
+		const { from, to, lineWidth, strokeStyle, isCircle, x, y, radius, fillStyle } = flatData[i]
 
 		if (
-			(isCircle && (!isFinite(x) || !isFinite(y) || !isFinite(radius) || radius < 1 || radius > CONSTANTS.MAX_RADIUS)) ||
-			(!isCircle && (!isFinite(from.x) || !isFinite(from.y) || !isFinite(to.x) || !isFinite(to.y)))
+			(isCircle && (!isFinite(x) || !isFinite(y) || !isFinite(radius) || radius < 1 || radius > CONSTANTS.MAX_RADIUS || !isValidHexColor(fillStyle))) ||
+			(!isCircle && (!isFinite(from.x) || !isFinite(from.y) || !isFinite(to.x) || !isFinite(to.y) || !isFinite(lineWidth) || lineWidth < 1 || lineWidth > CONSTANTS.MAX_LINE_WIDTH || !isValidHexColor(strokeStyle)))
 		) return result
 
 		if (!isCircle) {
