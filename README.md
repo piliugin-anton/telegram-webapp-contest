@@ -1,6 +1,20 @@
 # Telegram WebApp contest submission
 
-## This WebApp helps you to draw a pictures, make drawing GIF animations or drawing videos
+## Draw pictures, make drawing GIF animations or drawing videos!
+
+### Installation
+
+```npm install```
+or
+```yarn install```
+
+### Development mode
+
+```npm run dev```
+or
+```yarn dev```
+
+### Production mode
 
 ### Requirements
 
