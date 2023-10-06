@@ -1,6 +1,6 @@
 # Telegram WebApp contest submission
 
-## Draw pictures, make drawing GIF animations or drawing videos!
+## Draw pictures, make drawing GIF animations/cartoons or drawing videos!
 
 ### Installation
 
