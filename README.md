@@ -8,14 +8,19 @@
 or
 ```yarn install```
 
+
 ### Development mode
 
 ```npm run dev```
 or
 ```yarn dev```
 
+
 ### Production mode
 
 ### Requirements
 
 Node.js v18+
+
+## License
+[MIT](./LICENSE)
