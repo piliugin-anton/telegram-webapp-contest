@@ -37,6 +37,7 @@ If you want to stop server and bot: ```npm run stop```
 If you want to use it in a Docker container, use scripts from `package.json` prefixed with `docker:`
 
 ```npm run docker:up``` - Build and start docker container
+
 ```npm run docker:down``` - Stop docker container
 
 #### FAQ
