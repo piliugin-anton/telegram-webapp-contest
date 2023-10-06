@@ -9,8 +9,6 @@ const { mkDir, rmDir } = require('@app/helpers')
 
 const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir } = workerData
 
-console.log('canvas', canvasWidth, canvasHeight)
-
 const canvas = createCanvas(canvasWidth, canvasHeight)
 
 const framesPath = path.join(dir, `${request.id}-ffmpeg`)
@@ -113,7 +111,13 @@ if (format === 'picture') {
     framesPattern,
     frameRate: 60,
     outputFilePath
-  }).then(() => {
+  })
+	.then(() => {
     parentPort.postMessage({ request, fileName, filePath: outputFilePath })
-  }).finally(() => rmDir(framesPath))
+  })
+	.catch((ex) => {
+		console.log(ex)
+		if (fs.existsSync(outputFilePath)) fs.unlinkSync(outputFilePath)
+	})
+	.finally(() => rmDir(framesPath))
 }

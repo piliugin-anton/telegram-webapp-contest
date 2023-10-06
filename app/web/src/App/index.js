@@ -13,6 +13,7 @@ import DownloadIcon from '~/assets/icons/download-icon.svg?raw'
 export default class App {
 	constructor(options = {}) {
 		this.loader = document.getElementById('loader')
+		this.mask = document.getElementById('mask')
 		this.menu = document.getElementById('menu')
 
 		const defaultOptions = {
@@ -101,6 +102,14 @@ export default class App {
 		this.loader.classList.add('hidden')
 	}
 
+	showMask() {
+		this.mask.classList.remove('hidden')
+	}
+
+	hideMask() {
+		this.mask.classList.add('hidden')
+	}
+
 	init() {
 		this.canvas = new Canvas({
 			elementSelector: '#canvas',
@@ -153,6 +162,7 @@ export default class App {
 		this.tg.ready()
 
 		this.hideLoading()
+		this.hideMask()
 	}
 
 	handleColorChange(color) {
@@ -188,6 +198,7 @@ export default class App {
 
 	async handleMainButtonClick() {
 		this.tg.MainButton.showProgress(false)
+		this.showMask()
 	
 		this.hideControls()
 	
@@ -211,7 +222,7 @@ export default class App {
 		this.hideControls()
 
 		this.lineSettings.setSettingsElementPosition()
-		if (!this.tg.MainButton.isVisible) this.downloadSettings.setSettingsElementPosition()
+		this.downloadSettings.setSettingsElementPosition()
 		this.canvas.resizeCanvas()
 	}
 
@@ -239,6 +250,6 @@ export default class App {
 		this.strokeColorPicker.hide()
 		this.backgroundColorPicker.hide()
 		this.lineSettings.hide()
-		this.downloadSettings.hide()
+		if (!this.tg.MainButton.isActive) this.downloadSettings.hide()
 	}
 }

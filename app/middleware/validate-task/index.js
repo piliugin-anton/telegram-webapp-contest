@@ -2,10 +2,84 @@ const { INVALID_REQUEST } = require('@app/helpers').error
 
 const CONSTANTS = {
 	MAX_WIDTH: 4096,
-	MAX_HEIGHT: 2034,
+	MAX_HEIGHT: 2304,
 	MAX_RADIUS: 40,
 	MAX_LINE_WIDTH: 40,
-	PADDING: 20
+	PADDING: 20,
+	VIDEO_RESOLUTIONS: [
+		{
+			width: 128,
+			height: 96
+		},
+		{
+			width: 176,
+			height: 144
+		},
+		{
+			width: 320,
+			height: 240
+		},
+		{
+			width: 352,
+			height: 288
+		},
+		{
+			width: 352,
+			height: 480
+		},
+		{
+			width: 352,
+			height: 576
+		},
+		{
+			width: 720,
+			height: 480
+		},
+		{
+			width: 720,
+			height: 576
+		},
+		{
+			width: 1280,
+			height: 720
+		},
+		{
+			width: 1280,
+			height: 1024
+		},
+		{
+			width: 1920,
+			height: 1080
+		},
+		{
+			width: 2048,
+			height: 1024
+		},
+		{
+			width: 2048,
+			height: 1080
+		},
+		{
+			width: 2560,
+			height: 1920
+		},
+		{
+			width: 3672,
+			height: 1536
+		},
+		{
+			width: 3840,
+			height: 2160
+		},
+		{
+			width: 4096,
+			height: 2048
+		},
+		{
+			width: 4096,
+			height: 2304
+		}
+	]
 }
 
 const ValidateTask = async (request, response, next) => {
@@ -17,7 +91,7 @@ const ValidateTask = async (request, response, next) => {
     (!Array.isArray(data) || Array.isArray(data) && data.length < 1)
   ) return INVALID_REQUEST
 
-	const { isValid, canvasWidth, canvasHeight, normalizedData } = validateData(data)
+	const { isValid, canvasWidth, canvasHeight, normalizedData } = validateData(data, format)
 
 	if (!isValid) return INVALID_REQUEST
 
@@ -30,7 +104,7 @@ const ValidateTask = async (request, response, next) => {
 	next()
 }
 
-const validateData = (data) => {
+const validateData = (data, format) => {
 	const result = { isValid: false }
 
 	let XMIN = CONSTANTS.MAX_WIDTH
@@ -69,23 +143,42 @@ const validateData = (data) => {
 		}
 	}
 
-	const width = Math.abs(XMIN - XMAX)
-	const height = Math.abs(YMIN - YMAX)
+	const WIDTH = Math.abs(XMIN - XMAX)
+	const HEIGHT = Math.abs(YMIN - YMAX)
 
-	if (width < 1 || width > CONSTANTS.MAX_WIDTH) return result
-	if (height < 1 || height > CONSTANTS.MAX_HEIGHT) return result
+	if (WIDTH < 1 || WIDTH > CONSTANTS.MAX_WIDTH) return result
+	if (HEIGHT < 1 || HEIGHT > CONSTANTS.MAX_HEIGHT) return result
 
-	const isPaddingWidthAvailable = isPaddingAvailable(width, CONSTANTS.PADDING * 2, CONSTANTS.MAX_WIDTH)
-	const isPaddingHeightAvailable = isPaddingAvailable(height, CONSTANTS.PADDING * 2, CONSTANTS.MAX_HEIGHT)
+	const isPaddingWidthAvailable = isPaddingAvailable(WIDTH, CONSTANTS.PADDING * 2, CONSTANTS.MAX_WIDTH)
+	const isPaddingHeightAvailable = isPaddingAvailable(HEIGHT, CONSTANTS.PADDING * 2, CONSTANTS.MAX_HEIGHT)
+
+	let canvasWidth = isPaddingWidthAvailable ? WIDTH + (CONSTANTS.PADDING * 2) : WIDTH
+	let canvasHeight = isPaddingHeightAvailable ? HEIGHT + (CONSTANTS.PADDING * 2) : HEIGHT
+
+	let xAdded = (isPaddingWidthAvailable ? CONSTANTS.PADDING : 0)
+	let yAdded = (isPaddingHeightAvailable ? CONSTANTS.PADDING : 0)
+
+	if (format === 'video') {
+		const { width, height } = findClosesResolution(canvasWidth, canvasHeight)
+
+		canvasWidth = width
+		canvasHeight = height
+
+		const xDiff = (canvasWidth - WIDTH)
+		const yDiff = (canvasHeight - HEIGHT)
+
+		xAdded = xDiff >= 2 ? xDiff / 2 : xDiff
+		yAdded = yDiff >= 2 ? yDiff / 2 : yDiff
+	}
 
 	result.isValid = true
-	result.canvasWidth = isPaddingWidthAvailable ? width + (CONSTANTS.PADDING * 2) : width
-	result.canvasHeight = isPaddingHeightAvailable ? height + (CONSTANTS.PADDING * 2) : height
+	result.canvasWidth = canvasWidth
+	result.canvasHeight = canvasHeight
 	result.normalizedData = data
 
 	// NORMALIZE DATA AND PAD
-	const XOFFSET = (XMIN <= 0 ? XMIN : -XMIN) + (isPaddingWidthAvailable ? CONSTANTS.PADDING : 0)
-	const YOFFSET = (YMIN <= 0 ? YMIN : -YMIN) + (isPaddingHeightAvailable ? CONSTANTS.PADDING : 0)
+	const XOFFSET = (XMIN <= 0 ? XMIN : -XMIN) + xAdded
+	const YOFFSET = (YMIN <= 0 ? YMIN : -YMIN) + yAdded
 	for (let i = 0; i < data.length; i++) {
 		for (let j = 0; j < data[i].length; j++) {
 			const { isCircle } = data[i][j]
@@ -109,6 +202,14 @@ const validateData = (data) => {
 const isValidHexColor = (hex) => /^#[0-9A-F]{6}$/i.test(hex)
 
 const isPaddingAvailable = (number, padding, maxNumber) => number + padding <= maxNumber
+const findClosesResolution = (width, height) => {
+	for (let i = 0; i < CONSTANTS.VIDEO_RESOLUTIONS.length; i++) {
+		const resolution = CONSTANTS.VIDEO_RESOLUTIONS[i]
+		if (resolution.width >= width && resolution.height >= height) {
+			return resolution
+		}
+	}
+}
 
 module.exports = {
 	ValidateTask
