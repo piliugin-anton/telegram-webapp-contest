@@ -10,6 +10,7 @@ COPY package*.json ./
 
 RUN npm ci
 RUN npm install pm2 -g
+RUN npm run prestart
 
 # Bundle app source
 COPY . .

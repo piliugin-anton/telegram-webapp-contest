@@ -1,2 +1,22 @@
+# Git
+.git
+.gitignore
+
+# Docker configuration
+Dockerfile
+docker-compose.yml
+
+# NPM dependencies
 node_modules
+
+# Logs
 npm-debug.log
+
+# Build output
+app/web/build
+
+# Rendering results
+app/.result
+
+# Other
+.editorconfig
