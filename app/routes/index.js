@@ -18,7 +18,7 @@ const setRoutes = (server, isProduction) => {
 
   server.use('/api', Router)
 
-  server.get('/result/:file', StaticFiles({ root: RESULTS_DIR, paramName: 'file' }))
+  server.get('/result/:file', StaticFiles({ root: RESULTS_DIR, paramName: 'file', attachment: true }))
 
   if (isProduction) server.get('/*', STATIC_MEMORY_CACHE())
 }

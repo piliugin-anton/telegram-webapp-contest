@@ -34,6 +34,7 @@ const StaticFiles = (options = {}) => {
     indexFile: null,
     paramName: null,
     compress: true,
+		attachment: false,
     compressionThreshold: 1024,
     ...options
   }
@@ -123,6 +124,10 @@ const StaticFiles = (options = {}) => {
         .header('Content-Type', mimeType)
         .header('Last-Modified', timeUTC)
         .vary('Accept-Encoding')
+			
+			if (options.attachment) {
+				res.attachment(file)
+			}
 
       if (compression) {
         res.header('Content-Encoding', compression)
