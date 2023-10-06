@@ -16,11 +16,11 @@ Node.js v18+
 
 - **BOT_TOKEN** - Token you get from @botfather
 - **SERVER_PORT** - Your server (Front-end and back-end) port number
-- **VITE_WEBAPP_URL** - URL to your WebApp server
+- **VITE_WEBAPP_URL** - URL to your WebApp server  
 
 ### Development mode
 
-Run ```npm run dev```
+Run ```npm run dev```  
 
 
 ### Production mode (uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
@@ -38,9 +38,9 @@ If you want to use it in a Docker container, use scripts from `package.json` pre
 
 ```npm run docker:up``` - Build and start docker container
 
-```npm run docker:down``` - Stop docker container
+```npm run docker:down``` - Stop docker container  
 
-#### FAQ
+### FAQ
 
 > How do I run it locally (without domain name and SSL certificate)?
 
