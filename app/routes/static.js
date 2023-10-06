@@ -3,9 +3,9 @@ const LiveDirectory = require('live-directory')
 
 const ROOT_DIRECTORY = path.join(__dirname, '..', 'web', 'build')
 
-const STATIC_MEMORY_CACHE = (isProduction) => {
+const STATIC_MEMORY_CACHE = () => {
   const LiveAssets = new LiveDirectory(ROOT_DIRECTORY, {
-    static: isProduction,
+    static: true,
     cache: {
       max_file_count: 50,
       max_file_size: 1024 * 1024 * 2.5, // 2.5 MB - Most assets will be under 2.5 MB hence they can be cached

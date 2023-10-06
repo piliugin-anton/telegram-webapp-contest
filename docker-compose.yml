@@ -1,5 +1,8 @@
 services:
   webapp:
+    image: telegram-draw
+    container_name: telegram-webapp
+    restart: always
     build: .
     ports:
-      - "127.0.0.1:5678:5678"
+      - "127.0.0.1:${SERVER_PORT}:${SERVER_PORT}"

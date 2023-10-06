@@ -19,7 +19,8 @@ const setRoutes = (server, isProduction) => {
   server.use('/api', Router)
 
   server.get('/result/:file', StaticFiles({ root: RESULTS_DIR, paramName: 'file' }))
-  server.get('/*', STATIC_MEMORY_CACHE(isProduction))
+
+  if (isProduction) server.get('/*', STATIC_MEMORY_CACHE())
 }
 
 module.exports = setRoutes

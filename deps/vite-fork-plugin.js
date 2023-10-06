@@ -1,4 +1,4 @@
-import ForkController from './ForkController'
+import ForkController from './ForkController.js'
 
 export default function ViteForkPlugin(options = {}) {
   const forkController = new ForkController(options)

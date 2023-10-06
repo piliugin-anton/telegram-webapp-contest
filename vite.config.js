@@ -2,19 +2,20 @@ import 'dotenv/config'
 
 import { defineConfig } from 'vite'
 import path from 'path'
-import ViteForkPlugin from './deps/vite-fork-plugin'
+import ViteForkPlugin from './deps/vite-fork-plugin.js'
+
+const isProduction = process.env.NODE_ENV === 'production'
 
 const ROOT_DIRECTORY = path.join(__dirname, 'app', 'web')
-const isProduction = process.env.NODE_ENV === 'production'
 const PORT = parseInt(process.env.SERVER_PORT, 10)
 const API_PORT = PORT + (isProduction ? 0 : 1)
-
-const botServicePath = path.join(__dirname, 'bot', 'service.js')
-const appServicePath = path.join(__dirname, 'app', 'service.js')
 
 const plugins = []
 
 if (!isProduction) {
+	const botServicePath = path.join(__dirname, 'bot', 'service.js')
+	const appServicePath = path.join(__dirname, 'app', 'service.js')
+
   plugins.push(ViteForkPlugin({
     forks: [
       {
@@ -48,7 +49,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '~': ROOT_DIRECTORY,
+      '~': ROOT_DIRECTORY
     },
   },
   plugins,

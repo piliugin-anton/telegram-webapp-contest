@@ -3,18 +3,15 @@ FROM node:18
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+# Copy app files
+COPY . .
 
 RUN npm ci
 RUN npm install pm2 -g
+
+# Build an app bundle
 RUN npm run prestart
 
-# Bundle app source
-COPY . .
-
-EXPOSE 5678
+EXPOSE ${SERVER_PORT}
 
 CMD ["pm2-runtime", "start", "ecosystem.config.js"]

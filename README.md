@@ -2,13 +2,15 @@
 
 ## Draw pictures, make drawing GIF animations/cartoons or drawing videos!
 
+### Requirements
+
+Node.js v18+
+
 ### Installation
 
-```npm install```
-or
-```yarn install```
-
-Rename `.env.example` file to `.env` and modify variables in this file.
+1. Clone repository, navigate to a project folder
+2. Run `npm install`
+3. Rename `.env.example` file to `.env` and modify variables in this file.
 
 #### .env Variables
 
@@ -18,28 +20,30 @@ Rename `.env.example` file to `.env` and modify variables in this file.
 
 ### Development mode
 
-```npm run dev```
-or
-```yarn dev```
+Run ```npm run dev```
 
 
-### Production mode (uses [PM2](https://pm2.keymetrics.io/), watch ecosystem.config.js file)
+### Production mode (uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
 
-```npm run start```
-or
-```yarn start```
+#### If you want to run it on VPS/dedicated server:
+
+1. Install PM2 globally ```npm install -g pm2```
+2. Start server and bot: ```npm run start```
+
+If you want to stop server and bot: ```npm run stop```
 
 #### Docker
 
-If you want to use it in a Docker container:
+If you want to use it in a Docker container, use scripts from `package.json` prefixed with `docker:`
 
-```docker build . -t telegramdraw```
-then
-```docker run -p 127.0.0.1:5678:5678 -d telegramdraw```
+```npm run docker:up``` - Build and start docker container
+```npm run docker:down``` - Stop docker container
 
-### Requirements
+#### FAQ
 
-Node.js v18+
+> How do I run it locally (without domain name and SSL certificate)?
+
+You can use a tunneling software like [localtunnel](https://github.com/localtunnel/localtunnel), [Telebit](https://telebit.cloud), [ngrok](https://ngrok.com) or [any of this](https://github.com/anderspitman/awesome-tunneling)
 
 ## License
 [MIT](./LICENSE)
