@@ -111,15 +111,18 @@ const validateData = (data, format) => {
 
 	const flatData = data.flat()
 
-	if (flatData.length < 2) return result
+	if ((format === 'video' || format === 'GIF') && flatData.length < 2) return result
 
 	let XMIN = CONSTANTS.MAX_WIDTH
 	let XMAX = 0
 	let YMIN = CONSTANTS.MAX_HEIGHT
 	let YMAX = 0
 
+	let hasCircle = false
 	for (let i = 0; i < flatData.length; i++) {
 		const { from, to, lineWidth, strokeStyle, isCircle, x, y, radius, fillStyle } = flatData[i]
+
+		if (!hasCircle && isCircle) hasCircle = true
 
 		if (
 			(isCircle && (!isFinite(x) || !isFinite(y) || !isFinite(radius) || radius < 1 || radius > CONSTANTS.MAX_RADIUS || !isValidHexColor(fillStyle))) ||
@@ -150,8 +153,12 @@ const validateData = (data, format) => {
 	const WIDTH = Math.abs(XMIN - XMAX)
 	const HEIGHT = Math.abs(YMIN - YMAX)
 
-	if (WIDTH < 1 || WIDTH > CONSTANTS.MAX_WIDTH) return result
-	if (HEIGHT < 1 || HEIGHT > CONSTANTS.MAX_HEIGHT) return result
+	const isJustSingleDot = hasCircle && flatData.length === 1 && WIDTH === 0 && HEIGHT === 0
+
+	if (!isJustSingleDot) {
+		if (WIDTH < 1 || WIDTH > CONSTANTS.MAX_WIDTH) return result
+		if (HEIGHT < 1 || HEIGHT > CONSTANTS.MAX_HEIGHT) return result
+	}
 
 	const isPaddingWidthAvailable = isPaddingAvailable(WIDTH, CONSTANTS.PADDING * 2, CONSTANTS.MAX_WIDTH)
 	const isPaddingHeightAvailable = isPaddingAvailable(HEIGHT, CONSTANTS.PADDING * 2, CONSTANTS.MAX_HEIGHT)

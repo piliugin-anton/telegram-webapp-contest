@@ -21,7 +21,7 @@ bot.hears('hi', async (ctx) => await ctx.replyWithSticker(Input.fromLocalFile(pa
 
 const events = ['SIGINT', 'SIGTERM']
 events.forEach((eventType) => process.once(eventType, () => {
-  bot.stop(eventType)
+  if (bot.botInfo) bot.stop(eventType)
   process.exit(0)
 }))
 
@@ -59,12 +59,12 @@ async function onRenderReady({ request, fileName, filePath }) {
 
 async function start() {
   bot.botInfo = await bot.telegram.getMe()
-  console.log('Telegram bot started')
+  bot.launch()
+
+	console.log('Telegram bot started')
 
   process.emit('ready')
 	if (isProduction) process.send('ready')
-
-  bot.launch()
 }
 
 start()

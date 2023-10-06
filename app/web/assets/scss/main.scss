@@ -165,10 +165,26 @@ html {
         &__item {
           list-style: none;
           transition: background-color 0.333s ease-in-out;
+					user-select: none;
   
           &:hover {
             background-color: #cccccc;
           }
+
+					&.--disabled {
+						background-color: #eeeeee;
+					}
+
+					&.--disabled &__label {
+						color: #666666;
+						fill: #666666;
+						cursor: not-allowed;
+
+						&__radio {
+							color: #666666;
+							border-color: #666666;
+						}
+					}
 
           &__label {
             display: flex;

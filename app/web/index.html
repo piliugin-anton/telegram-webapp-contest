@@ -15,7 +15,7 @@
 			z-index: 99999;
 			transition: opacity 0.5s ease, visibility 0.5s ease;
 		}
-		.loader.hidden {
+		.loader.--hidden {
 			opacity: 0;
 			visibility: hidden;
 		}
@@ -41,7 +41,7 @@
   		opacity: 0;
   		user-select: none;
 		}
-		.mask.hidden {
+		.mask.--hidden {
 			display: none;
 		}
 		@keyframes loading-spinner {
@@ -94,7 +94,7 @@
         </button>
       </li>
       <li class="app__menu__item --download">
-        <button type="button" id="download-settings" title="Download" disabled="true"></button>
+        <button type="button" id="download-settings" title="Download"></button>
       </li>
     </ul>
   </div>

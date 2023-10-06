@@ -9,6 +9,9 @@ import ColorsIcon from '~/assets/icons/colors-icon.svg?raw'
 import BackgroundIcon from '~/assets/icons/background-icon.svg?raw'
 import LineIcon from '~/assets/icons/line-icon.svg?raw'
 import DownloadIcon from '~/assets/icons/download-icon.svg?raw'
+import PictureIcon from '~/assets/icons/picture-icon.svg?raw'
+import VideoIcon from '~/assets/icons/video-icon.svg?raw'
+import GIFIcon from '~/assets/icons/gif-icon.svg?raw'
 
 export default class App {
 	constructor(options = {}) {
@@ -36,7 +39,23 @@ export default class App {
 				'#1A85FF'
 			],
 			lineWidth: 4,
-			format: null
+			format: null,
+			formats: {
+				picture: {
+          icon: PictureIcon,
+          text: 'Picture'
+        },
+        GIF: {
+          icon: GIFIcon,
+          text: 'GIF',
+					disabled: true
+        },
+        video: {
+          icon: VideoIcon,
+          text: 'Video',
+					disabled: true
+        }
+			}
 		}
 
 		this.options = {
@@ -81,6 +100,9 @@ export default class App {
 		this.axios.interceptors.response.use((response) => {
     	// Any status code that lie within the range of 2xx cause this function to trigger
     	// Do something with response data
+
+			this.hideMask()
+
     	return response
   	}, this.handleAxiosError.bind(this))
 	}
@@ -112,23 +134,29 @@ export default class App {
 	get isRenderable() {
 		const flatData = this.canvas.history.flat()
 
+		return flatData.length >= 1
+	}
+
+	get isAnimationRenderable() {
+		const flatData = this.canvas.history.flat()
+
 		return flatData.length >= 2
 	}
 
 	showLoading() {
-		this.loader.classList.remove('hidden')
+		this.loader.classList.remove('--hidden')
 	}
 
 	hideLoading() {
-		this.loader.classList.add('hidden')
+		this.loader.classList.add('--hidden')
 	}
 
 	showMask() {
-		this.mask.classList.remove('hidden')
+		this.mask.classList.remove('--hidden')
 	}
 
 	hideMask() {
-		this.mask.classList.add('hidden')
+		this.mask.classList.add('--hidden')
 	}
 
 	init() {
@@ -251,16 +279,16 @@ export default class App {
     this.undo.disabled = !undoEnabled
     this.redo.disabled = !redoEnabled
 
+		this.options.formats.GIF.disabled = this.options.formats.video.disabled = !this.isAnimationRenderable
+
+		this.downloadSettings.updateState()
+
     if (this.isRenderable) {
-			this.downloadSettings.enableButton()
+			if (!this.format) return
 
-			if (this.format) {
-				if (!this.tg.MainButton.isActive) this.tg.MainButton.enable()
-      	if (!this.tg.MainButton.isVisible) this.tg.MainButton.show()
-			}
+			if (!this.tg.MainButton.isActive) this.tg.MainButton.enable()
+      if (!this.tg.MainButton.isVisible) this.tg.MainButton.show()
     } else {
-			this.downloadSettings.disableButton()
-
       if (this.tg.MainButton.isVisible) this.tg.MainButton.hide()
 		}
   }
@@ -299,7 +327,7 @@ export default class App {
       // console.log(error.request)
     } else {
       // Something happened in setting up the request that triggered an Error
-      console.log('Error', error.message)
+      console.log(error)
 
 			return Promise.reject(error)
     }

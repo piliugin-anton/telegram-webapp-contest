@@ -1,10 +1,6 @@
 import EventEmitter from '@foxify/events'
 import { reposition } from 'nanopop'
 
-import PictureIcon from '~/assets/icons/picture-icon.svg?raw'
-import VideoIcon from '~/assets/icons/video-icon.svg?raw'
-import GIFIcon from '~/assets/icons/gif-icon.svg?raw'
-
 export default class DownloadSettings extends EventEmitter {
   constructor({ elementSelector, options, icon }) {
     super()
@@ -25,12 +21,8 @@ export default class DownloadSettings extends EventEmitter {
     document.addEventListener('click', this.handleToggleSettings.bind(this))
   }
 
-	enableButton() {
-		this.element.disabled = false
-	}
-
-	disableButton() {
-		this.element.disabled = true
+	get formats() {
+		return this.options.formats
 	}
 
   insertSettingsElement() {
@@ -45,36 +37,22 @@ export default class DownloadSettings extends EventEmitter {
     if (!this.settingsListElement) {
       const list = document.createElement('ul')
       list.classList.add('app__menu__download-settings__list')
-      
-      const items = [
-        {
-          icon: PictureIcon,
-          text: 'Picture',
-          value: 'picture'
-        },
-        {
-          icon: GIFIcon,
-          text: 'GIF',
-          value: 'GIF'
-        },
-        {
-          icon: VideoIcon,
-          text: 'Video',
-          value: 'video'
-        }
-      ]
 
-      items.forEach(({ icon, text, value }) => {
-        const li = document.createElement('li')
+			for (const value in this.formats) {
+				const { icon, text, disabled } = this.formats[value]
+
+				const li = document.createElement('li')
         const label = document.createElement('label')
         const radio = document.createElement('input')
         radio.setAttribute('type', 'radio')
         radio.setAttribute('name', 'format')
         radio.setAttribute('value', value)
+				radio.disabled = disabled
         const iconContainer = document.createElement('div')
         const textNode = document.createElement('span')
 
         li.classList.add('app__menu__download-settings__list__item')
+				if (disabled) li.classList.add('--disabled')
         label.classList.add('app__menu__download-settings__list__item__label')
         radio.classList.add('app__menu__download-settings__list__item__label__radio')
         iconContainer.classList.add('app__menu__download-settings__list__item__label__icon')
@@ -92,7 +70,7 @@ export default class DownloadSettings extends EventEmitter {
         radio.addEventListener('change', this.handleFormatSelect.bind(this))
 
         list.appendChild(li)
-      })
+			}
 
       this.settingsListElement = list
 
@@ -123,6 +101,28 @@ export default class DownloadSettings extends EventEmitter {
 		)
   }
 
+	updateState() {
+		const listItems = document.querySelectorAll('.app__menu__download-settings__list__item')
+
+		if (!listItems) return
+
+		listItems.forEach((li) => {
+			const radio = li.querySelector('.app__menu__download-settings__list__item__label__radio')
+
+			if (!radio) return
+
+			const { disabled } = this.formats[radio.value]
+			
+			radio.disabled = disabled
+
+			if (disabled) {
+				li.classList.add('--disabled')
+			} else {
+				li.classList.remove('--disabled')
+			}
+		})
+	}
+
   handleToggleSettings(ev) {
     if (this.settingsElement.contains(ev.target)) return
 
@@ -148,21 +148,6 @@ export default class DownloadSettings extends EventEmitter {
   }
 
   handleFormatSelect(ev) {
-    switch (ev.target.value) {
-      case 'picture':
-        this.emit('format', 'picture')
-        break
-      
-      case 'GIF':
-        this.emit('format', 'GIF')
-        break
-      
-      case 'video':
-        this.emit('format', 'video')
-        break
-
-      default:
-        break
-    }
+		this.emit('format', ev.target.value)
   }
 }
