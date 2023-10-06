@@ -2,9 +2,11 @@ const path = require('path')
 const ffmpegStatic = require('ffmpeg-static')
 const ffmpeg = require('fluent-ffmpeg')
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 ffmpeg.setFfmpegPath(ffmpegStatic)
 
-const encode = ({ input, inputOptions, videoCodec, complexFilter, audioCodec, noAudio = false, outputOptions, outputFilePath, reportProgress = true } = {}) => {
+const encode = ({ input, inputOptions, videoCodec, complexFilter, audioCodec, noAudio = false, outputOptions, outputFilePath } = {}) => {
   return new Promise((resolve, reject) => {
     const ff = ffmpeg()
     
@@ -38,7 +40,7 @@ const encode = ({ input, inputOptions, videoCodec, complexFilter, audioCodec, no
 
     ff.saveToFile(outputFilePath)
 
-    if (reportProgress) {
+    if (!isProduction) {
       ff.on('progress', (progress) => {
         if (progress.percent) {
           console.log(`Processing: ${Math.floor(progress.percent)}% done`)
