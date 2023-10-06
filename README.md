@@ -8,6 +8,13 @@
 or
 ```yarn install```
 
+Rename `.env.example` file to `.env` and modify variables in this file.
+
+#### .env Variables
+
+- **BOT_TOKEN** - Token you get from @botfather
+- **SERVER_PORT** - Your server (Front-end and back-end) port number
+- **VITE_WEBAPP_URL** - URL to your WebApp server
 
 ### Development mode
 
@@ -16,7 +23,11 @@ or
 ```yarn dev```
 
 
-### Production mode
+### Production mode (uses [PM2](https://pm2.keymetrics.io/), watch ecosystem.config.js file)
+
+```npm run start```
+or
+```yarn start```
 
 ### Requirements
 

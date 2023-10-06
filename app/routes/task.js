@@ -2,6 +2,7 @@ const crypto = require('crypto')
 const path = require('path')
 const { runService, mkDir } = require('@app/helpers')
 
+const isProduction = process.env.NODE_ENV === 'production'
 const RESULTS_DIR = path.join(__dirname, '..', '.result')
 mkDir(RESULTS_DIR)
 
@@ -26,8 +27,15 @@ const AddTask = async (request, response) => {
         initData
       }
     })
-  
-    process.send(result)
+
+		if (isProduction) {
+			process.send({
+				type: 'rendered',
+				data: result
+			})
+		} else {
+			process.send(result)
+		}
   } catch (ex) {
     console.log(ex)
   }
