@@ -29,6 +29,13 @@ or
 or
 ```yarn start```
 
+#### Docker
+
+If you want to use it in a Docker container:
+```docker build . -t teledraw```
+then
+```docker run -p 127.0.0.1:5678:5678 -d teledraw```
+
 ### Requirements
 
 Node.js v18+
