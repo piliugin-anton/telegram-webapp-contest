@@ -109,12 +109,14 @@ const ValidateTask = async (request, response, next) => {
 const validateData = (data, format) => {
 	const result = { isValid: false }
 
+	const flatData = data.flat()
+
+	if (flatData.length < 2) return result
+
 	let XMIN = CONSTANTS.MAX_WIDTH
 	let XMAX = 0
 	let YMIN = CONSTANTS.MAX_HEIGHT
 	let YMAX = 0
-
-	const flatData = data.flat()
 
 	for (let i = 0; i < flatData.length; i++) {
 		const { from, to, isCircle, x, y, radius } = flatData[i]

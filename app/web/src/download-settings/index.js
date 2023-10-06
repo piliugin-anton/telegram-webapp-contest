@@ -25,6 +25,14 @@ export default class DownloadSettings extends EventEmitter {
     document.addEventListener('click', this.handleToggleSettings.bind(this))
   }
 
+	enableButton() {
+		this.element.disabled = false
+	}
+
+	disableButton() {
+		this.element.disabled = true
+	}
+
   insertSettingsElement() {
     if (this.settingsElement) return
 

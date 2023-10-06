@@ -95,9 +95,9 @@ export default class App {
 	}
 
 	get isRenderable() {
-		const flat = this.canvas.history.flat()
+		const flatData = this.canvas.history.flat()
 
-		return this.format && flat.length > 1
+		return flatData.length >= 2
 	}
 
 	showLoading() {
@@ -237,9 +237,17 @@ export default class App {
     this.redo.disabled = !redoEnabled
 
     if (this.isRenderable) {
-      if (!this.tg.MainButton.isActive) this.tg.MainButton.enable()
-      if (!this.tg.MainButton.isVisible) this.tg.MainButton.show()
-    }
+			this.downloadSettings.enableButton()
+
+			if (this.format) {
+				if (!this.tg.MainButton.isActive) this.tg.MainButton.enable()
+      	if (!this.tg.MainButton.isVisible) this.tg.MainButton.show()
+			}
+    } else {
+			this.downloadSettings.disableButton()
+
+      if (this.tg.MainButton.isVisible) this.tg.MainButton.hide()
+		}
   }
 
   updateMode(canvasMode) {

@@ -25,8 +25,6 @@ events.forEach((eventType) => process.once(eventType, () => {
 }))
 
 process.on('message', async ({ request, fileName, filePath }) => {
-  console.log('Bot got message from parent process', request)
-
   try {
     const { initData, id } = request
     
