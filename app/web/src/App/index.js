@@ -68,6 +68,21 @@ export default class App {
 
 		this.tg.expand()
 		this.tg.enableClosingConfirmation()
+
+		this.axios = axios.create({
+
+		})
+
+		this.axios.interceptors.request.use((config) => {
+    	// Do something before request is sent
+    	return config
+  	}, this.handleAxiosError.bind(this))
+
+		this.axios.interceptors.response.use((response) => {
+    	// Any status code that lie within the range of 2xx cause this function to trigger
+    	// Do something with response data
+    	return response
+  	}, this.handleAxiosError.bind(this))
 	}
 
 	get color() {
@@ -216,7 +231,7 @@ export default class App {
 		}
 	
 		try {
-			const { data } = await axios.post('/api/task', payload)
+			const { data } = await this.axios.post('/api/task', payload)
 	
 			console.log(data)
 		} catch (ex) {
@@ -265,5 +280,28 @@ export default class App {
 		this.backgroundColorPicker.hide()
 		this.lineSettings.hide()
 		if (!this.tg.MainButton.isActive) this.downloadSettings.hide()
+	}
+
+	handleAxiosError(error) {
+		if (this.tg.MainButton.isProgressVisible) this.tg.MainButton.hideProgress()
+		if (!this.tg.MainButton.isActive && this.isRenderable) this.tg.MainButton.enable()
+
+		this.hideMask()
+
+		if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      const { data } = error.response
+
+			if (data.error) alert(data.error)
+    } else if (error.request) {
+      // The request was made but no response was received
+      // console.log(error.request)
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('Error', error.message)
+
+			return Promise.reject(error)
+    }
 	}
 }

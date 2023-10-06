@@ -11,7 +11,7 @@ const setRoutes = (server, isProduction) => {
   server.set_error_handler((request, response, error) => {
     const isCustom = error instanceof CustomError
   
-    response.status(isCustom ? error.code : INTERNAL_ERROR.code).json({ error: isCustom ? error.message: INTERNAL_ERROR.message })
+    response.status(isCustom ? error.code : INTERNAL_ERROR.code).json({ error: isCustom ? error.message : INTERNAL_ERROR.message })
   })
 
   Router.post('/task', TelegramAuthMiddleware, ValidateTask, AddTask)
