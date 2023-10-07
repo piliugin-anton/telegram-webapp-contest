@@ -189,6 +189,7 @@ const validateData = (data, format) => {
 	result.normalizedData = data
 
 	// NORMALIZE DATA AND PAD
+	// TODO: scaling
 	const XOFFSET = (XMIN <= 0 ? XMIN : -XMIN) + xPadding
 	const YOFFSET = (YMIN <= 0 ? YMIN : -YMIN) + yPadding
 	for (let i = 0; i < data.length; i++) {
