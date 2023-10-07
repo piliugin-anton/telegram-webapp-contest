@@ -1,8 +1,7 @@
 {
   "name": "telegram-webapp-contest",
   "version": "1.0.0",
-  "description": "Telegram WebApp contest",
-  "main": "index.js",
+  "description": "Telegram WebApp contest submission",
   "scripts": {
     "dev": "vite",
     "prestart": "vite build",
@@ -10,7 +9,10 @@
     "stop": "pm2 stop ecosystem.config.js",
     "delete": "pm2 delete ecosystem.config.js",
     "docker:up": "docker-compose up --build -d",
-    "docker:down": "docker-compose down"
+    "docker:down": "docker-compose down",
+		"docker:logs": "docker logs telegram-webapp",
+		"docker:bash": "docker exec -it telegram-webapp bash",
+		"docker:config": "docker-compose config"
   },
   "keywords": [
     "Telegram",
