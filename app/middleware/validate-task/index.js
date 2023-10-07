@@ -160,6 +160,8 @@ const validateData = (data, format) => {
 		if (HEIGHT < 1 || HEIGHT > CONSTANTS.MAX_HEIGHT) return result
 	}
 
+	result.isValid = true
+
 	const isPaddingWidthAvailable = isPaddingAvailable(WIDTH, CONSTANTS.PADDING * 2, CONSTANTS.MAX_WIDTH)
 	const isPaddingHeightAvailable = isPaddingAvailable(HEIGHT, CONSTANTS.PADDING * 2, CONSTANTS.MAX_HEIGHT)
 
@@ -182,7 +184,6 @@ const validateData = (data, format) => {
 		yAdded = yDiff >= 2 ? yDiff / 2 : yDiff
 	}
 
-	result.isValid = true
 	result.canvasWidth = canvasWidth
 	result.canvasHeight = canvasHeight
 	result.normalizedData = data

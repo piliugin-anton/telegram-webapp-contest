@@ -1,6 +1,7 @@
 require('dotenv').config()
 require('module-alias/register')
 
+const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 const { Telegraf, Markup, Input } = require('telegraf')
@@ -59,7 +60,35 @@ async function onRenderReady({ request, fileName, filePath }) {
 
 async function start() {
   bot.botInfo = await bot.telegram.getMe()
-  bot.launch()
+
+	const options = {}
+	if (process.env.BOT_DOMAIN) {
+		let certificate
+		if (process.env.BOT_CERTIFICATE === 'self-signed') {
+			const certPath = path.join(__dirname, 'self-signed.pem')
+
+			if (fs.existsSync(certPath)) {
+				certificate = certPath
+			} else {
+				console.log(`Generate a self-signed PEM certificate according to instruction (https://core.telegram.org/bots/self-signed) and place it in project root dir, so the full path to a .pem file will look like: ${certPath}`)
+			}
+		} else if (fs.existsSync(process.env.BOT_CERTIFICATE)) {
+			certificate = process.env.BOT_CERTIFICATE
+		}
+
+		const domain = `${certificate ? 'https' : 'http'}://${process.env.BOT_DOMAIN}`
+		const port = parseInt(process.env.BOT_PORT, 10)
+		const secretToken = crypto.randomBytes(64).toString('hex')
+
+		options.webhook = {
+			domain,
+			port,
+			secretToken,
+			certificate,
+		}
+	}
+
+  bot.launch(options)
 
 	console.log('Telegram bot started')
 
