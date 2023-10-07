@@ -62,6 +62,9 @@ You can use a tunneling software like [Telebit](https://telebit.cloud), [localtu
 **Front-end** part: [Vite](https://vitejs.dev/)  
 **Back-end** part: [ffmpeg](https://www.npmjs.com/package/ffmpeg-static), [Hyper-Express](https://www.npmjs.com/package/hyper-express) (powered by [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js)), [Telegraf](https://github.com/telegraf/telegraf)
 
+### TODO
+
+- [ ] Canvas data scaling
 
 ## License
 [MIT](./LICENSE)
