@@ -101,7 +101,7 @@ You can use a tunneling software like [Telebit](https://telebit.cloud), [localtu
 
 ### TODO
 
-- [ ] Canvas data scaling
+- [ ] Drawings scaling
 - [ ] Store IPC messages in case of failed delivery (implement a response-request model)
 - [ ] Rendering queue?
 
