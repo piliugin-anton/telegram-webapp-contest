@@ -31,7 +31,7 @@ Run ```npm run dev```
 #### If you want to run it on VPS/dedicated server:
 
 1. Install PM2 globally ```npm install -g pm2```
-2. Obtain an SSL-certificate (get free from Let's Encrypt, generate self-signed or buy one).  
+2. Obtain an SSL-certificate (get free from Let's Encrypt, generate self-signed or buy one). Instruction on how to generate self-signed certificate: https://core.telegram.org/bots/self-signed   
 
 **Note: When using Docker, self-signed certificate will be generated automatically for you**  
 

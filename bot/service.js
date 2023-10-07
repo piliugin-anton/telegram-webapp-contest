@@ -67,12 +67,12 @@ async function start() {
 		if (process.env.BOT_CERTIFICATE === 'self-signed') {
 			const certPath = path.join(__dirname, 'self-signed.pem')
 
-			if (fs.existsSync(certPath)) {
+			if (fs.accessSync(certPath, fs.constants.R_OK)) {
 				certificate = certPath
 			} else {
 				console.log(`Generate a self-signed PEM certificate according to instruction (https://core.telegram.org/bots/self-signed) and place it in project root dir, so the full path to a .pem file will look like: ${certPath}`)
 			}
-		} else if (fs.existsSync(process.env.BOT_CERTIFICATE)) {
+		} else if (fs.accessSync(process.env.BOT_CERTIFICATE, fs.constants.R_OK)) {
 			certificate = process.env.BOT_CERTIFICATE
 		}
 
