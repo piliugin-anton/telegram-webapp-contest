@@ -53,9 +53,16 @@ If you want to use it in a Docker container, use scripts from `package.json` pre
 
 ### FAQ
 
-> How do I run it locally (without domain name and SSL certificate)?
+> How do I run it locally (without domain name and SSL certificate)?  
 
 You can use a tunneling software like [Telebit](https://telebit.cloud), [localtunnel](https://github.com/localtunnel/localtunnel), [ngrok](https://ngrok.com) or [any of this](https://github.com/anderspitman/awesome-tunneling#open-source-at-least-with-a-reasonably-permissive-license)
+
+> What are the project dependencies?  
+
+**Front-end** part: [Vite](https://vitejs.dev/)  
+
+**Backend** part: [ffmpeg](https://www.npmjs.com/package/ffmpeg-static), [Hyper-Express](https://www.npmjs.com/package/hyper-express) (powered by [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js)), [Telegraf](https://github.com/telegraf/telegraf)
+
 
 ## License
 [MIT](./LICENSE)
