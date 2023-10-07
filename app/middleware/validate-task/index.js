@@ -155,6 +155,7 @@ const validateData = (data, format) => {
 
 	const isJustSingleDot = hasCircle && flatData.length === 1 && WIDTH === 0 && HEIGHT === 0
 
+	// TODO: scaling
 	if (!isJustSingleDot) {
 		if (WIDTH < 1 || WIDTH > CONSTANTS.MAX_WIDTH) return result
 		if (HEIGHT < 1 || HEIGHT > CONSTANTS.MAX_HEIGHT) return result
@@ -189,7 +190,6 @@ const validateData = (data, format) => {
 	result.normalizedData = data
 
 	// NORMALIZE DATA AND PAD
-	// TODO: scaling
 	const XOFFSET = (XMIN <= 0 ? XMIN : -XMIN) + xPadding
 	const YOFFSET = (YMIN <= 0 ? YMIN : -YMIN) + yPadding
 	for (let i = 0; i < data.length; i++) {
