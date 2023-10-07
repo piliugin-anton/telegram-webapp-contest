@@ -43,6 +43,20 @@ Run ```npm run dev```
 
 If you want to stop server and bot: ```npm run stop```
 
+Other scripts:  
+
+```npm run reload``` - PM2 reload ecosystem.config.js applications
+
+```npm run restart``` - PM2 restart ecosystem.config.js applications
+
+```npm run delete``` - PM2 delete ecosystem.config.js applications
+
+```npm run logs``` - PM2 logs
+
+```npm run list``` - PM2 process list
+
+```npm run monitor``` - PM2 live monitor
+
 ##### 2. Docker
 
 If you want to use it in a Docker container, use scripts from `package.json` prefixed with `docker:`
@@ -51,9 +65,25 @@ If you want to use it in a Docker container, use scripts from `package.json` pre
 
 ```npm run docker:down``` - Stop and remove docker container
 
-```npm run docker:logs``` - Docker container logs
+```npm run docker:log``` - Docker container logs
 
 ```npm run docker:bash``` - Docker bash (shell)
+
+```npm run docker:start``` - PM2 start ecosystem.config.js applications
+
+```npm run docker:stop``` - PM2 stop ecosystem.config.js applications
+
+```npm run docker:reload``` - PM2 reload ecosystem.config.js applications
+
+```npm run docker:restart``` - PM2 restart ecosystem.config.js applications
+
+```npm run docker:delete``` - PM2 delete ecosystem.config.js applications
+
+```npm run docker:logs``` - PM2 logs
+
+```npm run docker:list``` - PM2 process list
+
+```npm run docker:monitor``` - PM2 live monitor
 
 ```npm run docker:config``` - Docker config  
 
