@@ -154,6 +154,10 @@ html {
       }
     }
 
+		&__line-settings {
+			touch-action: pan-x;
+		}
+
     &__download-settings {
       padding: 0;
 

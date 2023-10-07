@@ -115,7 +115,7 @@ export default class LineSettings extends EventEmitter {
   }
 
   handleLineWidthChange(value) {
-    this.options.lineWidth = value
+    this.options.lineWidth = parseInt(value, 10)
 
     this.settingsElement.style.setProperty('--progress-value', `${this.progress}%`)
 
