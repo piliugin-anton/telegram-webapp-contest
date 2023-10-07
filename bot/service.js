@@ -30,14 +30,13 @@ if (isProduction) {
 async function onRenderReady({ request, fileName, filePath }) {
 	try {
 		const { initData, id } = request
-		
-		const title = `Drawing-${id}`
+
 		await bot.telegram.answerWebAppQuery(initData.query_id, {
 			type: 'article',
 			id: `article:${id}`,
-			title,
+			title: `Drawing-${id}`,
 			input_message_content: {
-				message_text: `Click to download result: [${title}](${process.env.VITE_WEBAPP_URL}/result/${fileName})`,
+				message_text: `[Click to download result](${process.env.VITE_WEBAPP_URL}/result/${fileName})`,
 				parse_mode: 'Markdown'
 			}
 		})
@@ -121,7 +120,7 @@ bot.catch((err, ctx) => {
 
 const events = ['SIGINT', 'SIGTERM']
 events.forEach((eventType) => process.once(eventType, () => {
-  if (bot.botInfo) bot.stop(eventType)
+  bot.stop(eventType)
   process.exit(0)
 }))
 
