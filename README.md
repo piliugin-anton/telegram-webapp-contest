@@ -49,7 +49,14 @@ If you want to use it in a Docker container, use scripts from `package.json` pre
 
 ```npm run docker:up``` - Build and start docker container
 
-```npm run docker:down``` - Stop docker container  
+```npm run docker:down``` - Stop docker container
+
+```npm run docker:logs``` - Docker container logs
+
+```npm run docker:bash``` - Docker bash (shell)
+
+```npm run docker:config``` - Docker config  
+
 
 ### FAQ
 
