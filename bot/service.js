@@ -36,7 +36,7 @@ async function onRenderReady({ request, fileName, filePath }) {
 			id: `article:${id}`,
 			title: `Drawing-${id}`,
 			input_message_content: {
-				message_text: `[Click to download result](${process.env.VITE_WEBAPP_URL}/result/${fileName})`,
+				message_text: `[Click here to download result](${process.env.VITE_WEBAPP_URL}/result/${fileName})`,
 				parse_mode: 'Markdown'
 			}
 		})
