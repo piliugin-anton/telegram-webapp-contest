@@ -6,12 +6,14 @@ WORKDIR /usr/src/app
 # Copy app files
 COPY . .
 
+# Install dependencies
 RUN npm ci
 RUN npm install pm2 -g
 
 # Build an app bundle
 RUN npm run prestart
 
+# Generate self-signed certificate
 RUN openssl req \
 		-newkey rsa:2048 \
 		-sha256 \
@@ -22,6 +24,8 @@ RUN openssl req \
 		-out /usr/src/app/bot/self-signed.pem \
 		-subj "/C=US/ST=New York/L=Brooklyn/O=TelegramDraw/CN=${BOT_DOMAIN}"
 
-EXPOSE ${SERVER_PORT}
+# Expose ports
+EXPOSE ${SERVER_PORT} ${BOT_PORT}
 
+# Run PM2
 CMD ["pm2-runtime", "start", "ecosystem.config.js"]

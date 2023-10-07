@@ -6,3 +6,4 @@ services:
     build: .
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${BOT_PORT}:${BOT_PORT}"
