@@ -17,7 +17,7 @@ Node.js v18+
 #### .env Variables
 
 - **BOT_TOKEN** - Token you get from @botfather *(required)*
-- **BOT_DOMAIN** - Your webhook domain name (example: somedomain.com)
+- **BOT_DOMAIN** - Your webhook domain name (example: somedomain.com) *(required in <a name="production-mode">**production** mode</a>)*
 - **BOT_PORT** - Bot webhook port (currently supported ports: 443, 80, 88, 8443)
 - **BOT_CERTIFICATE** - SSL certificate. Possible values are: 'self-signed' or path to certificate .pem file *(required if you set **BOT_DOMAIN** variable)*
 - **SERVER_PORT** - Your server (Front-end and back-end) port number *(required)*
@@ -28,7 +28,7 @@ Node.js v18+
 Run ```npm run dev```  
 
 
-### Production mode (uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
+### [Production mode (uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)](#production-mode)
 
 #### There are 2 options for deployment: run directly using npm scripts from package.json or using a Docker
 

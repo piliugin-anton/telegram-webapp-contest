@@ -22,7 +22,7 @@ RUN openssl req \
 		-x509 \
 		-days 365 \
 		-out /usr/src/app/bot/self-signed.pem \
-		-subj "/C=US/ST=New York/L=Brooklyn/O=TelegramDraw/CN=${BOT_DOMAIN}"
+		-subj "/ST=Server town/O=TelegramDraw/CN=${BOT_DOMAIN}"
 
 # Expose ports
 EXPOSE ${SERVER_PORT} ${BOT_PORT}
