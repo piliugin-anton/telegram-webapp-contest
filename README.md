@@ -19,7 +19,7 @@ Node.js v18+
 - **BOT_TOKEN** - Token you get from @botfather *(required)*
 - **BOT_DOMAIN** - Your webhook domain name (example: somedomain.com)
 - **BOT_PORT** - Bot webhook port (currently supported ports: 443, 80, 88, 8443)
-- **BOT_CERTIFICATE** - SSL certificate. Possible values are: 'self-signed' or path to certificate .pem file (required if you set **BOT_DOMAIN** variable)
+- **BOT_CERTIFICATE** - SSL certificate. Possible values are: 'self-signed' or path to certificate .pem file *(required if you set **BOT_DOMAIN** variable)*
 - **SERVER_PORT** - Your server (Front-end and back-end) port number *(required)*
 - **VITE_WEBAPP_URL** - URL to your WebApp server *(required)*  
 
