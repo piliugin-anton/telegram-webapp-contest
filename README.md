@@ -17,6 +17,7 @@ Node.js v18+
 - **BOT_TOKEN** - Token you get from @botfather
 - **BOT_DOMAIN** - Your webhook domain name (example: somedomain.com)
 - **BOT_PORT** - Bot webhook port (currently supported ports: 443, 80, 88, 8443)
+- **BOT_CERTIFICATE** - SSL certificate (required if you set **BOT_DOMAIN** variable). Possible values are 'self-signed' or path to certificate .pem file
 - **SERVER_PORT** - Your server (Front-end and back-end) port number
 - **VITE_WEBAPP_URL** - URL to your WebApp server  
 
@@ -30,8 +31,9 @@ Run ```npm run dev```
 #### If you want to run it on VPS/dedicated server:
 
 1. Install PM2 globally ```npm install -g pm2```
-2. Obtain an SSL-certificate (get free from Let's Encrypt, generate self-signed or buy one). Note: When using Docker self-signed certificate will be generated automatically and is default option
-2. Start server and bot: ```npm run start```
+2. Obtain an SSL-certificate (get free from Let's Encrypt, generate self-signed or buy one). 
+**Note: When using Docker, self-signed certificate will be generated automatically for you**
+3. Start server and bot: ```npm run start```
 
 If you want to stop server and bot: ```npm run stop```
 
