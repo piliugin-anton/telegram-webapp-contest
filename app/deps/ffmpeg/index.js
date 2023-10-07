@@ -56,7 +56,7 @@ module.exports = class FFmpeg {
 
 	static encodeFromImages({ framesPath = '', framePattern = 'frame-%d.png', frameRate = 60, videoCodec = 'libx264', complexFilter = null, outputOptions = { '-pix_fmt': 'yuv420p' }, outputFilePath = 'output.mp4' } = {}) {
 
-		return encode({
+		return FFmpeg.encode({
 			input: path.join(framesPath, framePattern),
 			inputOptions: {
 				'-framerate': frameRate
@@ -71,7 +71,7 @@ module.exports = class FFmpeg {
 
 	static imagesToGIF({ framesPath, framesPattern, frameRate = 60, complexFilter = '[0:v] split [a][b];[a] palettegen [p];[b][p] paletteuse', outputFilePath } = {}) {
 		
-		return encodeFromImages({
+		return FFmpeg.encodeFromImages({
   		framesPath,
   		framesPattern,
   		frameRate,
