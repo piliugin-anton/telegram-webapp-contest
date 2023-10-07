@@ -125,8 +125,8 @@ const validateData = (data, format) => {
 		if (!hasCircle && isCircle) hasCircle = true
 
 		if (
-			(isCircle && (!isFinite(x) || !isFinite(y) || !isFinite(radius) || radius < 1 || radius > CONSTANTS.MAX_RADIUS || !isValidHexColor(fillStyle))) ||
-			(!isCircle && (!isFinite(from.x) || !isFinite(from.y) || !isFinite(to.x) || !isFinite(to.y) || !isFinite(lineWidth) || lineWidth < 1 || lineWidth > CONSTANTS.MAX_LINE_WIDTH || !isValidHexColor(strokeStyle)))
+			(isCircle && (typeof x !== 'number' || !isFinite(x) || typeof y !== 'number' || !isFinite(y) || typeof radius !== 'number' || !isFinite(radius) || radius < 1 || radius > CONSTANTS.MAX_RADIUS || !isValidHexColor(fillStyle))) ||
+			(!isCircle && (typeof from.x !== 'number' || !isFinite(from.x) || typeof from.y !== 'number' || !isFinite(from.y) || typeof to.x !== 'number' || !isFinite(to.x) || typeof to.y !== 'number' || !isFinite(to.y) || typeof lineWidth !== 'number' || !isFinite(lineWidth) || lineWidth < 1 || lineWidth > CONSTANTS.MAX_LINE_WIDTH || !isValidHexColor(strokeStyle)))
 		) return result
 
 		if (!isCircle) {
@@ -168,8 +168,8 @@ const validateData = (data, format) => {
 	let canvasWidth = isPaddingWidthAvailable ? WIDTH + (CONSTANTS.PADDING * 2) : WIDTH
 	let canvasHeight = isPaddingHeightAvailable ? HEIGHT + (CONSTANTS.PADDING * 2) : HEIGHT
 
-	let xAdded = (isPaddingWidthAvailable ? CONSTANTS.PADDING : 0)
-	let yAdded = (isPaddingHeightAvailable ? CONSTANTS.PADDING : 0)
+	let xPadding = (isPaddingWidthAvailable ? CONSTANTS.PADDING : 0)
+	let yPadding = (isPaddingHeightAvailable ? CONSTANTS.PADDING : 0)
 
 	if (format === 'video') {
 		const { width, height } = findClosesResolution(canvasWidth, canvasHeight)
@@ -180,8 +180,8 @@ const validateData = (data, format) => {
 		const xDiff = (canvasWidth - WIDTH)
 		const yDiff = (canvasHeight - HEIGHT)
 
-		xAdded = xDiff >= 2 ? xDiff / 2 : xDiff
-		yAdded = yDiff >= 2 ? yDiff / 2 : yDiff
+		xPadding = xDiff >= 2 ? xDiff / 2 : xDiff
+		yPadding = yDiff >= 2 ? yDiff / 2 : yDiff
 	}
 
 	result.canvasWidth = canvasWidth
@@ -189,8 +189,8 @@ const validateData = (data, format) => {
 	result.normalizedData = data
 
 	// NORMALIZE DATA AND PAD
-	const XOFFSET = (XMIN <= 0 ? XMIN : -XMIN) + xAdded
-	const YOFFSET = (YMIN <= 0 ? YMIN : -YMIN) + yAdded
+	const XOFFSET = (XMIN <= 0 ? XMIN : -XMIN) + xPadding
+	const YOFFSET = (YMIN <= 0 ? YMIN : -YMIN) + yPadding
 	for (let i = 0; i < data.length; i++) {
 		for (let j = 0; j < data[i].length; j++) {
 			const { isCircle } = data[i][j]
