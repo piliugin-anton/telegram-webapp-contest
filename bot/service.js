@@ -31,13 +31,13 @@ async function onRenderReady({ request, fileName, filePath }) {
 	try {
 		const { initData, id } = request
 		
-		const title = `drawing-${id}`
+		const title = `Drawing-${id}`
 		await bot.telegram.answerWebAppQuery(initData.query_id, {
 			type: 'article',
 			id: `article:${id}`,
 			title,
 			input_message_content: {
-				message_text: `[${title}](${process.env.VITE_WEBAPP_URL}/result/${fileName})`,
+				message_text: `Click to download result: [${title}](${process.env.VITE_WEBAPP_URL}/result/${fileName})`,
 				parse_mode: 'Markdown'
 			}
 		})
