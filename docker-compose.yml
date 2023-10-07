@@ -5,4 +5,4 @@ services:
     restart: always
     build: .
     ports:
-      - "127.0.0.1:${SERVER_PORT}:${SERVER_PORT}"
+      - "${SERVER_PORT}:${SERVER_PORT}"
