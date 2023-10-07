@@ -33,7 +33,8 @@ Run ```npm run dev```
 1. Install PM2 globally ```npm install -g pm2```
 2. Obtain an SSL-certificate (get free from Let's Encrypt, generate self-signed or buy one).  
 
-**Note: When using Docker, self-signed certificate will be generated automatically for you**
+**Note: When using Docker, self-signed certificate will be generated automatically for you**  
+
 3. Start server and bot: ```npm run start```
 
 If you want to stop server and bot: ```npm run stop```
