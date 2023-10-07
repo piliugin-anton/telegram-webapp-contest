@@ -27,19 +27,26 @@ if (isProduction) {
 	process.on('message', onRenderReady)
 }
 
-async function onRenderReady({ request, fileName, filePath }) {
+async function onRenderReady({ error, request, fileName, filePath }) {
 	try {
 		const { initData, id } = request
 
-		await bot.telegram.answerWebAppQuery(initData.query_id, {
+		const article = {
 			type: 'article',
 			id: `article:${id}`,
 			title: `Drawing-${id}`,
 			input_message_content: {
-				message_text: `[Click here to download result](${process.env.VITE_WEBAPP_URL}/result/${fileName})`,
 				parse_mode: 'Markdown'
 			}
-		})
+		}
+
+		if (error) {
+			article.input_message_content.message_text = 'Error, while processing your request'
+		} else {
+			article.input_message_content.message_text = `[Click here to download result](${process.env.VITE_WEBAPP_URL}/result/${fileName})`
+		}
+
+		await bot.telegram.answerWebAppQuery(initData.query_id, article)
 		
 	} catch (ex) {
 		console.log(ex)

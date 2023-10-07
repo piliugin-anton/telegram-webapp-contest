@@ -4,7 +4,7 @@ const { workerData, parentPort } = require('worker_threads')
 const fs = require('fs')
 const path = require('path')
 const { createCanvas } = require('@napi-rs/canvas')
-const { encodeFromImages, imagesToGIF } = require('@app/deps/ffmpeg')
+const FFmpeg = require('@app/deps/ffmpeg')
 const { mkDir, rmDir } = require('@app/helpers')
 
 const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir } = workerData
@@ -104,7 +104,7 @@ if (format === 'picture') {
   const outputFilePath = path.join(dir, fileName)
   const isGIF = format === 'GIF'
 
-  const fn = isGIF ? imagesToGIF : encodeFromImages
+  const fn = isGIF ? FFmpeg.imagesToGIF : FFmpeg.encodeFromImages
   
   fn({
     framesPath,
@@ -115,9 +115,11 @@ if (format === 'picture') {
 	.then(() => {
     parentPort.postMessage({ request, fileName, filePath: outputFilePath })
   })
-	.catch((ex) => {
-		console.log(ex)
+	.catch((error) => {
+		console.log(error)
 		if (fs.existsSync(outputFilePath)) fs.unlinkSync(outputFilePath)
+
+		parentPort.postMessage({ request, error })
 	})
 	.finally(() => rmDir(framesPath))
 }
