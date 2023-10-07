@@ -30,7 +30,9 @@ Run ```npm run dev```
 
 ### Production mode (uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
 
-#### If you want to run it on VPS/dedicated server:
+#### There are 2 options for deployment: run directly using npm scripts from package.json or using a Docker
+
+##### If you want to run it on VPS/dedicated server directly:
 
 1. Install PM2 globally ```npm install -g pm2```
 2. Obtain an SSL-certificate (get free from Let's Encrypt, generate self-signed or buy one). Instruction on how to generate self-signed certificate: https://core.telegram.org/bots/self-signed   
@@ -41,7 +43,7 @@ Run ```npm run dev```
 
 If you want to stop server and bot: ```npm run stop```
 
-#### Docker
+##### Docker
 
 If you want to use it in a Docker container, use scripts from `package.json` prefixed with `docker:`
 
