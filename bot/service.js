@@ -4,27 +4,16 @@ require('module-alias/register')
 const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
-const { Telegraf, Markup, Input } = require('telegraf')
-const { message } = require('telegraf/filters')
+const { Telegraf, Markup } = require('telegraf')
 
 const isProduction = process.env.NODE_ENV === 'production'
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
-bot.catch((err, ctx) => {
-  console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
-})
-bot.start((ctx) => ctx.replyWithHTML('hello', Markup.inlineKeyboard([
-  [Markup.button.webApp('ksjdnfkjsdfsdf', process.env.VITE_WEBAPP_URL, false)]
-])))
-bot.help((ctx) => ctx.reply('Send me a sticker'))
-bot.on(message('sticker'), (ctx) => ctx.reply('👍'))
-bot.hears('hi', async (ctx) => await ctx.replyWithSticker(Input.fromLocalFile(path.join(__dirname, 'sample.tgs'))))
+const webAppButton = Markup.button.webApp('Start drawing!', process.env.VITE_WEBAPP_URL, false)
 
-const events = ['SIGINT', 'SIGTERM']
-events.forEach((eventType) => process.once(eventType, () => {
-  if (bot.botInfo) bot.stop(eventType)
-  process.exit(0)
-}))
+bot.start((ctx) => ctx.replyWithHTML('To start drawing click on a button below or use a button from menu', Markup.inlineKeyboard([
+  [webAppButton]
+])))
 
 if (isProduction) {
 	const pm2 = require('pm2')
@@ -112,8 +101,28 @@ async function start() {
 
 	console.log('Telegram bot started')
 
+	bot.telegram.setChatMenuButton({
+		chatId: undefined,
+		menuButton: {
+			type: 'web_app',
+			...webAppButton
+		}
+	})
+	.then((result) => result && console.log('Custom menu button is set'))
+	.catch(console.log)
+
   process.emit('ready')
 	if (isProduction) process.send('ready')
 }
+
+bot.catch((err, ctx) => {
+  console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
+})
+
+const events = ['SIGINT', 'SIGTERM']
+events.forEach((eventType) => process.once(eventType, () => {
+  if (bot.botInfo) bot.stop(eventType)
+  process.exit(0)
+}))
 
 start()
