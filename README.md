@@ -59,7 +59,7 @@ Other scripts:
 
 ##### 2. Docker
 
-If you want to use it in a Docker container, use scripts from `package.json` prefixed with `docker:`
+If you want to use it in a Docker container ([Docker](https://www.docker.com) has to be already installed), use scripts from `package.json` prefixed with `docker:`
 
  - ```npm run docker:up``` - Build and start docker container
 
