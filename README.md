@@ -72,6 +72,7 @@ You can use a tunneling software like [Telebit](https://telebit.cloud), [localtu
 ### TODO
 
 - [ ] Canvas data scaling
+- [ ] Store IPC messages in case of failed delivery (implement a response-request model)
 
 ## License
 [MIT](./LICENSE)
