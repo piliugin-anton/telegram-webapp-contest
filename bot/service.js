@@ -58,6 +58,24 @@ async function onRenderReady({ request, fileName, filePath }) {
 	}
 }
 
+function tryAccess(file) {
+	const result = { exists: false, accessible: false }
+
+	if (fs.existsSync(file)) {
+		result.exists = true
+
+		if (fs.accessSync(file, fs.constants.R_OK)) {
+			result.accessible = true
+		} else {
+			console.log(`Process can't read a certificate file ${file}, check file read permissions`)
+		}
+	} else {
+		console.log(`File ${file} does not exists`)
+	}
+
+	return result
+}
+
 async function start() {
   bot.botInfo = await bot.telegram.getMe()
 
@@ -66,14 +84,16 @@ async function start() {
 		let certificate
 		if (process.env.BOT_CERTIFICATE === 'self-signed') {
 			const certPath = path.join(__dirname, 'self-signed.pem')
+			const { exists } = tryAccess(certPath)
 
-			if (fs.accessSync(certPath, fs.constants.R_OK)) {
-				certificate = certPath
-			} else {
+			if (!exists) {
 				console.log(`Generate a self-signed PEM certificate according to instruction (https://core.telegram.org/bots/self-signed) and place it in project root dir, so the full path to a .pem file will look like: ${certPath}`)
+			} else {
+				certificate = certPath
 			}
-		} else if (fs.accessSync(process.env.BOT_CERTIFICATE, fs.constants.R_OK)) {
-			certificate = process.env.BOT_CERTIFICATE
+		} else {
+			const { exists } = tryAccess(process.env.BOT_CERTIFICATE)
+			if (exists) certificate = process.env.BOT_CERTIFICATE
 		}
 
 		const domain = `${certificate ? 'https' : 'http'}://${process.env.BOT_DOMAIN}`
