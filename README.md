@@ -2,6 +2,8 @@
 
 ## Draw pictures, make drawing GIF animations/cartoons or drawing videos!
 
+![GIF example](https://github.com/piliugin-anton/telegram-webapp-contest/blob/master/example.gif?raw=true)
+
 ### Requirements
 
 Node.js v18+
