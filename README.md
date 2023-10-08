@@ -9,13 +9,14 @@
 Node.js v18+
 
 ### Project structure
-
-There are 2 folders `app` and `bot`. Folder `app` contains WebApp front-end and back-end source code. Folder `bot` contains Telegram bot source code.
+    .
+    ├── app               # Contains WebApp front-end and back-end source code
+    ├── bot               # Contains Telegram bot source code
 
 #### `app` folder structure and details
     ...
     ├── .result           # Folder where the rendered files will be stored and served by server (does not exist in repo, will be created automatically)
-    ├── deps              # WebApp backend dependencies
+    ├── deps              # WebApp dependencies
     ├── helpers           # Helper functions
     ├── middleware        # Server middleware
     ├── routes            # Server routes controllers definition

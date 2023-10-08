@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 import { defineConfig } from 'vite'
 import path from 'path'
-import ViteForkPlugin from './deps/vite-fork-plugin.js'
+import ViteForkPlugin from './app/deps/ForkController/vite-plugin.js'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
