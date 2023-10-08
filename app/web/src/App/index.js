@@ -97,8 +97,6 @@ export default class App {
 
 		this.axios.interceptors.request.use((config) => {
     	// Do something before request is sent
-			this.showMask()
-			this.hideControls()
 
     	return config
   	}, this.handleAxiosError.bind(this))
@@ -271,6 +269,9 @@ export default class App {
 
 	async handleMainButtonClick() {
 		this.tg.MainButton.showProgress(false)
+
+		this.showMask()
+		this.hideControls()
 
 		const payload = {
 			initData: this.tg.initData,

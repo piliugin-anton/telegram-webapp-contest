@@ -2,7 +2,7 @@
 
 ## Draw pictures, make drawing GIF animations/cartoons or drawing videos!
 
-![GIF example](https://github.com/piliugin-anton/telegram-webapp-contest/blob/master/example.gif?raw=true)
+![GIF example](https://github.com/piliugin-anton/telegram-webapp-contest/blob/master/app/web/assets/img/example.gif?raw=true)
 
 ### Requirements
 
