@@ -276,6 +276,9 @@ export default class App {
 			}
 		} catch (ex) {
 			console.log(ex)
+		} finally {
+			this.hideMessage()
+			this.hideMask()
 		}
 	}
 
