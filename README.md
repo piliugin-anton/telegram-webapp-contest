@@ -8,6 +8,10 @@
 
 Node.js v18+
 
+### Project structure
+
+There are 2 folders `app` and `bot`. Folder `app` contains WebApp front-end and back-end source code. Folder `bot` contains Telegram bot source code.
+
 ### Installation
 
 1. Clone repository, navigate to a project folder
