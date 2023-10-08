@@ -104,7 +104,8 @@ You can use a tunneling software like [Telebit](https://telebit.cloud), [localtu
 - [ ] Drawings scaling
 - [ ] Store IPC messages in case of failed delivery (implement a response-request model)
 - [x] Rendering queue?
-- [ ] Persistent queue
+- [ ] SSE status check?
+- [ ] Persistent queue?
 
 ## License
 [MIT](./LICENSE)
