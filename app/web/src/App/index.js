@@ -291,7 +291,6 @@ export default class App {
 			console.log(ex)
 		} finally {
 			this.hideMessage()
-			this.hideMask()
 		}
 	}
 
