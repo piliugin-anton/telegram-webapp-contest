@@ -71,6 +71,8 @@ export default class App {
 
 		this.tg = window.Telegram.WebApp
 
+		this.tg.isClosingConfirmationEnabled = true
+
 		// Main button
 		this.tg.MainButton.isVisible = false
 		this.tg.MainButton.isActive = false
