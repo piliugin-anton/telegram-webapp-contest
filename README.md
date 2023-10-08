@@ -14,14 +14,14 @@ There are 2 folders `app` and `bot`. Folder `app` contains WebApp front-end and 
 
 #### WebApp folder structure and details
     ...
-    ├── .result									# Folder where the rendered files will be stored and served by server (does not exist in repo, will be created automatically)
+    ├── .result					# Folder where the rendered files will be stored and served by server (does not exist in repo, will be created automatically)
     ├── deps                    # WebApp backend dependencies
     ├── helpers                 # Helper functions
     ├── middleware              # Server middleware
     ├── routes                 	# Server routes controllers definition
-    ├── web                 		# WebApp itself
+    ├── web                 	# WebApp itself
     │   ├── build              	# Build folder, served by server. Contains result of Vite build
-    │   ├── src              		# Source code to build from
+    │   ├── src              	# Source code to build from
     │   ├── index.html          # Main index.html file
     ├── service.js              # WebApp back-end service
     ├── worker.js              	# WebApp back-end worker. Renders data on canvas, executes FFmpeg, sends IPC messages to bot
