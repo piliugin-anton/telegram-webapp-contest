@@ -1,6 +1,6 @@
 # Telegram WebApp contest submission
 
-## Draw pictures, make drawing GIF animations/cartoons or drawing videos!
+## Draw pictures, make GIF animations/cartoons or videos!
 
 ![GIF example](https://github.com/piliugin-anton/telegram-webapp-contest/blob/master/app/web/public/example.gif?raw=true)
 
