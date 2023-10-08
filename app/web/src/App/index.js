@@ -97,14 +97,15 @@ export default class App {
 
 		this.axios.interceptors.request.use((config) => {
     	// Do something before request is sent
+			this.showMask()
+			this.hideControls()
+
     	return config
   	}, this.handleAxiosError.bind(this))
 
 		this.axios.interceptors.response.use((response) => {
     	// Any status code that lie within the range of 2xx cause this function to trigger
     	// Do something with response data
-
-			this.hideMask()
 
     	return response
   	}, this.handleAxiosError.bind(this))
@@ -270,10 +271,7 @@ export default class App {
 
 	async handleMainButtonClick() {
 		this.tg.MainButton.showProgress(false)
-		this.showMask()
-	
-		this.hideControls()
-	
+
 		const payload = {
 			initData: this.tg.initData,
 			format: this.format,
@@ -289,8 +287,6 @@ export default class App {
 			}
 		} catch (ex) {
 			console.log(ex)
-		} finally {
-			this.hideMessage()
 		}
 	}
 
@@ -342,6 +338,7 @@ export default class App {
 		if (!this.tg.MainButton.isActive && this.isRenderable) this.tg.MainButton.enable()
 
 		this.hideMask()
+		this.hideMessage()
 
 		if (error.response) {
       // The request was made and the server responded with a status code
