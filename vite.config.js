@@ -39,6 +39,7 @@ if (!isProduction) {
 
 export default defineConfig({
   root: ROOT_DIRECTORY,
+	publicDir: path.join(ROOT_DIRECTORY, 'public'),
   server: {
     port: PORT,
     strictPort: true,

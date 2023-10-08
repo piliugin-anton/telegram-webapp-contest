@@ -12,7 +12,7 @@ const STATIC_MEMORY_CACHE = () => {
     },
     filter: {
       keep: {
-        extensions: ['html', 'css', 'js', 'json', 'png', 'jpg', 'jpeg', 'woff', 'woff2'] // We only want to serve files with these extensions
+        extensions: ['html', 'css', 'js', 'json', 'png', 'jpg', 'jpeg', 'gif', 'woff', 'woff2'] // We only want to serve files with these extensions
       }
     }
   })
