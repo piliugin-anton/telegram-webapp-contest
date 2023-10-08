@@ -12,7 +12,7 @@ Node.js v18+
 
 There are 2 folders `app` and `bot`. Folder `app` contains WebApp front-end and back-end source code. Folder `bot` contains Telegram bot source code.
 
-#### WebApp folder structure and details
+#### `app` folder structure and details
     ...
     ├── .result           # Folder where the rendered files will be stored and served by server (does not exist in repo, will be created automatically)
     ├── deps              # WebApp backend dependencies
