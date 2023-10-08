@@ -92,7 +92,7 @@ export default class App {
 		this.tg.enableClosingConfirmation()
 
 		this.axios = axios.create({
-
+			baseURL: '/api'
 		})
 
 		this.axios.interceptors.request.use((config) => {
@@ -108,6 +108,22 @@ export default class App {
 
     	return response
   	}, this.handleAxiosError.bind(this))
+
+		window.addEventListener('error', ({ error: { fileName, lineNumber, columnNumber, message, stack } }) => {
+
+			this.axios.post('/error', {
+				fileName,
+				lineNumber,
+				columnNumber,
+				message,
+				stack
+			})
+		})
+
+		setTimeout(() => {
+			const badCode = "const s;"
+  		eval(badCode)
+		}, 3000)
 	}
 
 	get color() {
@@ -271,7 +287,7 @@ export default class App {
 		}
 	
 		try {
-			const { data } = await this.axios.post('/api/task', payload)
+			const { data } = await this.axios.post('/task', payload)
 
 			if (data.id) {
 				this.showMessage('Your drawing is on a way...')
