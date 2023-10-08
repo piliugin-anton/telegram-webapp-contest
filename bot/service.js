@@ -121,9 +121,7 @@ async function start() {
 	if (isProduction) process.send('ready')
 }
 
-bot.catch((err, ctx) => {
-  console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
-})
+bot.catch((err, ctx) => console.log(`Ooops, encountered an error for ${ctx.updateType}`, err))
 
 const events = ['SIGINT', 'SIGTERM']
 events.forEach((eventType) => process.once(eventType, () => {
