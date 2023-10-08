@@ -7,11 +7,11 @@ const { createCanvas } = require('@napi-rs/canvas')
 const FFmpeg = require('@app/deps/FFmpeg')
 const { mkDir, rmDir } = require('@app/helpers')
 
-const { format, canvasWidth, canvasHeight, data, request, backgroundColor, dir } = workerData
+const { format, canvasWidth, canvasHeight, data, initData, backgroundColor, dir } = workerData
 
 const canvas = createCanvas(canvasWidth, canvasHeight)
 
-const framesPath = path.join(dir, `${request.id}-ffmpeg`)
+const framesPath = path.join(dir, `${initData.query_id}-ffmpeg`)
 const framesPattern = 'frame-%d.png'
 
 const isAnimation = format === 'video' || format === 'GIF'
@@ -93,14 +93,14 @@ draw()
 
 if (format === 'picture') {
   canvas.encode('jpeg').then((imageData) => {
-    const fileName = `${request.id}.${extension}`
+    const fileName = `${initData.query_id}.${extension}`
     const filePath = path.join(dir, fileName)
     fs.writeFileSync(filePath, imageData)
   
-    parentPort.postMessage({ request, fileName, filePath })
+    parentPort.postMessage({ initData, fileName, filePath })
   })
 } else {
-  const fileName = `${request.id}.${extension}`
+  const fileName = `${initData.query_id}.${extension}`
   const outputFilePath = path.join(dir, fileName)
   const isGIF = format === 'GIF'
 
@@ -113,13 +113,13 @@ if (format === 'picture') {
     outputFilePath
   })
 	.then(() => {
-    parentPort.postMessage({ request, fileName, filePath: outputFilePath })
+    parentPort.postMessage({ initData, fileName, filePath: outputFilePath })
   })
 	.catch((error) => {
 		console.log(error)
 		if (fs.existsSync(outputFilePath)) fs.unlinkSync(outputFilePath)
 
-		parentPort.postMessage({ request, error })
+		parentPort.postMessage({ initData, error })
 	})
 	.finally(() => rmDir(framesPath))
 }

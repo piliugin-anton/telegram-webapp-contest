@@ -21,20 +21,20 @@ if (isProduction) {
 	pm2.launchBus((err, pm2_bus) => {
 		if (err) throw err
 
-		pm2_bus.on('rendered', ({ data }) => onRenderReady(data))
+		pm2_bus.on('render', ({ data }) => onWorkerDequeue(data))
 	})
 } else {
-	process.on('message', onRenderReady)
+	process.on('message', onWorkerDequeue)
 }
 
-async function onRenderReady({ error, request, fileName, filePath }) {
+async function onWorkerDequeue({ taskId, error, result }) {
 	try {
-		const { initData, id } = request
+		const { initData, fileName, filePath } = result
 
 		const article = {
 			type: 'article',
-			id: `article:${id}`,
-			title: `Drawing-${id}`,
+			id: `article:${taskId}`,
+			title: `Drawing-${taskId}`,
 			input_message_content: {
 				parse_mode: 'Markdown'
 			}

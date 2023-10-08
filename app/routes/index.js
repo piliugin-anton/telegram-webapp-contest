@@ -9,6 +9,7 @@ const { CustomError, INTERNAL_ERROR } = require('@app/helpers').error
 
 const setRoutes = (server, isProduction) => {
   server.set_error_handler((request, response, error) => {
+		if (!isProduction) console.log(error)
     const isCustom = error instanceof CustomError
   
     response.status(isCustom ? error.code : INTERNAL_ERROR.code).json({ error: isCustom ? error.message : INTERNAL_ERROR.message })
