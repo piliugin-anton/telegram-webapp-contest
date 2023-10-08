@@ -12,7 +12,7 @@
 			width: 100%;
 			height: 100%;
 			background-color: #ffffff;
-			z-index: 99999;
+			z-index: 10;
 			transition: opacity 0.5s ease, visibility 0.5s ease;
 		}
 		.loader.--hidden {
@@ -31,14 +31,32 @@
 			transform-origin: center;
 			animation: loading-spinner .75s infinite linear;
 		}
+		.message {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 100%;
+			text-align: center;
+			max-width: calc(100% - 40px);
+			padding: 16px;
+			z-index: 5;
+			border-radius: 4px;
+			background-color: #ffffff;
+			transition: opacity 0.5s ease, visibility 0.5s ease;
+		}
+		.message.--hidden {
+			opacity: 0;
+			visibility: hidden;
+		}
 		.mask {
   		position: fixed;
   		left: 0;
   		top: 0;
 			width: 100%;
   		height: 100%;
-  		z-index: 2147483647;
-  		opacity: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+  		z-index: 4;
   		user-select: none;
 		}
 		.mask.--hidden {
@@ -103,6 +121,7 @@
 			<path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="loader__spinner__path"/>
 		</svg>
 	</div>
+	<div id="message" class="message --hidden"></div>
 	<div id="mask" class="mask"></div>
   <script type="module" src="/src/main.js"></script>
 </body>

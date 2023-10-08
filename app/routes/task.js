@@ -3,6 +3,7 @@ const path = require('path')
 const { runService, mkDir } = require('@app/helpers')
 
 const isProduction = process.env.NODE_ENV === 'production'
+const workerFilename = path.join(__dirname, '..', 'worker.js')
 const RESULTS_DIR = path.join(__dirname, '..', '.result')
 mkDir(RESULTS_DIR)
 
@@ -15,7 +16,7 @@ const AddTask = async (request, response) => {
   response.json({ id })
 
   try {
-    const result = await runService({
+    const result = await runService(workerFilename, {
       dir: RESULTS_DIR,
       format,
 			canvasWidth,

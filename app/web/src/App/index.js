@@ -16,6 +16,7 @@ import GIFIcon from '~/assets/icons/gif-icon.svg?raw'
 export default class App {
 	constructor(options = {}) {
 		this.loader = document.getElementById('loader')
+		this.message = document.getElementById('message')
 		this.mask = document.getElementById('mask')
 		this.menu = document.getElementById('menu')
 
@@ -159,6 +160,15 @@ export default class App {
 		this.mask.classList.add('--hidden')
 	}
 
+	showMessage(message) {
+		this.message.innerText = message
+		this.message.classList.remove('--hidden')
+	}
+
+	hideMessage() {
+		this.message.classList.add('--hidden')
+	}
+
 	init() {
 		this.canvas = new Canvas({
 			elementSelector: '#canvas',
@@ -260,8 +270,10 @@ export default class App {
 	
 		try {
 			const { data } = await this.axios.post('/api/task', payload)
-	
-			console.log(data)
+
+			if (data.id) {
+				this.showMessage('Your drawing is on a way...')
+			}
 		} catch (ex) {
 			console.log(ex)
 		}
