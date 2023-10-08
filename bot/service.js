@@ -21,15 +21,15 @@ if (isProduction) {
 	pm2.launchBus((err, pm2_bus) => {
 		if (err) throw err
 
-		pm2_bus.on('render', ({ data }) => onWorkerDequeue(data))
+		pm2_bus.on('queue', ({ data }) => onMessage(data))
 	})
 } else {
-	process.on('message', onWorkerDequeue)
+	process.on('message', onMessage)
 }
 
-async function onWorkerDequeue({ taskId, error, result }) {
+async function onMessage({ taskId, error, result, task }) {
 	try {
-		const { initData, fileName, filePath } = result
+		const { fileName, filePath } = result
 
 		const article = {
 			type: 'article',
@@ -46,8 +46,7 @@ async function onWorkerDequeue({ taskId, error, result }) {
 			article.input_message_content.message_text = `[Click here to download result](${process.env.VITE_WEBAPP_URL}/result/${fileName})`
 		}
 
-		await bot.telegram.answerWebAppQuery(initData.query_id, article)
-		
+		await bot.telegram.answerWebAppQuery(task.data.initData.query_id, article)
 	} catch (ex) {
 		console.log(ex)
 	}

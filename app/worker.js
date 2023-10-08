@@ -97,7 +97,7 @@ if (format === 'picture') {
     const filePath = path.join(dir, fileName)
     fs.writeFileSync(filePath, imageData)
   
-    parentPort.postMessage({ initData, fileName, filePath })
+    parentPort.postMessage({ fileName, filePath })
   })
 } else {
   const fileName = `${initData.query_id}.${extension}`
@@ -113,13 +113,13 @@ if (format === 'picture') {
     outputFilePath
   })
 	.then(() => {
-    parentPort.postMessage({ initData, fileName, filePath: outputFilePath })
+    parentPort.postMessage({ fileName, filePath: outputFilePath })
   })
 	.catch((error) => {
 		console.log(error)
 		if (fs.existsSync(outputFilePath)) fs.unlinkSync(outputFilePath)
 
-		parentPort.postMessage({ initData, error })
+		parentPort.postMessage({ error })
 	})
 	.finally(() => rmDir(framesPath))
 }

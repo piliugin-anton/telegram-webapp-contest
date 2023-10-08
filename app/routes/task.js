@@ -12,10 +12,10 @@ const queue = new WorkerQueue({
 	concurrency: 2
 })
 
-const onDequeue = (data) => process.send(isProduction ? { type: 'render', data } : data)
+const handleQueueEvent = (data) => process.send(isProduction ? { type: 'queue', data } : data)
 
-queue.on('finished', onDequeue)
-queue.on('error', onDequeue)
+queue.on('finished', handleQueueEvent)
+queue.on('error', handleQueueEvent)
 
 const AddTask = (request, response) => {
   const { initData, format, backgroundColor, canvasWidth, canvasHeight, data } = request.locals
