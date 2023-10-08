@@ -1,4 +1,4 @@
-const { INVALID_REQUEST } = require('@app/helpers').error
+const { CustomError, INVALID_REQUEST } = require('@app/helpers').error
 
 const CONSTANTS = {
 	MAX_WIDTH: 4096,
@@ -93,9 +93,13 @@ const ValidateTask = async (request, response, next) => {
     (!Array.isArray(data) || Array.isArray(data) && data.length < 1)
   ) return INVALID_REQUEST
 
-	const { isValid, canvasWidth, canvasHeight, normalizedData } = validateData(data, format)
+	const { isValid, canvasWidth, canvasHeight, normalizedData, error } = validateData(data, format)
 
-	if (!isValid) return INVALID_REQUEST
+	if (!isValid) {
+		if (error) return new CustomError(error, 400)
+
+		return INVALID_REQUEST
+	}
 
 	request.locals.format = format
 	request.locals.backgroundColor = backgroundColor
@@ -156,9 +160,12 @@ const validateData = (data, format) => {
 	const isJustSingleDot = hasCircle && flatData.length === 1 && WIDTH === 0 && HEIGHT === 0
 
 	// TODO: scaling
-	if (!isJustSingleDot) {
-		if (WIDTH < 1 || WIDTH > CONSTANTS.MAX_WIDTH) return result
-		if (HEIGHT < 1 || HEIGHT > CONSTANTS.MAX_HEIGHT) return result
+	const isTooSmall = WIDTH < 1 || HEIGHT < 1
+	const isTooBig = WIDTH > CONSTANTS.MAX_WIDTH || HEIGHT > CONSTANTS.MAX_HEIGHT
+	if (!isJustSingleDot && (isTooSmall || isTooBig)) {
+		result.error = `Invalid drawing size. Drawing is too ${isTooSmall ? 'small' : 'big'}`
+
+		return result
 	}
 
 	result.isValid = true
