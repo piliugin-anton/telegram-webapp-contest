@@ -28,7 +28,7 @@ There are 2 folders `app` and `bot`. Folder `app` contains WebApp front-end and 
     ├── service.js        # WebApp back-end service
     ├── worker.js         # WebApp back-end worker. Renders data on canvas, executes FFmpeg, sends IPC messages to bot
 
-Server is caching files in memory for high performance. Only files with extensions: html, css, js, json, png, jpg, jpeg, gif, woff, woff2 located in `app/web/build` folder will be cached. See [app/routes/static.js](app/routes/static.js) file.
+Server is caching files in memory for high performance. Only files with extensions: `html, css, js, json, png, jpg, jpeg, gif, woff, woff2` with size less than **2.5MB** located in `app/web/build` folder will be cached. See [app/routes/static.js](app/routes/static.js) file.
 
 ### Installation
 
