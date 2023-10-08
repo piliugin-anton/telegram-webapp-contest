@@ -29,6 +29,7 @@ if (isProduction) {
 
 async function onMessage({ taskId, error, result, task }) {
 	try {
+		const  { data: { initData } } = task
 		const { fileName, filePath } = result
 
 		const article = {
@@ -46,7 +47,7 @@ async function onMessage({ taskId, error, result, task }) {
 			article.input_message_content.message_text = `[Click here to download result](${process.env.VITE_WEBAPP_URL}/result/${fileName})`
 		}
 
-		await bot.telegram.answerWebAppQuery(task.data.initData.query_id, article)
+		await bot.telegram.answerWebAppQuery(initData.query_id, article)
 	} catch (ex) {
 		console.log(ex)
 	}
