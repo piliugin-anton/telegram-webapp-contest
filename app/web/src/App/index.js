@@ -119,11 +119,6 @@ export default class App {
 				stack
 			})
 		})
-
-		setTimeout(() => {
-			const badCode = "const s;"
-  		eval(badCode)
-		}, 3000)
 	}
 
 	get color() {
