@@ -269,6 +269,7 @@ export default class App {
 
 	async handleMainButtonClick() {
 		this.tg.MainButton.showProgress(false)
+		this.showMessage('Loading...')
 
 		this.showMask()
 		this.hideControls()
@@ -284,7 +285,7 @@ export default class App {
 			const { data } = await this.axios.post('/task', payload)
 
 			if (data.id) {
-				this.showMessage('Your drawing is on a way...')
+				this.showMessage(`Your ${this.format} is on a way...`)
 			}
 		} catch (ex) {
 			console.log(ex)
