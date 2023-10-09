@@ -37,7 +37,7 @@ In production mode server will cache WebApp files in memory for better performan
 
 Server has a special route `/api/error` (file [app/routes/error.js](./app/routes/error.js)) for error collecting/reporting from client/browser, you may see this error messages in server logs.
 
-### Installation
+## Installation
 
 1. Clone repository, navigate to a project folder
 2. Run `npm install`
@@ -53,16 +53,16 @@ Server has a special route `/api/error` (file [app/routes/error.js](./app/routes
 - **VITE_WEBAPP_URL** - URL to your WebApp server *(required)*
 - **RENDER_CONCURRENCY** - Number of maximum concurrent media rendering threads *(defaults to **2** if unset)*
 
-### Development mode
+## Development mode
 
 Run ```npm run dev```  
 
 
-### Production mode (uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
+## Production mode (uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
 
-#### There are 2 options for deployment: run directly using npm scripts from package.json or using a [Docker](#2-docker)
+### There are 2 options for deployment: run directly using npm scripts from package.json or using a [Docker](#2-docker)
 
-##### 1. If you want to run it on VPS/dedicated server directly:
+#### 1. If you want to run it on VPS/dedicated server directly:
 
 1. Install PM2 globally ```npm install -g pm2```
 2. Obtain an SSL-certificate (get free from Let's Encrypt, generate self-signed or buy one). Instruction on how to generate self-signed certificate: https://core.telegram.org/bots/self-signed   
@@ -87,7 +87,7 @@ Other scripts:
 
  - ```npm run monitor``` - PM2 live monitor
 
-##### 2. Docker
+#### 2. Docker
 
 If you want to use it in a Docker container ([Docker](https://www.docker.com) has to be already installed), use scripts from `package.json` prefixed with `docker:`
 
@@ -118,7 +118,7 @@ If you want to use it in a Docker container ([Docker](https://www.docker.com) ha
  - ```npm run docker:config``` - Docker config  
 
 
-### FAQ
+## FAQ
 
 > How do I run it locally (without domain name and SSL certificate)?  
 
@@ -137,7 +137,7 @@ Feel free to [open an issue](https://github.com/piliugin-anton/telegram-webapp-c
 
 Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-contest/compare)
 
-### TODO
+## TODO
 
 - [ ] Drawings scaling?
 - [x] Rendering queue?
