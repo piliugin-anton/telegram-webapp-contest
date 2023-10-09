@@ -129,6 +129,14 @@ You can use a tunneling software like [Telebit](https://telebit.cloud), [localtu
 **Front-end** part dependencies: [Vite](https://vitejs.dev/)  
 **Back-end** part dependencies: [@napi-rs/canvas](https://www.npmjs.com/package/@napi-rs/canvas), [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static), [Hyper-Express](https://www.npmjs.com/package/hyper-express) (powered by [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js)), [Telegraf](https://github.com/telegraf/telegraf)
 
+> I have an issue and I don't know how to fix it
+
+Feel free to open an issue
+
+> I had an issue and I fixed it
+
+Feel free to open a PR
+
 ### TODO
 
 - [ ] Drawings scaling?
