@@ -127,6 +127,7 @@ You can use a tunneling software like [Telebit](https://telebit.cloud), [localtu
 
 - [ ] Drawings scaling?
 - [x] Rendering queue?
+- [ ] Cancelling rendering tasks (need special event from Telegram.WebApp)
 
 ## License
 [MIT](./LICENSE)
