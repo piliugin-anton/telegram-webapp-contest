@@ -4,8 +4,7 @@
 
 ## Draw pictures, make GIF animations and videos!
 
-[Requirements](#requirements)
-
+[Requirements](#requirements)  
 [WebApp technologies](#webapp-technologies)
 
 [Project structure](#project-structure)
