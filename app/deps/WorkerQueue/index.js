@@ -22,13 +22,12 @@ module.exports = class WorkerQueue extends EventEmitter {
 		this.concurrency = typeof concurrency !== 'number' || !isFinite(concurrency) ? defaultOptions.concurrency : concurrency
 	}
 
-	addTask({ workerFilename, data, meta = {} }) {
+	addTask({ workerFilename, data }) {
 		const taskId = crypto.randomUUID()
 
 		this.tasks[taskId] = {
 			workerFilename,
-			data,
-			meta
+			data
 		}
 
 		Object.defineProperty(this.tasks[taskId], 'promise', {
