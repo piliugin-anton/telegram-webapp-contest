@@ -61,7 +61,7 @@ Run ```npm run dev```
 1. Install PM2 globally ```npm install -g pm2```
 2. Obtain an SSL-certificate (get free from Let's Encrypt, generate self-signed or buy one). Instruction on how to generate self-signed certificate: https://core.telegram.org/bots/self-signed   
 
-**Note: When using Docker, self-signed certificate will be generated automatically for you**  
+**Note: When using [Docker](#2-docker), self-signed certificate will be generated automatically for you**  
 
 3. Start server and bot (this will build WebApp): ```npm run start```
 
