@@ -89,7 +89,7 @@ export default class LineSettings extends EventEmitter {
     }
 
     this.settingsElement = container
-    this.settingsElement.style.setProperty('--progress-value', `${this.progress}%`)
+    this.updateLineWidth()
 
     document.body.insertAdjacentElement('beforeend', container)
   }
@@ -114,12 +114,18 @@ export default class LineSettings extends EventEmitter {
 		)
   }
 
-  handleLineWidthChange(value) {
-    this.options.lineWidth = parseInt(value, 10)
-
+  updateLineWidth() {
     this.settingsElement.style.setProperty('--progress-value', `${this.progress}%`)
 
     this.linePath.setAttribute('stroke-width', this.lineWidth)
+  }
+
+  handleLineWidthChange(value) {
+    this.options.lineWidth = parseInt(value, 10)
+
+    this.updateLineWidth()
+
+    this.emit('change', this.lineWidth)
   }
 
   handleToggleSettings(ev) {

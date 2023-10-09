@@ -22,7 +22,7 @@ export default class App {
 		this.mask = document.getElementById('mask')
 		this.menu = document.getElementById('menu')
 
-    const { color, backgroundColor, lineWidth, format } = this.tryReadStorage()
+    const { color, backgroundColor, lineWidth } = this.tryReadStorage()
 
 		const defaultOptions = {
 			color: color || '#FFC20A',
@@ -44,7 +44,7 @@ export default class App {
 				'#1A85FF'
 			],
 			lineWidth: lineWidth || 4,
-			format: format || null,
+			format: null,
 			formats: {
 				picture: {
           icon: PictureIcon,
@@ -166,7 +166,7 @@ export default class App {
     if (!storageData) return {}
 
     try {
-      const { color, backgroundColor, lineWidth, history, format } = JSON.parse(storageData)
+      const { color, backgroundColor, lineWidth, history } = JSON.parse(storageData)
 
       const data = {}
 
@@ -174,7 +174,6 @@ export default class App {
       if (isValidHexColor(backgroundColor)) data.backgroundColor = backgroundColor
       if (typeof lineWidth === 'number') data.lineWidth = lineWidth
       if (Array.isArray(history)) data.history = history
-      if (typeof format === 'string') data.format = format
 
       return data
     } catch(ex) {
@@ -190,7 +189,6 @@ export default class App {
         color: this.color,
         backgroundColor: this.backgroundColor,
         lineWidth: this.lineWidth,
-        format: this.format,
         history: this.canvas.history || []
       })
 
@@ -279,6 +277,7 @@ export default class App {
 	
 		this.strokeColorPicker.on('change', this.handleColorChange.bind(this))
 		this.backgroundColorPicker.on('change', this.handleBackgroundColorChange.bind(this))
+    this.lineSettings.on('change', this.handleLineSettingsChange.bind(this))
 		this.downloadSettings.on('format', this.handleDownloadFormatChange.bind(this))
 
 		this.tg.ready()
@@ -291,6 +290,7 @@ export default class App {
 		this.options.color = color.toHEXA().toString()
 	
 		this.canvas.disableEraser()
+    this.updateStorage()
 	}
 
 	handleBackgroundColorChange(color) {
@@ -299,6 +299,10 @@ export default class App {
 		this.canvas.updateBackground()
     this.updateStorage()
 	}
+
+  handleLineSettingsChange() {
+    this.updateStorage()
+  }
 
 	handleDownloadFormatChange(format) {
 		this.options.format = format
