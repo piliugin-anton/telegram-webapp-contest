@@ -1,8 +1,8 @@
 # Telegram WebApp contest submission
 
-## Draw pictures, make GIF animations and videos!
-
 ![GIF example](https://github.com/piliugin-anton/telegram-webapp-contest/blob/master/app/web/public/example.gif?raw=true)
+
+## Draw pictures, make GIF animations and videos!
 
 ### Requirements
 
