@@ -20,3 +20,7 @@ export function debounce(func, timeout = 300) {
     timer = setTimeout(() => func.apply(this, args), timeout)
   }
 }
+
+export function isValidHexColor(string) {
+  return /^#[0-9A-F]{6}$/i.test(string)
+}

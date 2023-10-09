@@ -1,7 +1,7 @@
 import EventEmitter from '@foxify/events'
 
 export default class Canvas extends EventEmitter {
-  constructor({ elementSelector, options }) {
+  constructor({ elementSelector, options, history, historyIndex }) {
     super()
 
     this.canvas = document.querySelector(elementSelector)
@@ -11,8 +11,8 @@ export default class Canvas extends EventEmitter {
     this.options = options
     this.context = canvas.getContext('2d')
 
-    this.historyIndex = -1
-    this.history = []
+    this.history = history || []
+    this.historyIndex = this.history.length ? this.history.length - 1 : -1
     this.step = []
     this.isDrawing = false
     this.isErasing = false
@@ -32,7 +32,7 @@ export default class Canvas extends EventEmitter {
     this.canvas.width = window.innerWidth
 		this.canvas.height = window.innerHeight
 
-    this.unsetCanvasBackground()
+    this.onInit()
   }
 
   get strokeStyle() {
@@ -53,6 +53,11 @@ export default class Canvas extends EventEmitter {
 
   get redoEnabled() {
     return this.history.length >= 1 && this.historyIndex < this.history.length - 1
+  }
+
+  onInit() {
+    this.updateBackground()
+    this.redraw()
   }
 
   toggleMode() {

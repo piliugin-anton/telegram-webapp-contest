@@ -3,7 +3,7 @@ import Canvas from '~/src/Canvas'
 import ColorPicker from '~/src/ColorPicker'
 import LineSettings from '~/src/LineSettings'
 import DownloadSettings from '~/src/DownloadSettings'
-import { debounce } from '~/src/helpers'
+import { debounce, isValidHexColor } from '~/src/helpers'
 
 import ColorsIcon from '~/assets/icons/colors-icon.svg?raw'
 import BackgroundIcon from '~/assets/icons/background-icon.svg?raw'
@@ -14,15 +14,19 @@ import VideoIcon from '~/assets/icons/video-icon.svg?raw'
 import GIFIcon from '~/assets/icons/gif-icon.svg?raw'
 
 export default class App {
+  static STORAGE_KEY = 'telegram-draw'
+
 	constructor(options = {}) {
 		this.loader = document.getElementById('loader')
 		this.message = document.getElementById('message')
 		this.mask = document.getElementById('mask')
 		this.menu = document.getElementById('menu')
 
+    const { color, backgroundColor, lineWidth, format } = this.tryReadStorage()
+
 		const defaultOptions = {
-			color: '#FFC20A',
-			backgroundColor: '#FFFFFF',
+			color: color || '#FFC20A',
+			backgroundColor: backgroundColor || '#FFFFFF',
 			palette: [
 				'#FFC20A',
 				'#0C7BDC',
@@ -39,8 +43,8 @@ export default class App {
 				'#DC3220',
 				'#1A85FF'
 			],
-			lineWidth: 4,
-			format: null,
+			lineWidth: lineWidth || 4,
+			format: format || null,
 			formats: {
 				picture: {
           icon: PictureIcon,
@@ -156,6 +160,50 @@ export default class App {
 		return flatData.length >= 2
 	}
 
+  tryReadStorage() {
+    const storageData = window.localStorage.getItem(App.STORAGE_KEY)
+
+    if (!storageData) return {}
+
+    try {
+      const { color, backgroundColor, lineWidth, history, format } = JSON.parse(storageData)
+
+      const data = {}
+
+      if (isValidHexColor(color)) data.color = color
+      if (isValidHexColor(backgroundColor)) data.backgroundColor = backgroundColor
+      if (typeof lineWidth === 'number') data.lineWidth = lineWidth
+      if (Array.isArray(history)) data.history = history
+      if (typeof format === 'string') data.format = format
+
+      return data
+    } catch(ex) {
+      //
+    }
+
+    return {}
+  }
+
+  updateStorage() {
+    try {
+      const data = JSON.stringify({
+        color: this.color,
+        backgroundColor: this.backgroundColor,
+        lineWidth: this.lineWidth,
+        format: this.format,
+        history: this.canvas.history || []
+      })
+
+      window.localStorage.setItem(App.STORAGE_KEY, data)
+    } catch(ex) {
+      //
+    }
+  }
+
+  clearStorage() {
+    window.localStorage.removeItem(App.STORAGE_KEY)
+  }
+
 	showLoading() {
 		this.loader.classList.remove('--hidden')
 	}
@@ -182,9 +230,12 @@ export default class App {
 	}
 
 	init() {
+    const { history } = this.tryReadStorage()
+
 		this.canvas = new Canvas({
 			elementSelector: '#canvas',
 			options: this.options,
+      history
 		})
 	
 		this.canvas.on('newLine', this.updateButtonsState.bind(this))
@@ -246,6 +297,7 @@ export default class App {
 		this.options.backgroundColor = color.toHEXA().toString()
 	
 		this.canvas.updateBackground()
+    this.updateStorage()
 	}
 
 	handleDownloadFormatChange(format) {
@@ -287,6 +339,7 @@ export default class App {
 
 			if (data.id) {
 				this.showMessage(`Your ${this.format} is on a way...`)
+        this.clearStorage()
 			}
 		} catch (ex) {
 			console.log(ex)
@@ -304,6 +357,8 @@ export default class App {
 	updateButtonsState({ undoEnabled, redoEnabled }) {
     this.undo.disabled = !undoEnabled
     this.redo.disabled = !redoEnabled
+
+    this.updateStorage()
 
 		this.options.formats.GIF.disabled = this.options.formats.video.disabled = !this.isAnimationRenderable
 

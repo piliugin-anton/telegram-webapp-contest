@@ -48,6 +48,7 @@ export default class ColorPicker extends Pickr {
     this.icon = icon
     this.iconColor = '#000000'
 
+    this.on('init', this.handleInit.bind(this))
     this.on('change', this.handleColorChange.bind(this))
 
     if (this.icon) {
@@ -55,11 +56,20 @@ export default class ColorPicker extends Pickr {
     }
   }
 
+  handleInit() {
+    const pickerColor = this.getColor().toHEXA().toString()
+    this.updateIconColor(pickerColor)
+  }
+
   handleColorChange(color) {
+    const pickerColor = color.toHEXA().toString()
+    this.updateIconColor(pickerColor)
+  }
+
+  updateIconColor(color) {
     if (!this.iconElement) return
 
-    const pickerColor = color.toHEXA().toString()
-    const contrastColor = getContrastYIQ(pickerColor)
+    const contrastColor = getContrastYIQ(color)
     
     if (contrastColor === this.iconColor) return
 
