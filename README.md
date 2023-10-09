@@ -18,7 +18,7 @@ This WebApp front-end is a Vanilla JavaScript application, uses SCSS, build with
     ├── bot               # Contains Telegram bot source code
 
 #### `app` folder structure and details
-    ...
+    ..
     ├── .result           # Folder where the rendered files will be stored and served by server (does not exist in repo, will be created automatically)
     ├── deps              # WebApp dependencies
     ├── helpers           # Helper functions
