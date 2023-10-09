@@ -4,6 +4,13 @@
 
 ## Draw pictures, make GIF animations and videos!
 
+[Requirements](#requirements)
+[WebApp technologies](#webapp-technologies)
+[Project structure](#project-structure)
+[Installation](#installation)
+[.env variables](#env-variables)
+[Development mode](#development-mode)
+
 ### Requirements
 
 Node.js v18+
@@ -58,7 +65,9 @@ Server has a special route `/api/error` (file [app/routes/error.js](./app/routes
 Run ```npm run dev```  
 
 
-## Production mode (uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
+## Production mode  
+
+(uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
 
 ### There are 2 options for deployment: run directly using npm scripts from package.json or using a [Docker](#2-docker)
 
