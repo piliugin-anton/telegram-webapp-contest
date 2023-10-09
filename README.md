@@ -8,6 +8,10 @@
 
 Node.js v18+
 
+### WebApp technologies
+
+This WebApp front-end is a Vanilla JavaScript application, uses SCSS, build with Vite.  
+
 ### Project structure
     .
     ├── app               # Contains WebApp front-end and back-end source code
