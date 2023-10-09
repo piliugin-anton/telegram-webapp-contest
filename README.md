@@ -45,7 +45,7 @@ Server is caching WebApp files in memory for better performance (be careful usin
 - **BOT_CERTIFICATE** - SSL certificate. Possible values are: 'self-signed' or path to certificate .pem file *(required if you set **BOT_DOMAIN** variable)*
 - **SERVER_PORT** - Your server (Front-end and back-end) port number *(required)*
 - **VITE_WEBAPP_URL** - URL to your WebApp server *(required)*
-- **RENDER_CONCURRENCY** - Number of concurrent media rendering threads (defaults to **2** if unset)
+- **RENDER_CONCURRENCY** - Number of concurrent media rendering threads *(defaults to **2** if unset)*
 
 ### Development mode
 
