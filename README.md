@@ -5,22 +5,14 @@
 ## Draw pictures, make GIF animations and videos!
 
 [Requirements](#requirements)  
-[WebApp technologies](#webapp-technologies)
-
-[Project structure](#project-structure)
-
-[Installation](#installation)
-
-[.env variables](#env-variables)
-
-[Development mode](#development-mode)
-
-[Production mode](#production-mode)
-
-[FAQ](#faq)
-
-[TODO](#faq)
-
+[WebApp technologies](#webapp-technologies)  
+[Project structure](#project-structure)  
+[Installation](#installation)  
+[.env variables](#env-variables)  
+[Development mode](#development-mode)  
+[Production mode](#production-mode)  
+[FAQ](#faq)  
+[TODO](#todo)  
 
 ### Requirements
 
