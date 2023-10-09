@@ -1,7 +1,7 @@
 const { fork, exec } = require('child_process')
 const chokidar = require('chokidar')
 
-module.exports = class ForkController {
+module.exports = class ForkManager {
   static SPAWN_STATE = {
     WAITING: -1,
     SPAWNING: 0,
@@ -11,7 +11,7 @@ module.exports = class ForkController {
   }
 
   forks = {}
-  spawnState = ForkController.SPAWN_STATE.WAITING
+  spawnState = ForkManager.SPAWN_STATE.WAITING
   watcher = null
   readyPromise = Promise.resolve()
   restartHandler = null
@@ -52,7 +52,7 @@ module.exports = class ForkController {
   }
 
   addForks(forks) {
-    if (this.spawnState !== ForkController.SPAWN_STATE.WAITING) return
+    if (this.spawnState !== ForkManager.SPAWN_STATE.WAITING) return
 
     for (let i = 0; i < forks.length; i++) {
       const {
@@ -71,7 +71,7 @@ module.exports = class ForkController {
 
       this.forks[modulePath] = {
         process: null,
-        state: ForkController.SPAWN_STATE.WAITING,
+        state: ForkManager.SPAWN_STATE.WAITING,
         waitForReady,
         stdout,
         stderr,
@@ -161,7 +161,7 @@ module.exports = class ForkController {
 
       let resolved = false
 
-      this.forks[modulePath].state = ForkController.SPAWN_STATE.SPAWNING
+      this.forks[modulePath].state = ForkManager.SPAWN_STATE.SPAWNING
       this.forks[modulePath].process = fork(modulePath, this.forks[modulePath].parameters, this.forks[modulePath].options)
   
       if (this.forks[modulePath].messageTo) {
@@ -185,7 +185,7 @@ module.exports = class ForkController {
 
       const readyEventName = this.forks[modulePath].waitForReady ? 'ready' : 'spawn'
       this.forks[modulePath].process.once(readyEventName, () => {
-        this.forks[modulePath].state = ForkController.SPAWN_STATE.SPAWNED
+        this.forks[modulePath].state = ForkManager.SPAWN_STATE.SPAWNED
         resolved = true
   
         resolve(resolved)
@@ -198,15 +198,15 @@ module.exports = class ForkController {
       })
 
       this.forks[modulePath].process.on('close', async () => {
-        this.forks[modulePath].state = ForkController.SPAWN_STATE.KILLED
+        this.forks[modulePath].state = ForkManager.SPAWN_STATE.KILLED
 
-        if (this.spawnState !== ForkController.SPAWN_STATE.KILLING) await this.respawn(modulePath)
+        if (this.spawnState !== ForkManager.SPAWN_STATE.KILLING) await this.respawn(modulePath)
       })
     })
   }
 
   respawn(modulePath) {
-    if (this.forks[modulePath].state !== ForkController.SPAWN_STATE.KILLED) return
+    if (this.forks[modulePath].state !== ForkManager.SPAWN_STATE.KILLED) return
 
     this.forks[modulePath].process = null
 
@@ -214,9 +214,9 @@ module.exports = class ForkController {
   }
 
   spawnAll() {
-    if (this.spawnState !== ForkController.SPAWN_STATE.WAITING) return
+    if (this.spawnState !== ForkManager.SPAWN_STATE.WAITING) return
 
-    this.spawnState = ForkController.SPAWN_STATE.SPAWNING
+    this.spawnState = ForkManager.SPAWN_STATE.SPAWNING
 
     const events = [
       'exit',
@@ -237,7 +237,7 @@ module.exports = class ForkController {
     }
   
     return Promise.all(promises).then((forks) => {
-      this.spawnState = ForkController.SPAWN_STATE.SPAWNED
+      this.spawnState = ForkManager.SPAWN_STATE.SPAWNED
     })
   }
 
@@ -257,7 +257,7 @@ module.exports = class ForkController {
   }
 
   gracefulShutdown() {
-    this.spawnState = ForkController.SPAWN_STATE.KILLING
+    this.spawnState = ForkManager.SPAWN_STATE.KILLING
     this.readyPromise = new Promise((resolve, reject) => {
       const promises = [this.waitForExit()]
       for (const modulePath in this.forks) {
@@ -269,7 +269,7 @@ module.exports = class ForkController {
       }
       
       Promise.all(promises).then(() => {
-        this.spawnState = ForkController.SPAWN_STATE.WAITING
+        this.spawnState = ForkManager.SPAWN_STATE.WAITING
 
         resolve()
       }).catch(reject)
@@ -277,7 +277,7 @@ module.exports = class ForkController {
   }
 
   kill(fork) {
-    fork.state = ForkController.SPAWN_STATE.KILLING
+    fork.state = ForkManager.SPAWN_STATE.KILLING
 
     if (fork.process) {
       process.kill(fork.process.pid, 'SIGTERM')
