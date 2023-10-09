@@ -30,6 +30,7 @@ Node.js v18+
     ├── worker.js         # WebApp back-end worker. Renders data on canvas, executes FFmpeg, sends IPC messages to bot
 
 In production mode server will cache WebApp files in memory for better performance (be careful using this feature). Only files with extensions: `html, css, js, json, png, jpg, jpeg, gif, woff, woff2` with size less than **2.5MB**, located in `app/web/build` folder will be cached. See [app/routes/static.js](app/routes/static.js) file.
+Server has a special route `/api/error` for collecting errors (error reporting) from client/browser, you may see this error messages in server logs.
 
 ### Installation
 
