@@ -159,6 +159,7 @@ Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-conte
 - [x] Rendering queue?
 - [ ] Cancelling rendering tasks (need special 'close' event, emitted from Telegram.WebApp)
 - [ ] Fix autoprefixer issue (doesn't work 🤔)
+- [ ] Restore canvas state on page load
 
 ## License
 [MIT](./LICENSE)
