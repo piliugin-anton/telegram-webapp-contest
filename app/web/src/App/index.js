@@ -268,6 +268,7 @@ export default class App {
 	}
 
 	async handleMainButtonClick() {
+    this.tg.MainButton.text = `Getting ${this.format}...`
 		this.tg.MainButton.showProgress(false)
 		this.showMessage('Loading...')
 
