@@ -3,13 +3,14 @@ const WorkerQueue = require('@app/deps/WorkerQueue')
 const { mkDir } = require('@app/helpers')
 
 const isProduction = process.env.NODE_ENV === 'production'
+const concurrency = parseInt(process.env.RENDER_CONCURRENCY, 10)
 const workerFilename = path.join(__dirname, '..', 'worker.js')
 const RESULTS_DIR = path.join(__dirname, '..', '.result')
 
 mkDir(RESULTS_DIR)
 
 const queue = new WorkerQueue({
-	concurrency: 2
+	concurrency
 })
 
 const handleQueueEvent = (data) => process.send(isProduction ? { type: 'queue', data } : data)

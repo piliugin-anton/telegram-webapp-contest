@@ -11,11 +11,15 @@ module.exports = class WorkerQueue extends EventEmitter {
 	constructor(options = {}) {
 		super()
 
+		const defaultOptions = {
+			concurrency: 2
+		}
+
 		const {
-			concurrency = 2
+			concurrency = defaultOptions.concurrency
 		} = options
 
-		this.concurrency = concurrency
+		this.concurrency = typeof concurrency !== 'number' || !isFinite(concurrency) ? defaultOptions.concurrency : concurrency
 	}
 
 	addTask({ workerFilename, data, meta = {} }) {
