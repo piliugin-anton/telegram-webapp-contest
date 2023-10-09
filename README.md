@@ -122,20 +122,24 @@ If you want to use it in a Docker container ([Docker](https://www.docker.com) ha
 
 > How do I run it locally (without domain name and SSL certificate)?  
 
-You can use a tunneling software like [Telebit](https://telebit.cloud), [localtunnel](https://github.com/localtunnel/localtunnel), [ngrok](https://ngrok.com) or [any of this](https://github.com/anderspitman/awesome-tunneling#open-source-at-least-with-a-reasonably-permissive-license)
+You can use a tunneling software like [Telebit](https://telebit.cloud), [localtunnel](https://github.com/localtunnel/localtunnel), [ngrok](https://ngrok.com) or [any of this](https://github.com/anderspitman/awesome-tunneling#open-source-at-least-with-a-reasonably-permissive-license)  
+
 
 > What are the project dependencies?  
 
 **Front-end** part dependencies: [Vite](https://vitejs.dev/)  
-**Back-end** part dependencies: [@napi-rs/canvas](https://www.npmjs.com/package/@napi-rs/canvas), [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static), [Hyper-Express](https://www.npmjs.com/package/hyper-express) (powered by [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js)), [Telegraf](https://github.com/telegraf/telegraf)
+**Back-end** part dependencies: [@napi-rs/canvas](https://www.npmjs.com/package/@napi-rs/canvas), [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static), [Hyper-Express](https://www.npmjs.com/package/hyper-express) (powered by [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js)), [Telegraf](https://github.com/telegraf/telegraf)  
+
 
 > I have an issue and I don't know how to fix it
 
-Feel free to [open an issue](https://github.com/piliugin-anton/telegram-webapp-contest/issues/new)
+Feel free to [open an issue](https://github.com/piliugin-anton/telegram-webapp-contest/issues/new)  
+
 
 > I had an issue and I fixed it
 
-Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-contest/compare)
+Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-contest/compare)  
+
 
 ## TODO
 
