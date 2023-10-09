@@ -1,6 +1,6 @@
 const { Worker } = require('worker_threads')
 const fs = require('fs')
-const error = require('./custom-error')
+const error = require('./CustomError')
 
 function runService(filename, workerData) {
   return new Promise((resolve, reject) => {

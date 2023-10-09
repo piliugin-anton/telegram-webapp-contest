@@ -1,8 +1,8 @@
 import axios from 'axios'
-import Canvas from '~/src/canvas'
-import ColorPicker from '~/src/color-picker'
-import LineSettings from '~/src/line-settings'
-import DownloadSettings from '~/src/download-settings'
+import Canvas from '~/src/Canvas'
+import ColorPicker from '~/src/ColorPicker'
+import LineSettings from '~/src/LineSettings'
+import DownloadSettings from '~/src/DownloadSettings'
 import { debounce } from '~/src/helpers'
 
 import ColorsIcon from '~/assets/icons/colors-icon.svg?raw'

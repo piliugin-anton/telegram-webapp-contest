@@ -2,7 +2,7 @@ import EventEmitter from '@foxify/events'
 import { reposition } from 'nanopop'
 
 import Line from '~/assets/svg/line.svg?raw'
-import Range from '~/src/range'
+import Range from '~/src/Range'
 
 export default class LineSettings extends EventEmitter {
   constructor({ elementSelector, options, icon }) {
