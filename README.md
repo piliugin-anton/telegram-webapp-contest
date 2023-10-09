@@ -131,11 +131,11 @@ You can use a tunneling software like [Telebit](https://telebit.cloud), [localtu
 
 > I have an issue and I don't know how to fix it
 
-Feel free to open an issue
+Feel free to [open an issue](https://github.com/piliugin-anton/telegram-webapp-contest/issues/new)
 
 > I had an issue and I fixed it
 
-Feel free to open a PR
+Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-contest/compare)
 
 ### TODO
 
