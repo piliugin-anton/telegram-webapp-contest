@@ -5,7 +5,7 @@
 ## Draw pictures, make GIF animations and videos!
 
 [Requirements](#requirements)  
-[WebApp technologies stack](#webapp-technologies)  
+[WebApp technologies stack](#webapp-technologies-stack)  
 [Project structure](#project-structure)  
 [Installation](#installation)  
 [.env variables](#env-variables)  
