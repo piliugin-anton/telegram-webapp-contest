@@ -60,7 +60,7 @@ Server has a special route `/api/error` (file [app/routes/error.js](./app/routes
 - **BOT_PORT** - Webhook port (currently supported ports: **443, 80, 88 and 8443**) *(required if you set **BOT_DOMAIN** variable)*
 - **BOT_CERTIFICATE** - Webhook SSL certificate. Possible values are: 'self-signed' or path to certificate .pem file *(required if you set **BOT_DOMAIN** variable)*
 - **BOT_KEY** - Webhook certificate key *(required if **BOT_CERTIFICATE** is set)*
-- **SERVER_PORT** - Your server (Front-end and back-end) port number *(required)*
+- **SERVER_PORT** - Your server (front-end and back-end) port number *(required)*
 - **SERVER_CERTIFICATE** - Path to SSL certificate .pem file
 - **SERVER_KEY** - SSL certificate key *(required if **SERVER_CERTIFICATE** is set)*
 - **VITE_WEBAPP_URL** - URL to your WebApp *(required)*
