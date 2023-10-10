@@ -75,34 +75,7 @@ function tryAccess(file) {
 async function start() {
   bot.botInfo = await bot.telegram.getMe()
 
-	const options = {}
-	if (process.env.BOT_DOMAIN) {
-		let certificate
-		if (process.env.BOT_CERTIFICATE === 'self-signed') {
-			const certPath = path.join(__dirname, 'self-signed.pem')
-			const { exists } = tryAccess(certPath)
-
-			if (!exists) {
-				console.log(`Generate a self-signed PEM certificate according to instruction (https://core.telegram.org/bots/self-signed) and place it in project root dir, so the full path to a .pem file will look like: ${certPath}`)
-			} else {
-				certificate = certPath
-			}
-		} else {
-			const { exists } = tryAccess(process.env.BOT_CERTIFICATE)
-			if (exists) certificate = process.env.BOT_CERTIFICATE
-		}
-
-		const domain = `${certificate ? 'https' : 'http'}://${process.env.BOT_DOMAIN}`
-		const port = parseInt(process.env.BOT_PORT, 10)
-		const secretToken = crypto.randomBytes(64).toString('hex')
-
-		options.webhook = {
-			domain,
-			port,
-			secretToken,
-			certificate
-		}
-	}
+	const options = getWebhookOptions()
 
   bot.launch(options)
 
@@ -129,5 +102,52 @@ events.forEach((eventType) => process.once(eventType, () => {
   bot.stop(eventType)
   process.exit(0)
 }))
+
+const getWebhookOptions = () => {
+  const options = {
+    webhook: {}
+  }
+
+	if (process.env.BOT_DOMAIN) {
+		if (process.env.BOT_CERTIFICATE === 'self-signed') {
+			const certPath = path.join(__dirname, 'self-signed.pem')
+      const keyPath = path.join(__dirname, 'self-signed.key')
+			const certAccess = tryAccess(certPath)
+      const keyAccess = tryAccess(keyPath)
+
+			if (!certAccess.exists || !keyAccess.exists) {
+				console.log(`Generate a self-signed PEM certificate according to instruction (https://core.telegram.org/bots/self-signed) and place it in project root dir along with a .key file, so the full path to a .pem file will look like: ${certPath} and key path should look like: `)
+			} else {
+				options.webhook.certificate = { source: fs.readFileSync(certPath) }
+        options.webhook.certificateKey = fs.readFileSync(keyPath)
+			}
+		} else {
+			const certAccess = tryAccess(process.env.BOT_CERTIFICATE)
+      const keyAccess = tryAccess(process.env.BOT_KEY)
+			if (certAccess.exists && keyAccess.exists) {
+        options.webhook.certificate = { source: fs.readFileSync(process.env.BOT_CERTIFICATE) }
+        options.webhook.certificateKey = fs.readFileSync(process.env.BOT_KEY)
+      } else {
+        if (!certAccess.exists) console.log(`Certificate file ${process.env.BOT_CERTIFICATE} doesn't exist`)
+        if (!keyAccess.exists) console.log(`Certificate key file ${process.env.BOT_KEY} doesn't exist`)
+      }
+		}
+
+    const isSSL = options.webhook.certificate && options.webhook.certificateKey
+    if (!isSSL) return {}
+
+    options.webhook.tlsOptions = {
+      key: options.webhook.certificateKey,
+      cert: options.webhook.certificate.source
+    }
+
+    const botPort = parseInt(process.env.BOT_PORT, 10)
+    options.webhook.port = !isNaN(botPort) ? botPort : 8443
+		options.webhook.domain = `${isSSL ? 'https' : 'http'}://${process.env.BOT_DOMAIN}:${options.webhook.port}`
+		options.webhook.secretToken = crypto.randomBytes(64).toString('hex')
+	}
+
+  return options
+} 
 
 start()
