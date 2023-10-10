@@ -55,7 +55,7 @@ Server has a special route `/api/error` (file [app/routes/error.js](./app/routes
 
 #### .env Variables
 
-- **BOT_TOKEN** - Token you get from @botfather *(required)*
+- **BOT_TOKEN** - Token you get from [@botfather](https://t.me/botfather) *(required)*
 - **BOT_DOMAIN** - Bot webhook domain name (example: bot.somedomain.com)
 - **BOT_PORT** - Webhook port (currently supported ports: **443, 80, 88 and 8443**) *(required if you set **BOT_DOMAIN** variable)*
 - **BOT_CERTIFICATE** - Webhook SSL certificate. Possible values are: 'self-signed' or path to certificate .pem file *(required if you set **BOT_DOMAIN** variable)*
