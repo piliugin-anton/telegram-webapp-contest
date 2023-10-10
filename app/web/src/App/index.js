@@ -22,7 +22,9 @@ export default class App {
 		this.mask = document.getElementById('mask')
 		this.menu = document.getElementById('menu')
 
-    const { color, backgroundColor, lineWidth } = this.tryReadStorage()
+    const { color, backgroundColor, lineWidth, history } = this.tryReadStorage()
+
+    const disableAnimationDownload = history ? history.flat().length < 2 : true
 
 		const defaultOptions = {
 			color: color || '#FFC20A',
@@ -53,12 +55,12 @@ export default class App {
         GIF: {
           icon: GIFIcon,
           text: 'GIF',
-					disabled: true
+					disabled: disableAnimationDownload
         },
         video: {
           icon: VideoIcon,
           text: 'Video',
-					disabled: true
+					disabled: disableAnimationDownload
         }
 			}
 		}
