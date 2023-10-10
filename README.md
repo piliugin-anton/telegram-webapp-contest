@@ -20,7 +20,7 @@ Node.js v18+
 
 ### WebApp technologies stack
 
-This WebApp front-end is a Vanilla JavaScript application, uses SCSS, build with Vite.  
+WebApp front-end is a Vanilla JavaScript application, uses SCSS, build with Vite. Back-end is Node.js framework hyper-express  
 
 ### Project structure
     .
