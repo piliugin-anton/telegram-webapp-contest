@@ -116,7 +116,7 @@ const getWebhookOptions = () => {
       const keyAccess = tryAccess(keyPath)
 
 			if (!certAccess.exists || !keyAccess.exists) {
-				console.log(`Generate a self-signed PEM certificate according to instruction (https://core.telegram.org/bots/self-signed) and place it in project root dir along with a .key file, so the full path to a .pem file will look like: ${certPath} and key path should look like: `)
+				console.log(`Generate a self-signed PEM certificate according to instruction (https://core.telegram.org/bots/self-signed) and place it in project root dir along with a .key file, so the full path to a .pem file will look like: ${certPath} and key path should look like: ${keyPath}`)
 			} else {
 				options.webhook.certificate = { source: fs.readFileSync(certPath) }
         options.webhook.certificateKey = fs.readFileSync(keyPath)
