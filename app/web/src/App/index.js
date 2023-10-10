@@ -247,6 +247,14 @@ export default class App {
   	this.undo = document.getElementById('undo')
   	this.redo = document.getElementById('redo')
 
+    if (this.canvas.undoEnabled) {
+      this.undo.disabled = false
+    }
+
+    if (this.canvas.redoEnabled) {
+      this.redo.disabled = false
+    }
+
 		this.mode.addEventListener('click', () => this.canvas.toggleMode())
 		this.undo.addEventListener('click', () => this.canvas.undo())
 		this.redo.addEventListener('click', () => this.canvas.redo())
