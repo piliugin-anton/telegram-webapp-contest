@@ -4,6 +4,8 @@
 
 ## Draw pictures, make GIF animations and videos!
 
+![TelegramDraw](https://github.com/piliugin-anton/telegram-webapp-contest/blob/master/webapp-preview.gif?raw=true)
+
 [Requirements](#requirements)  
 [WebApp technologies stack](#webapp-technologies-stack)  
 [Project structure](#project-structure)  
