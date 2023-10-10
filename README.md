@@ -73,7 +73,7 @@ Run ```npm run dev```
 
 ## Production mode  
 
-(uses [PM2](https://pm2.keymetrics.io/), watch [ecosystem.config.js](./ecosystem.config.js) file)
+(uses [PM2](https://pm2.keymetrics.io/), see [ecosystem.config.js](./ecosystem.config.js) file)
 
 ### There are 2 options for deployment: run directly using npm scripts from package.json or using a [Docker](#2-docker)
 
