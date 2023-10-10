@@ -59,11 +59,12 @@ function tryAccess(file) {
 	if (fs.existsSync(file)) {
 		result.exists = true
 
-		if (fs.accessSync(file, fs.constants.R_OK)) {
-			result.accessible = true
-		} else {
-			console.log(`Process can't read a certificate file ${file}, check file read permissions`)
-		}
+    try {
+      fs.accessSync(file, fs.constants.R_OK)
+      result.accessible = true
+    } catch(ex) {
+      console.log(`Process can't read a certificate file ${file}, check file read permissions`)
+    }
 	} else {
 		console.log(`File ${file} does not exists`)
 	}
