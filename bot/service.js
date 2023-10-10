@@ -92,13 +92,13 @@ async function start() {
 			if (exists) certificate = process.env.BOT_CERTIFICATE
 		}
 
-    const port = parseInt(process.env.BOT_PORT, 10)
-		const domain = `${certificate ? 'https' : 'http'}://${process.env.BOT_DOMAIN}:${port}`
-		
+		const domain = `${certificate ? 'https' : 'http'}://${process.env.BOT_DOMAIN}`
+		const port = parseInt(process.env.BOT_PORT, 10)
 		const secretToken = crypto.randomBytes(64).toString('hex')
 
 		options.webhook = {
 			domain,
+			port,
 			secretToken,
 			certificate
 		}
