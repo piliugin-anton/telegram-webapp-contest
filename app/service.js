@@ -7,7 +7,13 @@ const setRoutes = require('@app/routes')
 const isProduction = process.env.NODE_ENV === 'production'
 const PORT = parseInt(process.env.SERVER_PORT, 10) + (isProduction ? 0 : 1)
 
-const server = new HyperExpress.Server()
+const options = {}
+if (process.env.SERVER_CERTIFICATE && process.env.SERVER_KEY) {
+  options.cert_file_name = process.env.SERVER_CERTIFICATE
+  options.key_file_name = process.env.SERVER_KEY
+}
+
+const server = new HyperExpress.Server(options)
 setRoutes(server, isProduction)
 
 server.listen(PORT).then((socket) => {
