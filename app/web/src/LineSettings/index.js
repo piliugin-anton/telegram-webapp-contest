@@ -141,6 +141,8 @@ export default class LineSettings extends EventEmitter {
   }
 
   show() {
+    this.setSettingsElementPosition()
+
     this.settingsElement.classList.add('--visible')
     this.isOpen = true
   }
