@@ -96,7 +96,9 @@ if (format === 'picture') {
     const fileName = `${initData.query_id}.${extension}`
     const filePath = path.join(dir, fileName)
     fs.writeFileSync(filePath, imageData)
-  
+    
+    canvas.clearAllCache()
+
     parentPort.postMessage({ fileName, filePath })
   })
 } else {
@@ -113,6 +115,8 @@ if (format === 'picture') {
     outputFilePath
   })
 	.then(() => {
+    canvas.clearAllCache()
+
     parentPort.postMessage({ fileName, filePath: outputFilePath })
   })
 	.catch((error) => {
