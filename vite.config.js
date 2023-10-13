@@ -38,6 +38,7 @@ if (!isProduction) {
 }
 
 export default defineConfig({
+  base: '/',
   root: ROOT_DIRECTORY,
 	publicDir: path.join(ROOT_DIRECTORY, 'public'),
   server: {
@@ -54,9 +55,6 @@ export default defineConfig({
     },
   },
   plugins,
-  css: {
-    devSourcemap: true
-  },
   build: {
     target: 'es2015',
     outDir: 'build'
