@@ -115,8 +115,6 @@ if (format === 'picture') {
     outputFilePath
   })
 	.then(() => {
-    clearAllCache()
-
     parentPort.postMessage({ fileName, filePath: outputFilePath })
   })
 	.catch((error) => {
@@ -125,5 +123,8 @@ if (format === 'picture') {
 
 		parentPort.postMessage({ error })
 	})
-	.finally(() => rmDir(framesPath))
+	.finally(() => {
+    rmDir(framesPath)
+    clearAllCache()
+  })
 }
