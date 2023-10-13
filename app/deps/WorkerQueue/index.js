@@ -3,6 +3,13 @@ const EventEmitter = require('@foxify/events').default
 const { runService } = require('@app/helpers')
 
 module.exports = class WorkerQueue extends EventEmitter {
+  static STATUS = Object.freeze({
+    ADDED: 0,
+    STARTED: 1,
+    FINISHED: 2,
+    ERROR: 3
+  })
+
 	tasks = {
 		_queue: []
 	}
@@ -49,24 +56,36 @@ module.exports = class WorkerQueue extends EventEmitter {
 	}
 
 	onTaskAdded(taskId) {
-		// save state to disk
+    const task = this.tasks[taskId]
+    task.status = WorkerQueue.STATUS.ADDED
 
-		this.emit('added', { taskId, task: this.tasks[taskId] })
+    // save state to disk
+
+		this.emit('added', { taskId, task })
 	}
 
 	onTaskStarted(taskId) {
 		this.runningTasks++
 
-		// save state to disk
+		const task = this.tasks[taskId]
+    task.status = WorkerQueue.STATUS.STARTED
 
-		this.emit('started', { taskId, task: this.tasks[taskId] })
+    // save state to disk
+
+		this.emit('started', { taskId, task })
 	}
 
 	onTaskFinished(taskId, result) {
-		this.emit('finished', { taskId, task: this.tasks[taskId], result })
+    const task = this.tasks[taskId]
+    task.status = WorkerQueue.STATUS.FINISHED
+
+		this.emit('finished', { taskId, task, result })
 	}
 
 	onTaskError(taskId, error) {
+    const task = this.tasks[taskId]
+    task.status = WorkerQueue.STATUS.ERROR
+
 		this.emit('error', { taskId, task: this.tasks[taskId], error })
 	}
 
@@ -91,4 +110,8 @@ module.exports = class WorkerQueue extends EventEmitter {
 			
 		this.onTaskStarted(taskId)
 	}
+
+  isRunning(taskId) {
+    return this.tasks[taskId] && this.tasks[taskId].status === WorkerQueue.STATUS.STARTED
+  }
 }

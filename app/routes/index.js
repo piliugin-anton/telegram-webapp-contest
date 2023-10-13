@@ -16,7 +16,7 @@ const setRoutes = (server, isProduction) => {
     response.status(isCustom ? error.code : INTERNAL_ERROR.code).json({ error: isCustom ? error.message : INTERNAL_ERROR.message })
   })
 
-	Router.post('/error', ReportError)
+  Router.post('/error', TelegramAuthMiddleware, ReportError)
   Router.post('/task', TelegramAuthMiddleware, ValidateTask, AddTask)
 
   server.use('/api', Router)

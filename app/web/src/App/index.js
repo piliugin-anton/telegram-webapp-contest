@@ -103,6 +103,7 @@ export default class App {
 
 		this.axios.interceptors.request.use((config) => {
     	// Do something before request is sent
+      config.headers['telegram-webapp-initdata'] = this.tg.initData
 
     	return config
   	}, this.handleAxiosError.bind(this))
@@ -342,7 +343,6 @@ export default class App {
 		this.hideControls()
 
 		const payload = {
-			initData: this.tg.initData,
 			format: this.format,
 			data: this.canvas.history,
 			backgroundColor: this.backgroundColor
@@ -353,10 +353,12 @@ export default class App {
 
 			if (data.id) {
 				this.showMessage(`Your ${this.format} is on a way...`)
+
         this.clearStorage()
 			}
 		} catch (ex) {
 			console.log(ex)
+      this.tg.MainButton.text = `Get ${this.format}`
 		}
 	}
 

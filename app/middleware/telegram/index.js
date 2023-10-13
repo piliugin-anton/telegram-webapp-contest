@@ -1,8 +1,8 @@
 const crypto = require('crypto')
 const INVALID_REQUEST = require('../../helpers').error
 
-const TelegramAuthMiddleware = async (request, response, next) => {
-  const { initData } = await request.json()
+const TelegramAuthMiddleware = (request, response, next) => {
+  const initData = request.headers['telegram-webapp-initdata']
 
   if (typeof initData !== 'string') return INVALID_REQUEST
 
