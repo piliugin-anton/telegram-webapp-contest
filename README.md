@@ -164,7 +164,7 @@ Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-conte
 
 - [ ] Drawings scaling?
 - [x] Rendering queue?
-- [ ] Cancelling rendering tasks (need special 'close' event, emitted from Telegram.WebApp)
+- [ ] Cancelling rendering tasks (needs a reliable way of handling a closing event)
 - [x] Restore canvas state on page load (if drawing wasn't rendered)
 - [ ] Let's encrypt certificate in Docker?
 
