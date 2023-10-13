@@ -3,7 +3,7 @@ require('module-alias/register')
 const { workerData, parentPort } = require('worker_threads')
 const fs = require('fs')
 const path = require('path')
-const { createCanvas } = require('@napi-rs/canvas')
+const { createCanvas, clearAllCache } = require('@napi-rs/canvas')
 const FFmpeg = require('@app/deps/FFmpeg')
 const { mkDir, rmDir } = require('@app/helpers')
 
@@ -97,7 +97,7 @@ if (format === 'picture') {
     const filePath = path.join(dir, fileName)
     fs.writeFileSync(filePath, imageData)
     
-    canvas.clearAllCache()
+    clearAllCache()
 
     parentPort.postMessage({ fileName, filePath })
   })
@@ -115,7 +115,7 @@ if (format === 'picture') {
     outputFilePath
   })
 	.then(() => {
-    canvas.clearAllCache()
+    clearAllCache()
 
     parentPort.postMessage({ fileName, filePath: outputFilePath })
   })
