@@ -1,22 +1,21 @@
 require('module-alias/register')
 
 const { workerData, parentPort } = require('worker_threads')
-const fs = require('fs')
+
 const path = require('path')
-const { createCanvas, clearAllCache } = require('@napi-rs/canvas')
+const fs = require('fs')
+const CanvasKit = require('@app/deps/CanvasKit')
 const FFmpeg = require('@app/deps/FFmpeg')
 const { mkDir, rmDir } = require('@app/helpers')
 
 const { format, canvasWidth, canvasHeight, data, initData, backgroundColor, dir } = workerData
-
-const canvas = createCanvas(canvasWidth, canvasHeight)
 
 const framesPath = path.join(dir, `${initData.query_id}-ffmpeg`)
 const framesPattern = 'frame-%d.png'
 
 const isAnimation = format === 'video' || format === 'GIF'
 const extensions = {
-  picture: 'jpg',
+  picture: 'png',
   video: 'mp4',
   GIF: 'gif'
 }
@@ -53,13 +52,13 @@ function drawLine(ctx, data) {
 
 function saveFrame(canvas, frameIndex) {
   const frameFileName = `frame-${frameIndex}.png`
-  const pngData = canvas.toBuffer('image/png')
-  fs.writeFileSync(path.join(framesPath, frameFileName), pngData)
+  const frameFilePath = path.join(framesPath, frameFileName)
+  canvas.saveImage(frameFilePath)
 
   return ++frameIndex
 }
 
-function draw() {
+function draw(canvas) {
   const ctx = canvas.getContext('2d')
 
   ctx.fillStyle = backgroundColor
@@ -89,42 +88,43 @@ function draw() {
   }
 }
 
-draw()
-
-if (format === 'picture') {
-  canvas.encode('jpeg').then((imageData) => {
+function processResult(canvas) {
+  if (format === 'picture') {
     const fileName = `${initData.query_id}.${extension}`
     const filePath = path.join(dir, fileName)
-    fs.writeFileSync(filePath, imageData)
-    
-    clearAllCache()
-
+    canvas.saveImage(filePath)
     parentPort.postMessage({ fileName, filePath })
-  })
-} else {
-  const fileName = `${initData.query_id}.${extension}`
-  const outputFilePath = path.join(dir, fileName)
-  const isGIF = format === 'GIF'
-
-  const fn = isGIF ? FFmpeg.imagesToGIF : FFmpeg.encodeFromImages
+  } else {
+    const fileName = `${initData.query_id}.${extension}`
+    const outputFilePath = path.join(dir, fileName)
+    const isGIF = format === 'GIF'
   
-  fn({
-    framesPath,
-    framesPattern,
-    frameRate: 60,
-    outputFilePath
-  })
-	.then(() => {
-    parentPort.postMessage({ fileName, filePath: outputFilePath })
-  })
-	.catch((error) => {
-		console.log(error)
-		if (fs.existsSync(outputFilePath)) fs.unlinkSync(outputFilePath)
-
-		parentPort.postMessage({ error })
-	})
-	.finally(() => {
-    rmDir(framesPath)
-    clearAllCache()
-  })
+    const fn = isGIF ? FFmpeg.imagesToGIF : FFmpeg.encodeFromImages
+    
+    fn({
+      framesPath,
+      framesPattern,
+      frameRate: 60,
+      outputFilePath
+    })
+    .then(() => {
+      parentPort.postMessage({ fileName, filePath: outputFilePath })
+    })
+    .catch((error) => {
+      console.log(error)
+      if (fs.existsSync(outputFilePath)) fs.unlinkSync(outputFilePath)
+  
+      parentPort.postMessage({ error })
+    })
+    .finally(() => {
+      rmDir(framesPath)
+      clearAllCache()
+    })
+  }
 }
+
+CanvasKit.getCanvas(canvasWidth, canvasHeight)
+  .then((canvas) => {
+    draw(canvas)
+    processResult(canvas)
+  })

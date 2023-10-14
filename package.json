@@ -38,9 +38,9 @@
   "license": "MIT",
   "dependencies": {
     "@foxify/events": "^2.1.0",
-    "@napi-rs/canvas": "^0.1.44",
     "@simonwep/pickr": "^1.9.0",
     "axios": "^1.5.1",
+    "canvaskit-wasm": "^0.39.1",
     "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.2",
     "hyper-express": "^6.8.6",
