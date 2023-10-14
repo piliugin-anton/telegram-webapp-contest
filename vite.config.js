@@ -23,7 +23,7 @@ if (!isProduction) {
         waitForReady: true,
         stdout: (data) => console.log(`[${appServicePath} - stdout]`, data.toString()),
         stderr: (data) => console.log(`[${appServicePath} - stderr]`, data.toString()),
-        messageTo: [botServicePath] // string or array
+        messageTo: [botServicePath], // string or array
       },
       {
         modulePath: botServicePath,

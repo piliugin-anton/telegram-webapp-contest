@@ -93,6 +93,8 @@ function processResult(canvas) {
     const fileName = `${initData.query_id}.${extension}`
     const filePath = path.join(dir, fileName)
     canvas.saveImage(filePath)
+
+    canvas.dispose()
     parentPort.postMessage({ fileName, filePath })
   } else {
     const fileName = `${initData.query_id}.${extension}`
@@ -117,8 +119,8 @@ function processResult(canvas) {
       parentPort.postMessage({ error })
     })
     .finally(() => {
+      canvas.dispose()
       rmDir(framesPath)
-      clearAllCache()
     })
   }
 }
@@ -127,6 +129,4 @@ createCanvas(canvasWidth, canvasHeight)
   .then((canvas) => {
     draw(canvas)
     processResult(canvas)
-
-    canvas.dispose()
   })
