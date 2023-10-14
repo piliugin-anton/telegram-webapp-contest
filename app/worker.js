@@ -4,7 +4,7 @@ const { workerData, parentPort } = require('worker_threads')
 
 const path = require('path')
 const fs = require('fs')
-const CanvasKit = require('@app/deps/CanvasKit')
+const createCanvas = require('@app/deps/CanvasKit')
 const FFmpeg = require('@app/deps/FFmpeg')
 const { mkDir, rmDir } = require('@app/helpers')
 
@@ -123,7 +123,7 @@ function processResult(canvas) {
   }
 }
 
-CanvasKit.getCanvas(canvasWidth, canvasHeight)
+createCanvas(canvasWidth, canvasHeight)
   .then((canvas) => {
     draw(canvas)
     processResult(canvas)
