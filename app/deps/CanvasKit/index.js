@@ -7,6 +7,8 @@ async function getCanvas(width, height) {
     locateFile: (file) => path.join(__dirname, '..', '..', '..', 'node_modules', 'canvaskit-wasm', 'bin', file)
   })
 
+  instance.gpu = false
+
   const canvas = instance.MakeCanvas(width, height)
 
   canvas.encodeImage = encodeImage
