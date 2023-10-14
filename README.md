@@ -147,7 +147,7 @@ You can use a tunneling software like [Telebit](https://telebit.cloud), [localtu
 > What are the project dependencies?  
 
 **Front-end** part dependencies: [Vite](https://vitejs.dev/)  
-**Back-end** part dependencies: [canvaskit-wasm](https://www.npmjs.com/package/canvaskit-wasm), [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static), [Hyper-Express](https://www.npmjs.com/package/hyper-express) (powered by [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js)), [Telegraf](https://github.com/telegraf/telegraf)  
+**Back-end** part dependencies: [node-canvas](https://www.npmjs.com/package/canvas), [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static), [Hyper-Express](https://www.npmjs.com/package/hyper-express) (powered by [uWebSockets.js](https://github.com/uNetworking/uWebSockets.js)), [Telegraf](https://github.com/telegraf/telegraf)  
 
 
 > I have an issue and I don't know how to fix it
@@ -162,7 +162,7 @@ Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-conte
 
 ## TODO
 
-- [ ] CanvasKit memory leak
+- [x] Canvas memory leak
 - [ ] Drawings scaling?
 - [x] Rendering queue?
 - [ ] Cancelling rendering tasks (needs a reliable way of handling a closing event)

@@ -4,11 +4,13 @@ const { workerData, parentPort } = require('worker_threads')
 
 const path = require('path')
 const fs = require('fs')
-const createCanvas = require('@app/deps/CanvasKit')
+const { createCanvas } = require('canvas')
 const FFmpeg = require('@app/deps/FFmpeg')
 const { mkDir, rmDir } = require('@app/helpers')
 
 const { format, canvasWidth, canvasHeight, data, initData, backgroundColor, dir } = workerData
+
+const canvas = createCanvas(canvasWidth, canvasHeight)
 
 const framesPath = path.join(dir, `${initData.query_id}-ffmpeg`)
 const framesPattern = 'frame-%d.png'
@@ -23,6 +25,9 @@ const extensions = {
 const extension = extensions[format]
 
 if (isAnimation) mkDir(framesPath)
+
+draw(canvas)
+processResult(canvas)
 
 function getRadians(degrees) {
   return (Math.PI / 180) * degrees
@@ -53,7 +58,8 @@ function drawLine(ctx, data) {
 function saveFrame(canvas, frameIndex) {
   const frameFileName = `frame-${frameIndex}.png`
   const frameFilePath = path.join(framesPath, frameFileName)
-  canvas.saveImage(frameFilePath)
+  const buffer = canvas.toBuffer()
+  fs.writeFileSync(frameFilePath, buffer, 'binary')
 
   return ++frameIndex
 }
@@ -92,9 +98,9 @@ function processResult(canvas) {
   if (format === 'picture') {
     const fileName = `${initData.query_id}.${extension}`
     const filePath = path.join(dir, fileName)
-    canvas.saveImage(filePath)
+    const buffer = canvas.toBuffer()
+    fs.writeFileSync(filePath, buffer, 'binary')
 
-    canvas.dispose()
     parentPort.postMessage({ fileName, filePath })
   } else {
     const fileName = `${initData.query_id}.${extension}`
@@ -119,14 +125,8 @@ function processResult(canvas) {
       parentPort.postMessage({ error })
     })
     .finally(() => {
-      canvas.dispose()
       rmDir(framesPath)
     })
   }
 }
 
-createCanvas(canvasWidth, canvasHeight)
-  .then((canvas) => {
-    draw(canvas)
-    processResult(canvas)
-  })

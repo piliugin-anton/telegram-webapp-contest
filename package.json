@@ -40,6 +40,7 @@
     "@foxify/events": "^2.1.0",
     "@simonwep/pickr": "^1.9.0",
     "axios": "^1.5.1",
+    "canvas": "^2.11.2",
     "canvaskit-wasm": "^0.39.1",
     "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.2",
