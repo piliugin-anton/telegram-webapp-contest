@@ -162,6 +162,7 @@ Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-conte
 
 ## TODO
 
+- [ ] CanvasKit memory leak
 - [ ] Drawings scaling?
 - [x] Rendering queue?
 - [ ] Cancelling rendering tasks (needs a reliable way of handling a closing event)
