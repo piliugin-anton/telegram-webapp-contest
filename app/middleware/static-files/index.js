@@ -31,7 +31,7 @@ const destroy = (dataTransfer) => {
 const StaticFiles = (options = {}) => {
   const opts = {
     root: path.resolve('www'),
-    indexFile: null,
+    indexFile: 'index.html',
     paramName: null,
     compress: true,
 		attachment: false,
@@ -50,8 +50,9 @@ const StaticFiles = (options = {}) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') return res.status(405).header('Allow', 'GET, HEAD').vary('Accept-Encoding').send()
 
     try {
-      const requestFile = req.params[opts.paramName] || req.path
+      const requestFile = opts.paramName && req.params[opts.paramName] || req.path
       const [file, stats] = await resolveFile(req.path === '/' ? path.join(opts.root, opts.indexFile) : path.normalize(path.join(opts.root, requestFile)), opts.indexFile)
+
       const mimeType = mimeTypes.lookup(file) || 'application/octet-stream'
 
       stats.mtime.setMilliseconds(0)
@@ -136,14 +137,14 @@ const StaticFiles = (options = {}) => {
 
         pipeline(dataTransfer.readable, dataTransfer.transform, res, (ex) => {
           destroy(dataTransfer)
-          if (ex) res.throw(ex)
+          //if (ex) res.throw(ex)
         })
       } else {
         res.stream(dataTransfer.readable, size)
       }
     } catch (ex) {
       if (ex.status && ex.status === 404) return res.notFound()
-      res.throw(ex)
+      //res.throw(ex)
     }
   }
 }

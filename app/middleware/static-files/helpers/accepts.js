@@ -97,7 +97,7 @@ Accepts.prototype.types = function (types_) {
   }
 
   // no accept header, return first given type
-  if (!this.headers.has('accept')) {
+  if (!this.headers.accept) {
     return types[0]
   }
 
