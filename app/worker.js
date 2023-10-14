@@ -127,4 +127,6 @@ CanvasKit.getCanvas(canvasWidth, canvasHeight)
   .then((canvas) => {
     draw(canvas)
     processResult(canvas)
+
+    canvas.dispose()
   })
