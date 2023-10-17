@@ -11,6 +11,7 @@ const { mkDir, rmDir } = require('@app/helpers')
 const { format, canvasWidth, canvasHeight, data, initData, backgroundColor, dir } = workerData
 
 const canvas = createCanvas(canvasWidth, canvasHeight)
+const circleRadians = getRadians(360)
 
 const framesPath = path.join(dir, `${initData.query_id}-ffmpeg`)
 const framesPattern = 'frame-%d.png'
@@ -36,19 +37,19 @@ function getRadians(degrees) {
 function drawCircle(ctx, data) {
   ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
 
+  ctx.fillStyle = data.fillStyle
   ctx.beginPath()
-	ctx.fillStyle = data.fillStyle
-  ctx.arc(data.x, data.y, data.radius, 0, getRadians(360))
+  ctx.arc(data.x, data.y, data.radius, 0, circleRadians)
   ctx.fill()
 }
 
 function drawLine(ctx, data) {
   ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
 
-  ctx.beginPath()
-	ctx.lineWidth = data.lineWidth
+  ctx.lineWidth = data.lineWidth
   ctx.strokeStyle = data.strokeStyle
   ctx.lineJoin = 'round'
+  ctx.beginPath()
   ctx.moveTo(data.from.x, data.from.y)
   ctx.lineTo(data.to.x, data.to.y)
   ctx.closePath()
