@@ -24,6 +24,7 @@ if (!isProduction) {
         stdout: (data) => console.log(`[${appServicePath} - stdout]`, data.toString()),
         stderr: (data) => console.log(`[${appServicePath} - stderr]`, data.toString()),
         messageTo: [botServicePath], // string or array
+        // execArgv: ['--inspect']
       },
       {
         modulePath: botServicePath,

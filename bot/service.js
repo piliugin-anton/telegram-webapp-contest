@@ -29,8 +29,7 @@ if (isProduction) {
 
 async function onMessage({ taskId, error, result, task }) {
 	try {
-		const  { data: { initData } } = task
-		const { fileName, filePath } = result
+		const { data: { initData } } = task
 
 		const article = {
 			type: 'article',
@@ -42,8 +41,11 @@ async function onMessage({ taskId, error, result, task }) {
 		}
 
 		if (error) {
-			article.input_message_content.message_text = 'Error, while processing your request'
+      console.log(error)
+			article.input_message_content.message_text = 'Error while processing your request'
 		} else {
+      const { fileName, filePath } = result
+
 			article.input_message_content.message_text = `[Click here to download result](${process.env.VITE_WEBAPP_URL}/result/${fileName})`
 		}
 

@@ -1,6 +1,6 @@
+const { Worker } = require('worker_threads')
 const crypto = require('crypto')
 const EventEmitter = require('@foxify/events').default
-const { runService } = require('@app/helpers')
 
 module.exports = class WorkerQueue extends EventEmitter {
   static STATUS = Object.freeze({
@@ -41,7 +41,16 @@ module.exports = class WorkerQueue extends EventEmitter {
 			enumerable: false,
 			configurable: false,
 			writable: false,
-			value: () => runService(this.tasks[taskId].workerFilename, this.tasks[taskId].data)
+			value: () => {
+        return new Promise((resolve, reject) => {
+          const worker = new Worker(this.tasks[taskId].workerFilename, { workerData: this.tasks[taskId].data })
+          worker.once('message', resolve)
+          worker.once('error', reject)
+          worker.once('exit', (code) => {
+            if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`))
+          })
+        })
+      }
 		})
 
 		this.onTaskAdded(taskId)
@@ -86,7 +95,7 @@ module.exports = class WorkerQueue extends EventEmitter {
     const task = this.tasks[taskId]
     task.status = WorkerQueue.STATUS.ERROR
 
-		this.emit('error', { taskId, task: this.tasks[taskId], error })
+		this.emit('error', { taskId, task: this.tasks[taskId], error: error.message })
 	}
 
 	onAfterTask(taskId) {
