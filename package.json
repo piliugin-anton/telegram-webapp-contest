@@ -39,17 +39,17 @@
   "dependencies": {
     "@foxify/events": "^2.1.0",
     "@simonwep/pickr": "^1.9.0",
-    "axios": "^1.5.1",
+    "axios": "^1.6.2",
     "canvas": "^2.11.2",
     "canvaskit-wasm": "^0.39.1",
     "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.2",
-    "hyper-express": "^6.8.6",
+    "hyper-express": "^6.14.3",
     "live-directory": "^3.0.3",
     "module-alias": "^2.2.3",
     "nanopop": "^2.3.0",
     "rangetouch": "^2.0.1",
-    "telegraf": "^4.14.0"
+    "telegraf": "^4.15.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
@@ -58,8 +58,8 @@
     "cssnano": "^6.0.1",
     "dotenv": "^16.3.1",
     "pm2": "^5.3.0",
-    "sass": "^1.69.3",
-    "vite": "^4.4.11"
+    "sass": "^1.69.5",
+    "vite": "^5.0.4"
   },
   "browserslist": [
     "> 0.1% and not dead"
