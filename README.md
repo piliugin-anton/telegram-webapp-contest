@@ -162,7 +162,7 @@ Feel free to [open a PR](https://github.com/piliugin-anton/telegram-webapp-conte
 
 ## TODO
 
-- [x] @DrawingAppBot is running on latest commit
+- [x] Background erasing fix
 - [x] Canvas memory leak fix
 - [ ] Drawings scaling?
 - [x] Rendering queue?

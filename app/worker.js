@@ -35,19 +35,15 @@ function getRadians(degrees) {
 }
 
 function drawCircle(ctx, data) {
-  ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
-
-  ctx.fillStyle = data.fillStyle
+  ctx.fillStyle = data.isErasing ? backgroundColor : data.fillStyle
   ctx.beginPath()
   ctx.arc(data.x, data.y, data.radius, 0, circleRadians)
   ctx.fill()
 }
 
 function drawLine(ctx, data) {
-  ctx.globalCompositeOperation = data.isErasing ? 'destination-out' : 'source-over'
-
   ctx.lineWidth = data.lineWidth
-  ctx.strokeStyle = data.strokeStyle
+  ctx.strokeStyle = data.isErasing ? backgroundColor : data.strokeStyle
   ctx.lineJoin = 'round'
   ctx.beginPath()
   ctx.moveTo(data.from.x, data.from.y)
