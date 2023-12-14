@@ -232,8 +232,11 @@ export default class Canvas extends EventEmitter {
       x: this.step[0].from.x,
       y: this.step[0].from.y,
       radius,
-      fillStyle: this.step[0].strokeStyle,
       isErasing: this.step[0].isErasing
+    }
+
+    if (!this.isErasing) {
+      data.fillStyle = this.step[0].strokeStyle
     }
 
     this._drawCircle(this.step[0])
@@ -252,7 +255,6 @@ export default class Canvas extends EventEmitter {
         y: this.y
       },
       lineWidth: this.lineWidth,
-      strokeStyle: this.strokeStyle,
       isErasing: this.isErasing
     }
     this.handleReposition(ev)
@@ -264,6 +266,10 @@ export default class Canvas extends EventEmitter {
     this.context.lineTo(this.x, this.y)
     this.context.closePath()
     this.context.stroke()
+
+    if (!this.isErasing) {
+      data.strokeStyle = this.strokeStyle
+    }
 
     this.step.push(data)
   }
@@ -278,8 +284,11 @@ export default class Canvas extends EventEmitter {
         x: touch.clientX - this.offsetX,
         y: touch.clientY - this.offsetY,
         radius,
-        fillStyle: this.strokeStyle,
         isErasing: this.isErasing
+      }
+
+      if (!this.isErasing) {
+        circle.fillStyle = this.strokeStyle
       }
 
       this.step.push(circle)
@@ -324,8 +333,11 @@ export default class Canvas extends EventEmitter {
           y: ev.changedTouches[i].clientY - this.offsetY
         },
         lineWidth: this.lineWidth,
-        strokeStyle: this.strokeStyle,
         isErasing: this.isErasing
+      }
+
+      if (!this.isErasing) {
+        data.strokeStyle = this.strokeStyle
       }
 
       this.step.push(data)

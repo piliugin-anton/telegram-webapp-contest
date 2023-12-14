@@ -8,6 +8,7 @@ const CONSTANTS = {
 		return this.MAX_LINE_WIDTH / 2
 	},
  	PADDING: 20,
+  PADDING_CIRCLES_ONLY: 40,
 	VIDEO_RESOLUTIONS: [
 		{
 			width: 128,
@@ -123,14 +124,17 @@ const validateData = (data, format) => {
 	let YMAX = 0
 
 	let hasCircle = false
+  let hasLine = false
 	for (let i = 0; i < flatData.length; i++) {
-		const { from, to, lineWidth, strokeStyle, isCircle, x, y, radius, fillStyle } = flatData[i]
+		const { from, to, lineWidth, strokeStyle, isCircle, x, y, radius, fillStyle, isErasing } = flatData[i]
 
 		if (!hasCircle && isCircle) hasCircle = true
+    if (!hasLine && !isCircle) hasLine = true
 
 		if (
-			(isCircle && (typeof x !== 'number' || !isFinite(x) || typeof y !== 'number' || !isFinite(y) || typeof radius !== 'number' || !isFinite(radius) || radius < 1 || radius > CONSTANTS.MAX_RADIUS || !isValidHexColor(fillStyle))) ||
-			(!isCircle && (typeof from.x !== 'number' || !isFinite(from.x) || typeof from.y !== 'number' || !isFinite(from.y) || typeof to.x !== 'number' || !isFinite(to.x) || typeof to.y !== 'number' || !isFinite(to.y) || typeof lineWidth !== 'number' || !isFinite(lineWidth) || lineWidth < 1 || lineWidth > CONSTANTS.MAX_LINE_WIDTH || !isValidHexColor(strokeStyle)))
+      typeof isErasing !== 'boolean' ||
+			(isCircle && (typeof x !== 'number' || !isFinite(x) || typeof y !== 'number' || !isFinite(y) || typeof radius !== 'number' || !isFinite(radius) || radius < 1 || radius > CONSTANTS.MAX_RADIUS || (!isErasing && !isValidHexColor(fillStyle))) ||
+			(!isCircle && (typeof from.x !== 'number' || !isFinite(from.x) || typeof from.y !== 'number' || !isFinite(from.y) || typeof to.x !== 'number' || !isFinite(to.x) || typeof to.y !== 'number' || !isFinite(to.y) || typeof lineWidth !== 'number' || !isFinite(lineWidth) || lineWidth < 1 || lineWidth > CONSTANTS.MAX_LINE_WIDTH || (!isErasing && !isValidHexColor(strokeStyle)))))
 		) return result
 
 		if (!isCircle) {
@@ -170,14 +174,16 @@ const validateData = (data, format) => {
 
 	result.isValid = true
 
-	const isPaddingWidthAvailable = isPaddingAvailable(WIDTH, CONSTANTS.PADDING * 2, CONSTANTS.MAX_WIDTH)
-	const isPaddingHeightAvailable = isPaddingAvailable(HEIGHT, CONSTANTS.PADDING * 2, CONSTANTS.MAX_HEIGHT)
+  const PADDING = hasLine ? CONSTANTS.PADDING : CONSTANTS.PADDING_CIRCLES_ONLY
 
-	let canvasWidth = isPaddingWidthAvailable ? WIDTH + (CONSTANTS.PADDING * 2) : WIDTH
-	let canvasHeight = isPaddingHeightAvailable ? HEIGHT + (CONSTANTS.PADDING * 2) : HEIGHT
+	const isPaddingWidthAvailable = isPaddingAvailable(WIDTH, PADDING * 2, CONSTANTS.MAX_WIDTH)
+	const isPaddingHeightAvailable = isPaddingAvailable(HEIGHT, PADDING * 2, CONSTANTS.MAX_HEIGHT)
 
-	let xPadding = (isPaddingWidthAvailable ? CONSTANTS.PADDING : 0)
-	let yPadding = (isPaddingHeightAvailable ? CONSTANTS.PADDING : 0)
+	let canvasWidth = isPaddingWidthAvailable ? WIDTH + (PADDING * 2) : WIDTH
+	let canvasHeight = isPaddingHeightAvailable ? HEIGHT + (PADDING * 2) : HEIGHT
+
+	let xPadding = (isPaddingWidthAvailable ? PADDING : 0)
+	let yPadding = (isPaddingHeightAvailable ? PADDING : 0)
 
 	if (format === 'video') {
 		const { width, height } = findClosesResolution(canvasWidth, canvasHeight)
