@@ -19,7 +19,7 @@ module.exports = class WorkerQueue extends EventEmitter {
 		super()
 
 		const defaultOptions = {
-			concurrency: 2
+			concurrency: 1
 		}
 
 		const {
