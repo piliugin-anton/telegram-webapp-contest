@@ -1,4 +1,3 @@
-
 const HyperExpress = require('hyper-express')
 const Router = new HyperExpress.Router()
 
