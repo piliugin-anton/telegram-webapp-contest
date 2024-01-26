@@ -68,7 +68,7 @@ Server has a special route `/api/error` (file [app/routes/error.js](./app/routes
 - **SERVER_CERTIFICATE** - Path to server's SSL certificate .pem file
 - **SERVER_KEY** - Server SSL certificate key *(required if **SERVER_CERTIFICATE** is set)*
 - **VITE_WEBAPP_URL** - URL to your WebApp *(required)*
-- **RENDER_CONCURRENCY** - Maximum number of concurrent media rendering threads *(defaults to **2** if unset)*
+- **RENDER_CONCURRENCY** - Maximum number of concurrent media rendering threads *(defaults to **1** if unset)*
 
 ## Development mode
 
