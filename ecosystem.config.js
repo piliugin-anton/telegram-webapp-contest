@@ -9,7 +9,8 @@ module.exports = {
       wait_ready: true,
       env: {
         NODE_ENV: 'production'
-      }
+      },
+      node_args: '--trace-warnings'
     },
 		{
       name: 'WebApp Bot',
@@ -20,7 +21,8 @@ module.exports = {
       wait_ready: true,
       env: {
         NODE_ENV: 'production'
-      }
+      },
+      node_args: '--trace-warnings'
     }
   ]
 }
