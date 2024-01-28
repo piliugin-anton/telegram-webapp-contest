@@ -44,10 +44,10 @@
     "canvaskit-wasm": "^0.39.1",
     "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.2",
-    "hyper-express": "^6.14.10",
+    "hyper-express": "^6.14.11",
     "live-directory": "^3.0.3",
     "module-alias": "^2.2.3",
-    "nanopop": "^2.4.1",
+    "nanopop": "^2.4.2",
     "rangetouch": "^2.0.1",
     "telegraf": "^4.15.3"
   },
