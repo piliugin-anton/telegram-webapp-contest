@@ -6,7 +6,7 @@
 
 ![TelegramDraw](https://github.com/piliugin-anton/telegram-webapp-contest/blob/master/webapp-preview.gif?raw=true)
 
-Bot example: @DrawingAppBot
+Bot example: [@DrawingAppBot](https://t.me/DrawingAppBot)
 
 [Requirements](#requirements)  
 [WebApp technologies stack](#webapp-technologies-stack)  
